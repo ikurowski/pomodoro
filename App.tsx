@@ -1,14 +1,13 @@
-import React from 'react';
-import {SafeAreaView, View} from 'react-native';
+import React, {useEffect} from 'react';
+import dayjs from 'dayjs';
+import Navigation from './src/navigation/Index';
 
 function App(): JSX.Element {
-  return (
-    <>
-      <SafeAreaView>
-        <View />
-      </SafeAreaView>
-    </>
-  );
+  useEffect(() => {
+    dayjs.locale('pl');
+  }, []);
+
+  return <Navigation />;
 }
 
 export default App;
