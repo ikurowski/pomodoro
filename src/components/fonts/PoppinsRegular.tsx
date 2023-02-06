@@ -1,14 +1,16 @@
 import {useTheme} from '@react-navigation/native';
-import React, {ReactNode} from 'react';
-import {Text, StyleSheet} from 'react-native';
+import React, {ReactNode, FC} from 'react';
+import {Text, StyleSheet, ColorValue, TextStyle} from 'react-native';
 
-const PoppinsRegular: React.FC<{
-  color: string;
-  size: number;
+interface Props {
+  color?: ColorValue;
+  size?: number;
   children: ReactNode;
-  style?: any;
+  style?: TextStyle;
   numberOfLines?: number;
-}> = props => {
+}
+
+const PoppinsRegular: FC<Props> = props => {
   const {colors} = useTheme();
   const {
     children,
@@ -34,8 +36,8 @@ const PoppinsRegular: React.FC<{
 
 const styles = StyleSheet.create({
   text: {
-    // fontFamily: 'Poppins-Regular',
-    letterSpacing: 0.5,
+    fontFamily: 'Poppins-Regular',
+    letterSpacing: 1.5,
   },
 });
 
