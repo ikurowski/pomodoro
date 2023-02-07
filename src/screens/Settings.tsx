@@ -1,11 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import PoppinsRegular from '../components/fonts/PoppinsRegular';
 import {RenderCounter} from '../utils/utils';
 
 function Settings() {
   return (
     <View style={styles.container}>
-      <Text>Settings</Text>
+      <PoppinsRegular>Settings</PoppinsRegular>
       <RenderCounter message="Settings" />
     </View>
   );
