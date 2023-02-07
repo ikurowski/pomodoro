@@ -1,6 +1,6 @@
-import {useTheme} from '@react-navigation/native';
 import React, {ReactNode, FC} from 'react';
 import {Text, StyleSheet, ColorValue, TextStyle} from 'react-native';
+import useTheme from '../../hooks/useTheme/useTheme';
 
 interface Props {
   color?: ColorValue;
@@ -11,10 +11,10 @@ interface Props {
 }
 
 const PoppinsRegular: FC<Props> = props => {
-  const {colors} = useTheme();
+  const {textColor} = useTheme();
   const {
     children,
-    color = colors.text,
+    color = textColor.primary,
     size = 16,
     style,
     numberOfLines,

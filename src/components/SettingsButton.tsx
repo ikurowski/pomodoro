@@ -1,9 +1,9 @@
-import {useTheme} from '@react-navigation/native';
 import React from 'react';
 
 import {Pressable} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import MenuBurger from '../assets/svg/menu-burger.svg';
+import useTheme from '../hooks/useTheme/useTheme';
 import {SettingsScreenNavigation} from '../types/navigation';
 
 type SettingsButtonNavigationProp = SettingsScreenNavigation['navigation'];
@@ -14,15 +14,15 @@ function SettingsButton({
   navigation: SettingsButtonNavigationProp;
 }) {
   const handleOnPress = () => {
-    navigation.navigate('Timer');
+    navigation.navigate('Settings');
   };
 
-  const {colors} = useTheme();
+  const {textColor} = useTheme();
 
   return (
     <Pressable hitSlop={moderateScale(10)} onPress={handleOnPress}>
       <MenuBurger
-        color={colors.text}
+        fill={textColor.secondary}
         width={moderateScale(35)}
         height={moderateScale(35)}
       />

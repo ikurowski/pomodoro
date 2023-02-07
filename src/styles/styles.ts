@@ -11,17 +11,18 @@ export const theme = {
   backgroundColor: {
     primary: '#1D3557',
   },
+  textColor: {
+    primary: '#F1FAEE', // white
+    secondary: '#F1FAEE', // light gray
+  },
   fontSize: {
     nine: moderateScale(9),
     thirtySix: moderateScale(36),
   },
-};
-
-export const navigationTheme = {
-  primary: {
+  navigation: {
     dark: false,
     colors: {
-      primary: 'E63946',
+      primary: '#E63946',
       background: '#1D3557',
       card: '#1D3557',
       text: '#F1FAEE',
