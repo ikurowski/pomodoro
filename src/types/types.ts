@@ -31,3 +31,8 @@ export type Theme = {
     thirtySix: number;
   };
 };
+
+export type ToggleTimerButtonProps = {
+  toggleTimer: () => void;
+  isRunning: boolean;
+};
