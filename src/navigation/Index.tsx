@@ -5,8 +5,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 
 //components
-import Timer from '../components/Timer';
-import Settings from '../components/Settings';
+import Timer from '../screens/Timer';
+import Settings from '../screens/Settings';
 import SettingsButton from '../components/SettingsButton';
 import {navigationTheme} from '../styles/styles';
 import XButton from '../components/XButton';

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {RenderCounter} from '../utils/utils';
-import PoppinsRegular from './fonts/PoppinsRegular';
+import PoppinsRegular from '../components/fonts/PoppinsRegular';
 
 function Timer() {
   return (

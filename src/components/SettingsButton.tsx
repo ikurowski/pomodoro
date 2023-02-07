@@ -1,5 +1,5 @@
 import {useTheme} from '@react-navigation/native';
-import React, {FC} from 'react';
+import React from 'react';
 
 import {Pressable} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
