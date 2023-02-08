@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 
 //components
-import Timer from '../screens/Timer/Timer';
+import Timer from '../screens/timer';
 import Settings from '../screens/Settings';
 import SettingsButton from '../components/SettingsButton';
 import XButton from '../components/XButton';
