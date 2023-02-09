@@ -1,16 +1,39 @@
 import React from 'react';
-import {Pressable, StyleSheet} from 'react-native';
+import {Pressable, StyleSheet, Animated} from 'react-native';
 import {scale} from 'react-native-size-matters';
 import PoppinsRegular from './fonts/PoppinsRegular';
 
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
 function Card({children}: {children: string}) {
+  const scaleAnimation = new Animated.Value(1);
+
+  const onPressIn = () => {
+    Animated.spring(scaleAnimation, {
+      toValue: 0.9,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const onPressOut = () => {
+    Animated.spring(scaleAnimation, {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+  };
+
   return (
-    <Pressable
-      style={({pressed}) => [
-        {...styles.container, transform: [{scale: pressed ? 0.9 : 1}]},
-      ]}>
+    <AnimatedPressable
+      style={[
+        styles.container,
+        {
+          transform: [{scale: scaleAnimation}],
+        },
+      ]}
+      onPressIn={onPressIn}
+      onPressOut={onPressOut}>
       <PoppinsRegular>{children}</PoppinsRegular>
-    </Pressable>
+    </AnimatedPressable>
   );
 }
 
