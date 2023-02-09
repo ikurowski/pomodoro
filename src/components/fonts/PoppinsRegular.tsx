@@ -1,5 +1,6 @@
 import React, {ReactNode, FC} from 'react';
 import {Text, StyleSheet, ColorValue, TextStyle} from 'react-native';
+import {moderateScale} from 'react-native-size-matters';
 import useTheme from '../../hooks/useTheme/useTheme';
 
 interface Props {
@@ -15,7 +16,7 @@ const PoppinsRegular: FC<Props> = props => {
   const {
     children,
     color = textColor.primary,
-    size = 16,
+    size = moderateScale(16),
     style,
     numberOfLines,
   } = props;
@@ -27,7 +28,7 @@ const PoppinsRegular: FC<Props> = props => {
         ...style,
         ...styles.text,
         color: color,
-        fontSize: size,
+        fontSize: moderateScale(size),
       }}>
       {children}
     </Text>
