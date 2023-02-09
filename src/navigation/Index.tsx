@@ -4,15 +4,15 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 
 //components
-import Timer from '../screens/timer';
-import Settings from '../screens/Settings';
+import Timer from '../screens/timer/Index';
+import Settings from '../screens/settings/Index';
 import SettingsButton from '../components/SettingsButton';
 import XButton from '../components/XButton';
 import useTheme from '../hooks/useTheme/useTheme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const Index: React.FC = (): JSX.Element | null => {
+const Navigation: React.FC = (): JSX.Element | null => {
   // testing render count
   // const headerButton = (navigation: any) => (
   //   <SettingsButton navigation={navigation} />
@@ -51,4 +51,4 @@ const Index: React.FC = (): JSX.Element | null => {
   );
 };
 
-export default Index;
+export default Navigation;
