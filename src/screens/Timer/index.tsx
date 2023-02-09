@@ -5,6 +5,7 @@ import PoppinsRegular from '../../components/fonts/PoppinsRegular';
 import millisecondsToTime from '../../utils/millisecondsToTime';
 import ToggleTimerButton from './ToggleTimerButton';
 import ResetButton from './ResetButton';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const defaultTimer = 1500000; // 25 minutes
 
@@ -14,6 +15,7 @@ function Timer() {
 
   const timerShown = millisecondsToTime(timer);
   const timerIdRef = useRef<number>();
+  const insets = useSafeAreaInsets();
 
   const toggleTimer = () => {
     if (timerIdRef.current) {
@@ -36,7 +38,7 @@ function Timer() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{...styles.container, paddingBottom: insets.bottom}}>
       <View style={styles.textContainer}>
         <PoppinsRegular>{timerShown}</PoppinsRegular>
       </View>
