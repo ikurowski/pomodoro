@@ -8,9 +8,9 @@ function Duration() {
     <View style={styles.container}>
       <PoppinsRegular>Duration</PoppinsRegular>
       <View style={styles.cardsContainer}>
-        <Card>POMODORO</Card>
-        <Card>Short Break</Card>
-        <Card>Long Break</Card>
+        <Card title="Pomodoro" xxxx={25} />
+        <Card title="Short Break" xxxx={5} />
+        <Card title="Long Break" xxxx={15} />
       </View>
     </View>
   );
