@@ -11,7 +11,7 @@ interface Props {
   numberOfLines?: number;
 }
 
-const PoppinsRegular: FC<Props> = props => {
+function PoppinsRegular(props: Props) {
   const {textColor} = useTheme();
   const {
     children,
@@ -33,7 +33,7 @@ const PoppinsRegular: FC<Props> = props => {
       {children}
     </Text>
   );
-};
+}
 
 const styles = StyleSheet.create({
   text: {

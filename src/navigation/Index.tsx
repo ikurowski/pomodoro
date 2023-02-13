@@ -12,7 +12,7 @@ import useTheme from '../hooks/useTheme/useTheme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const Navigation: React.FC = (): JSX.Element | null => {
+function Navigation() {
   // testing render count
   // const headerButton = (navigation: any) => (
   //   <SettingsButton navigation={navigation} />
@@ -49,6 +49,6 @@ const Navigation: React.FC = (): JSX.Element | null => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}
 
 export default Navigation;

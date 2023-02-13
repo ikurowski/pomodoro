@@ -4,7 +4,7 @@ import Navigation from './src/navigation/Index';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {StatusBar} from 'react-native';
 
-function App(): JSX.Element {
+function App() {
   useEffect(() => {
     dayjs.locale('pl');
   }, []);
