@@ -1,16 +1,26 @@
 import React, {useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {RenderCounter} from '../../utils/RenderCounter';
-import PoppinsRegular from '../../components/fonts/PoppinsRegular';
-import millisecondsToTime from '../../utils/millisecondsToTime';
-import ToggleTimerButton from './ToggleTimerButton';
-import ResetButton from './ResetButton';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSelector} from 'react-redux';
 
-const defaultTimer = 1500000; // 25 minutes
+//types
+import {RootState} from '../../app/store';
+
+//utils
+import RenderCounter from '../../utils/RenderCounter';
+import millisecondsToTime from '../../utils/millisecondsToTime';
+
+//components
+import PoppinsRegular from '../../components/fonts/PoppinsRegular';
+import ResetButton from './ResetButton';
+import ToggleTimerButton from './ToggleTimerButton';
 
 function Timer() {
-  const [timer, setTimer] = useState(defaultTimer);
+  const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
+    (state: RootState) => state.timer,
+  );
+
+  const [timer, setTimer] = useState(pomodoroTimeInMS);
   const [isRunning, setIsRunning] = useState(false);
 
   const timerShown = millisecondsToTime(timer);
@@ -33,7 +43,7 @@ function Timer() {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
     }
-    setTimer(defaultTimer);
+    setTimer(pomodoroTimeInMS);
     setIsRunning(false);
   };
 
