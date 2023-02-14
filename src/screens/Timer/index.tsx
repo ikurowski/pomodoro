@@ -15,6 +15,7 @@ import {schedule} from '../../utils/constans';
 import PoppinsRegular from '../../components/fonts/PoppinsRegular';
 import ResetButton from './ResetButton';
 import ToggleTimerButton from './ToggleTimerButton';
+import ScheduleMarks from './ScheduleMarks';
 
 function Timer() {
   const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
@@ -36,25 +37,28 @@ function Timer() {
   useEffect(() => {
     if (timer < 0) {
       setIsRunning(false);
-      if (timerSchedule.length === 0) {
-        setTimerSchedule(schedule);
-      }
       setTimerSchedule(prev => prev.slice(1));
-      const nextTimerType = timerSchedule[1];
-      setTimerType(nextTimerType);
-      switch (nextTimerType) {
-        case 'Pomodoro':
-          setTimer(1000); //pomodoroTimeInMS
-          break;
-        case 'Short Break':
-          setTimer(2000); //shortBreakTimeInMS
-          break;
-        case 'Long Break':
-          setTimer(3000); //longBreakTimeInMS
-          break;
-      }
     }
-  }, [timer, timerType, timerSchedule]);
+  }, [timer]);
+
+  useEffect(() => {
+    if (timerSchedule.length === 0) {
+      setTimerSchedule(schedule);
+    }
+    const nextTimerType = timerSchedule[0];
+    setTimerType(nextTimerType);
+    switch (nextTimerType) {
+      case 'Pomodoro':
+        setTimer(1000); //pomodoroTimeInMS
+        break;
+      case 'Short Break':
+        setTimer(2000); //shortBreakTimeInMS
+        break;
+      case 'Long Break':
+        setTimer(3000); //longBreakTimeInMS
+        break;
+    }
+  }, [timerSchedule]);
 
   useEffect(() => {
     if (timerIdRef.current) {
@@ -88,11 +92,16 @@ function Timer() {
     setIsRunning(false);
   };
 
+  const pomodoroMarksToBeFilled = timerSchedule.filter(
+    mark => mark === 'Pomodoro',
+  ).length;
+
   return (
     <View style={{...styles.container, paddingBottom: insets.bottom}}>
       <View style={styles.textContainer}>
-        <PoppinsRegular size={60}>{timerShown}</PoppinsRegular>
+        <PoppinsRegular size={80}>{timerShown}</PoppinsRegular>
         <PoppinsRegular style={styles.title}>{timerType}</PoppinsRegular>
+        <ScheduleMarks marksToBeFilled={pomodoroMarksToBeFilled} />
       </View>
       <ToggleTimerButton toggleTimer={toggleTimer} isRunning={isRunning} />
       <ResetButton resetTimer={resetTimer} />
@@ -108,14 +117,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    borderWidth: 1,
-    borderColor: 'red',
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   textContainer: {
     justifyContent: 'center',
-    flex: 1,
-    borderWidth: 1,
-    borderColor: 'red',
+    flex: 3,
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   title: {
     textAlign: 'center',
