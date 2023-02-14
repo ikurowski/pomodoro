@@ -1,11 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit';
-import timerSettingsSlice, {
-  TimerSettingsState,
-} from '../features/timerSettingsSlice';
-
-export type RootState = {
-  timer: TimerSettingsState;
-};
+import timerSettingsSlice from '../features/timerSettingsSlice';
 
 const store = configureStore({
   reducer: {
