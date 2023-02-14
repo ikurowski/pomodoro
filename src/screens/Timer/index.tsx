@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
@@ -9,6 +9,7 @@ import {RootState} from '../../app/store';
 //utils
 import RenderCounter from '../../utils/RenderCounter';
 import millisecondsToTime from '../../utils/millisecondsToTime';
+import {schedule} from '../../utils/constans';
 
 //components
 import PoppinsRegular from '../../components/fonts/PoppinsRegular';
@@ -20,22 +21,61 @@ function Timer() {
     (state: RootState) => state.timer,
   );
 
-  const [timer, setTimer] = useState(pomodoroTimeInMS);
+  const [timer, setTimer] = useState(1000); //pomodoroTimeInMS
+  const [timerType, setTimerType] = useState<
+    'Pomodoro' | 'Short Break' | 'Long Break'
+  >('Pomodoro');
+  const [timerSchedule, setTimerSchedule] = useState(schedule);
+
   const [isRunning, setIsRunning] = useState(false);
 
   const timerShown = millisecondsToTime(timer);
   const timerIdRef = useRef<number>();
   const insets = useSafeAreaInsets();
 
-  const toggleTimer = () => {
+  useEffect(() => {
+    if (timer < 0) {
+      setIsRunning(false);
+      if (timerSchedule.length === 0) {
+        setTimerSchedule(schedule);
+      }
+      setTimerSchedule(prev => prev.slice(1));
+      const nextTimerType = timerSchedule[1];
+      setTimerType(nextTimerType);
+      switch (nextTimerType) {
+        case 'Pomodoro':
+          setTimer(1000); //pomodoroTimeInMS
+          break;
+        case 'Short Break':
+          setTimer(2000); //shortBreakTimeInMS
+          break;
+        case 'Long Break':
+          setTimer(3000); //longBreakTimeInMS
+          break;
+      }
+    }
+  }, [timer, timerType, timerSchedule]);
+
+  useEffect(() => {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
     }
-    if (!isRunning) {
+
+    if (isRunning) {
       timerIdRef.current = setInterval(() => {
-        setTimer(prev => prev - 1000);
+        setTimer(prev => {
+          return prev - 1000;
+        });
       }, 1000);
     }
+    return () => {
+      if (timerIdRef.current) {
+        clearInterval(timerIdRef.current);
+      }
+    };
+  }, [isRunning]);
+
+  const toggleTimer = () => {
     setIsRunning(prev => !prev);
   };
 
@@ -43,6 +83,7 @@ function Timer() {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
     }
+    setTimerSchedule(schedule);
     setTimer(pomodoroTimeInMS);
     setIsRunning(false);
   };
@@ -50,7 +91,8 @@ function Timer() {
   return (
     <View style={{...styles.container, paddingBottom: insets.bottom}}>
       <View style={styles.textContainer}>
-        <PoppinsRegular>{timerShown}</PoppinsRegular>
+        <PoppinsRegular size={60}>{timerShown}</PoppinsRegular>
+        <PoppinsRegular style={styles.title}>{timerType}</PoppinsRegular>
       </View>
       <ToggleTimerButton toggleTimer={toggleTimer} isRunning={isRunning} />
       <ResetButton resetTimer={resetTimer} />
@@ -74,5 +116,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: 'red',
+  },
+  title: {
+    textAlign: 'center',
   },
 });

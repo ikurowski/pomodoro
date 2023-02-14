@@ -36,3 +36,5 @@ export type ToggleTimerButtonProps = {
   toggleTimer: () => void;
   isRunning: boolean;
 };
+
+export type IntervalType = 'Pomodoro' | 'Short Break' | 'Long Break';
