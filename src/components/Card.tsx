@@ -1,13 +1,24 @@
 import React, {useState} from 'react';
 import {Pressable, StyleSheet, Animated, View} from 'react-native';
 import {scale} from 'react-native-size-matters';
+import millisecondsToTime from '../utils/millisecondsToTime';
 import CardExpandedModal from './CardExpandedModal';
 import PoppinsRegular from './fonts/PoppinsRegular';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-function Card({title, xxxx}: {title: string; xxxx: number}) {
-  const [isExpanded, setIsExpanded] = useState(false);
+function Card({
+  title,
+  time,
+  leftButtonPress,
+  rightButtonPress,
+}: {
+  title: string;
+  time: number;
+  leftButtonPress: () => void;
+  rightButtonPress: () => void;
+}) {
+  const [modalVisible, setModalVisible] = useState(false);
   const scaleAnimation = new Animated.Value(1);
 
   const onPressIn = () => {
@@ -23,7 +34,7 @@ function Card({title, xxxx}: {title: string; xxxx: number}) {
       useNativeDriver: true,
     }).start();
 
-    setIsExpanded(true);
+    setModalVisible(true);
   };
 
   return (
@@ -36,8 +47,18 @@ function Card({title, xxxx}: {title: string; xxxx: number}) {
       ]}
       onPressIn={onPressIn}
       onPressOut={onPressOut}>
-      <View style={styles.xxxx}>
-        <PoppinsRegular size={32}>{xxxx}</PoppinsRegular>
+      <View style={styles.time}>
+        <CardExpandedModal
+          title={title}
+          timeAsSting={time}
+          visible={modalVisible}
+          setModalVisible={setModalVisible}
+          leftButtonPress={leftButtonPress}
+          rightButtonPress={rightButtonPress}
+        />
+        <PoppinsRegular size={32}>
+          {millisecondsToTime(time, true)}
+        </PoppinsRegular>
       </View>
       <PoppinsRegular size={12}>{title}</PoppinsRegular>
     </AnimatedPressable>
@@ -56,7 +77,7 @@ const styles = StyleSheet.create({
     width: scale(100),
     height: scale(100),
   },
-  xxxx: {
+  time: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
