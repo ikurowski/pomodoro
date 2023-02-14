@@ -1,6 +1,10 @@
 import React from 'react';
 import {Pressable, View, StyleSheet} from 'react-native';
+
+//components
 import PoppinsRegular from '../../components/fonts/PoppinsRegular';
+
+//types
 import {ToggleTimerButtonProps} from '../../types/types';
 
 function ToggleTimerButton({toggleTimer, isRunning}: ToggleTimerButtonProps) {
@@ -16,8 +20,6 @@ function ToggleTimerButton({toggleTimer, isRunning}: ToggleTimerButtonProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: 'red',
   },
 });
 
