@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Vibration, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
 
 //types
-import {RootState} from '../../app/store';
+import {RootState} from '../../types/types';
 
 //utils
 import RenderCounter from '../../utils/RenderCounter';
@@ -38,6 +38,7 @@ function Timer() {
     if (timer < 0) {
       setIsRunning(false);
       setTimerSchedule(prev => prev.slice(1));
+      Vibration.vibrate();
     }
   }, [timer]);
 
@@ -49,16 +50,15 @@ function Timer() {
     setTimerType(nextTimerType);
     switch (nextTimerType) {
       case 'Pomodoro':
-        setTimer(1000); //pomodoroTimeInMS
+        setTimer(pomodoroTimeInMS);
         break;
       case 'Short Break':
-        setTimer(2000); //shortBreakTimeInMS
+        setTimer(shortBreakTimeInMS);
         break;
       case 'Long Break':
-        setTimer(3000); //longBreakTimeInMS
-        break;
+        setTimer(longBreakTimeInMS);
     }
-  }, [timerSchedule]);
+  }, [timerSchedule, longBreakTimeInMS, shortBreakTimeInMS, pomodoroTimeInMS]);
 
   useEffect(() => {
     if (timerIdRef.current) {
@@ -88,7 +88,7 @@ function Timer() {
       clearInterval(timerIdRef.current);
     }
     setTimerSchedule(schedule);
-    setTimer(pomodoroTimeInMS);
+    setTimer(1000);
     setIsRunning(false);
   };
 
@@ -97,7 +97,14 @@ function Timer() {
   ).length;
 
   return (
-    <View style={{...styles.container, paddingBottom: insets.bottom}}>
+    <View
+      style={{
+        ...styles.container,
+        paddingBottom: insets.bottom,
+        paddingTop: insets.top,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
+      }}>
       <View style={styles.textContainer}>
         <PoppinsRegular size={80}>{timerShown}</PoppinsRegular>
         <PoppinsRegular style={styles.title}>{timerType}</PoppinsRegular>
@@ -117,14 +124,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    // borderWidth: 1,
-    // borderColor: 'red',
   },
   textContainer: {
     justifyContent: 'center',
     flex: 3,
-    // borderWidth: 1,
-    // borderColor: 'red',
   },
   title: {
     textAlign: 'center',
