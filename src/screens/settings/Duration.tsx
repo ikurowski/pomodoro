@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    paddingTop: 20,
+    marginTop: 20,
   },
 });

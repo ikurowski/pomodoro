@@ -11,7 +11,9 @@ function ToggleTimerButton({toggleTimer, isRunning}: ToggleTimerButtonProps) {
   return (
     <View style={styles.container}>
       <Pressable onPress={toggleTimer}>
-        <PoppinsRegular>{isRunning ? 'Stop' : 'Start'}</PoppinsRegular>
+        <PoppinsRegular size={35}>
+          {isRunning ? 'Stop' : 'Start'}
+        </PoppinsRegular>
       </Pressable>
     </View>
   );

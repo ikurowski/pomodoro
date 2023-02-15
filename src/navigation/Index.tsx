@@ -13,11 +13,6 @@ import useTheme from '../hooks/useTheme/useTheme';
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function Navigation() {
-  // testing render count
-  // const headerButton = (navigation: any) => (
-  //   <SettingsButton navigation={navigation} />
-  // );
-
   const {navigation: navigationTheme} = useTheme();
 
   return (
@@ -29,7 +24,6 @@ function Navigation() {
           headerBackVisible: false,
           title: '',
           animation: 'slide_from_bottom',
-          // gestureEnabled: false, // FIXME
         }}>
         <Stack.Screen
           name="Timer"
