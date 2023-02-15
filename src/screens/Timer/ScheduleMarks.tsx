@@ -5,13 +5,15 @@ import {StyleSheet, View} from 'react-native';
 import PoppinsRegular from '../../components/fonts/PoppinsRegular';
 
 //styles
-import {theme} from '../../styles/styles';
+import useTheme from '../../hooks/useTheme/useTheme';
 
 function Mark({markFilled}: {markFilled: boolean}) {
+  const {textColor} = useTheme();
+
   return (
     <PoppinsRegular
       size={30}
-      color={markFilled ? theme.textColor.primary : '#ffffff44'}
+      color={markFilled ? textColor.primary : '#ffffff44'}
       style={styles.mark}>
       .
     </PoppinsRegular>
