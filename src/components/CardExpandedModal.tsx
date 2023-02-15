@@ -22,7 +22,11 @@ function CardExpandedModal({
   rightButtonPress: () => void;
 }) {
   return (
-    <Modal visible={visible} animationType="fade" transparent={true}>
+    <Modal
+      visible={visible}
+      animationType="fade"
+      transparent={true}
+      supportedOrientations={['portrait', 'landscape']}>
       <Pressable
         style={styles.modalContainer}
         onPress={() => setModalVisible(false)}>
@@ -55,19 +59,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#00000081',
-    borderWidth: 1,
-    borderColor: 'red',
   },
   container: {
     padding: 40,
-    borderWidth: 1,
-    borderColor: 'red',
   },
   timeAndButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderWidth: 1,
-    borderColor: 'red',
   },
   title: {
     textAlign: 'center',
