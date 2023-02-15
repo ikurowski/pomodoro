@@ -88,7 +88,7 @@ function Timer() {
       clearInterval(timerIdRef.current);
     }
     setTimerSchedule(schedule);
-    setTimer(1000);
+    setTimer(pomodoroTimeInMS);
     setIsRunning(false);
   };
 
