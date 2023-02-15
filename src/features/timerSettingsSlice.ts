@@ -14,7 +14,11 @@ const timerSettingsSlice = createSlice({
     updateTime: (state, action: PayloadAction<UpdateTimeAction['payload']>) => {
       const {type, amount} = action.payload;
       const currentValue = state[type];
-      const newValue = Math.min(Math.max(currentValue + amount, 0), 7_200_000);
+      // sets timer minimum of 1 minute and a maximum of 2 hours
+      const newValue = Math.min(
+        Math.max(currentValue + amount, 60000),
+        7_200_000,
+      );
       state[type] = newValue;
     },
   },
