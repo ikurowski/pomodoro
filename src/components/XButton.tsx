@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable} from 'react-native';
+import {Pressable, StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 
 import {TimerScreenNavigation} from '../types/navigation';
@@ -16,7 +16,10 @@ function XButton({navigation}: {navigation: XButtonNavigationProp}) {
   const {textColor} = useTheme();
 
   return (
-    <Pressable hitSlop={moderateScale(10)} onPress={handleOnPress}>
+    <Pressable
+      style={styles.container}
+      hitSlop={moderateScale(10)}
+      onPress={handleOnPress}>
       <XIcon
         fill={textColor.secondary}
         width={moderateScale(35)}
@@ -25,5 +28,11 @@ function XButton({navigation}: {navigation: XButtonNavigationProp}) {
     </Pressable>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginVertical: 20,
+  },
+});
 
 export default XButton;
