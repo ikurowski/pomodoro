@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-// import PoppinsRegular from '../../components/fonts/PoppinsRegular';
 import RenderCounter from '../../utils/RenderCounter';
 import Duration from './Duration';
 
