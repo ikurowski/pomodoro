@@ -6,8 +6,8 @@ import {RootStackParamList} from '../types/navigation';
 //components
 import Timer from '../screens/timer/Index';
 import Settings from '../screens/settings/Index';
-import SettingsButton from '../components/SettingsButton';
-import XButton from '../components/XButton';
+import SettingsButton from '../components/buttons/SettingsButton';
+import XButton from '../components/buttons/XButton';
 import useTheme from '../hooks/useTheme/useTheme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
