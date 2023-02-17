@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Vibration, View} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
 
 //types
@@ -33,7 +32,6 @@ function Timer() {
 
   const timerShown = millisecondsToTime(timer);
   const timerIdRef = useRef<number>();
-  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     if (timer < 0) {
@@ -98,22 +96,15 @@ function Timer() {
   ).length;
 
   return (
-    <View
-      style={{
-        ...styles.container,
-        paddingBottom: insets.bottom,
-        paddingTop: insets.top,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-      }}>
+    <View style={styles.container}>
       <View style={styles.textContainer}>
         <NunitoBold size={55}>{timerShown}</NunitoBold>
         <NunitoRegular style={styles.title}>{timerType}</NunitoRegular>
         <ScheduleMarks marksToBeFilled={pomodoroMarksToBeFilled} />
+        <RenderCounter message="Timer" />
       </View>
       <ToggleTimerButton toggleTimer={toggleTimer} isRunning={isRunning} />
       <ResetButton resetTimer={resetTimer} />
-      <RenderCounter message="Timer" />
     </View>
   );
 }

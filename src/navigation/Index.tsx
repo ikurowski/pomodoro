@@ -1,46 +1,36 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/navigation';
 
 //components
 import Timer from '../screens/timer/Index';
 import Settings from '../screens/settings/Index';
-import SettingsButton from '../components/buttons/SettingsButton';
-import XButton from '../components/buttons/XButton';
 import useTheme from '../hooks/useTheme/useTheme';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<RootStackParamList>();
 
 function Navigation() {
   const {navigation: navigationTheme} = useTheme();
+  const insets = useSafeAreaInsets();
 
   return (
     <NavigationContainer theme={navigationTheme}>
-      <Stack.Navigator
+      <Tab.Navigator
         initialRouteName="Timer"
+        sceneContainerStyle={{
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        }}
         screenOptions={{
-          headerShadowVisible: false,
-          headerBackVisible: false,
-          title: '',
-          animation: 'slide_from_bottom',
+          headerShown: false,
         }}>
-        <Stack.Screen
-          name="Timer"
-          component={Timer}
-          options={({navigation}) => ({
-            headerRight: () => <SettingsButton navigation={navigation} />,
-          })}
-        />
-        <Stack.Screen
-          name="Settings"
-          component={Settings}
-          options={({navigation}) => ({
-            title: 'Settings',
-            headerRight: () => <XButton navigation={navigation} />,
-          })}
-        />
-      </Stack.Navigator>
+        <Tab.Screen name="Timer" component={Timer} />
+        <Tab.Screen name="Settings" component={Settings} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
