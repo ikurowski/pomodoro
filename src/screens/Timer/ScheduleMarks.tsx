@@ -8,12 +8,14 @@ import NunitoRegular from '../../components/fonts/NunitoRegular';
 import useTheme from '../../hooks/useTheme/useTheme';
 
 function Mark({markFilled}: {markFilled: boolean}) {
-  const {textColor} = useTheme();
+  const {
+    navigation: {colors},
+  } = useTheme();
 
   return (
     <NunitoRegular
       size={30}
-      color={markFilled ? textColor.primary : '#ffffff44'}
+      color={markFilled ? colors.text : '#ffffff44'}
       style={styles.mark}>
       .
     </NunitoRegular>

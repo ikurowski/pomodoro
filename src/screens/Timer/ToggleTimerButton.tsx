@@ -11,9 +11,7 @@ function ToggleTimerButton({toggleTimer, isRunning}: ToggleTimerButtonProps) {
   return (
     <View style={styles.container}>
       <Pressable onPress={toggleTimer}>
-        <NunitoRegular size={35}>
-          {isRunning ? 'Stop' : 'Start'}
-        </NunitoRegular>
+        <NunitoRegular size={35}>{isRunning ? 'Stop' : 'Start'}</NunitoRegular>
       </Pressable>
     </View>
   );

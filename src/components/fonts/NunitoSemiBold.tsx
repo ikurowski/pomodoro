@@ -12,10 +12,12 @@ interface Props {
 }
 
 function NunitoSemiBold(props: Props) {
-  const {textColor} = useTheme();
+  const {
+    navigation: {colors},
+  } = useTheme();
   const {
     children,
-    color = textColor.primary,
+    color = colors.text,
     size = moderateScale(16),
     style,
     numberOfLines,
