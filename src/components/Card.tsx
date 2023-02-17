@@ -3,7 +3,7 @@ import {Pressable, StyleSheet, Animated, View} from 'react-native';
 import {scale} from 'react-native-size-matters';
 import millisecondsToTime from '../utils/millisecondsToTime';
 import CardExpandedModal from './CardExpandedModal';
-import PoppinsRegular from './fonts/PoppinsRegular';
+import NunitoRegular from './fonts/NunitoRegular';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -56,11 +56,11 @@ function Card({
           leftButtonPress={leftButtonPress}
           rightButtonPress={rightButtonPress}
         />
-        <PoppinsRegular size={32}>
+        <NunitoRegular size={32}>
           {millisecondsToTime(time, true)}
-        </PoppinsRegular>
+        </NunitoRegular>
       </View>
-      <PoppinsRegular size={12}>{title}</PoppinsRegular>
+      <NunitoRegular size={12}>{title}</NunitoRegular>
     </AnimatedPressable>
   );
 }

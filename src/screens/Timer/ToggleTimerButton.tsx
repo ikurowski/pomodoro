@@ -2,7 +2,7 @@ import React from 'react';
 import {Pressable, View, StyleSheet} from 'react-native';
 
 //components
-import PoppinsRegular from '../../components/fonts/PoppinsRegular';
+import NunitoRegular from '../../components/fonts/NunitoRegular';
 
 //types
 import {ToggleTimerButtonProps} from '../../types/types';
@@ -11,9 +11,9 @@ function ToggleTimerButton({toggleTimer, isRunning}: ToggleTimerButtonProps) {
   return (
     <View style={styles.container}>
       <Pressable onPress={toggleTimer}>
-        <PoppinsRegular size={35}>
+        <NunitoRegular size={35}>
           {isRunning ? 'Stop' : 'Start'}
-        </PoppinsRegular>
+        </NunitoRegular>
       </Pressable>
     </View>
   );

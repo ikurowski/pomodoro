@@ -1,4 +1,4 @@
-import React, {ReactNode, FC} from 'react';
+import React, {ReactNode} from 'react';
 import {Text, StyleSheet, ColorValue, TextStyle} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import useTheme from '../../hooks/useTheme/useTheme';
@@ -11,7 +11,7 @@ interface Props {
   numberOfLines?: number;
 }
 
-function PoppinsRegular(props: Props) {
+function NunitoRegular(props: Props) {
   const {textColor} = useTheme();
   const {
     children,
@@ -37,9 +37,8 @@ function PoppinsRegular(props: Props) {
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: 'Poppins-Regular',
-    letterSpacing: 1.5,
+    fontFamily: 'Nunito-Regular',
   },
 });
 
-export default PoppinsRegular;
+export default NunitoRegular;

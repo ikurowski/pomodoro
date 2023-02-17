@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 //components
 import Card from '../../components/Card';
-import PoppinsRegular from '../../components/fonts/PoppinsRegular';
+import NunitoRegular from '../../components/fonts/NunitoRegular';
 
 //types
 import {RootState, TimerSettingsState} from '../../types/types';
@@ -37,7 +37,7 @@ function Duration() {
 
   return (
     <View style={styles.container}>
-      <PoppinsRegular>Duration</PoppinsRegular>
+      <NunitoRegular>Duration</NunitoRegular>
       <View style={styles.cardsContainer}>
         <Card
           title="Pomodoro"

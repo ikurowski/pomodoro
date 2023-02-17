@@ -12,10 +12,11 @@ import millisecondsToTime from '../../utils/millisecondsToTime';
 import {schedule} from '../../utils/constans';
 
 //components
-import PoppinsRegular from '../../components/fonts/PoppinsRegular';
+import NunitoRegular from '../../components/fonts/NunitoRegular';
 import ResetButton from './ResetButton';
 import ToggleTimerButton from './ToggleTimerButton';
 import ScheduleMarks from './ScheduleMarks';
+import NunitoBold from '../../components/fonts/NunitoBold';
 
 function Timer() {
   const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
@@ -106,8 +107,8 @@ function Timer() {
         paddingRight: insets.right,
       }}>
       <View style={styles.textContainer}>
-        <PoppinsRegular size={80}>{timerShown}</PoppinsRegular>
-        <PoppinsRegular style={styles.title}>{timerType}</PoppinsRegular>
+        <NunitoBold size={55}>{timerShown}</NunitoBold>
+        <NunitoRegular style={styles.title}>{timerType}</NunitoRegular>
         <ScheduleMarks marksToBeFilled={pomodoroMarksToBeFilled} />
       </View>
       <ToggleTimerButton toggleTimer={toggleTimer} isRunning={isRunning} />

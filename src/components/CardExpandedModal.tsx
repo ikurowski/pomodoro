@@ -4,7 +4,7 @@ import {StyleSheet, View, Modal, Pressable} from 'react-native';
 import millisecondsToTime from '../utils/millisecondsToTime';
 
 //components
-import PoppinsRegular from './fonts/PoppinsRegular';
+import NunitoRegular from './fonts/NunitoRegular';
 
 function CardExpandedModal({
   timeAsSting,
@@ -33,18 +33,18 @@ function CardExpandedModal({
         <Pressable style={styles.container}>
           <View style={styles.timeAndButtonContainer}>
             <Pressable onPress={leftButtonPress}>
-              <PoppinsRegular size={80}>{' < '}</PoppinsRegular>
+              <NunitoRegular size={80}>{' < '}</NunitoRegular>
             </Pressable>
-            <PoppinsRegular size={80}>
+            <NunitoRegular size={80}>
               {millisecondsToTime(timeAsSting, true)}
-            </PoppinsRegular>
+            </NunitoRegular>
             <Pressable onPress={rightButtonPress}>
-              <PoppinsRegular size={80}>{' > '}</PoppinsRegular>
+              <NunitoRegular size={80}>{' > '}</NunitoRegular>
             </Pressable>
           </View>
-          <PoppinsRegular size={20} style={styles.title}>
+          <NunitoRegular size={20} style={styles.title}>
             {title}
-          </PoppinsRegular>
+          </NunitoRegular>
         </Pressable>
       </Pressable>
     </Modal>

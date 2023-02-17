@@ -2,12 +2,12 @@ import React from 'react';
 import {Pressable} from 'react-native';
 
 //components
-import PoppinsRegular from '../../components/fonts/PoppinsRegular';
+import NunitoRegular from '../../components/fonts/NunitoRegular';
 
 function ResetButton({resetTimer}: {resetTimer: () => void}) {
   return (
     <Pressable onPress={resetTimer}>
-      <PoppinsRegular>Reset</PoppinsRegular>
+      <NunitoRegular>Reset</NunitoRegular>
     </Pressable>
   );
 }

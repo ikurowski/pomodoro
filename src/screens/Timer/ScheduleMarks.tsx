@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
 //components
-import PoppinsRegular from '../../components/fonts/PoppinsRegular';
+import NunitoRegular from '../../components/fonts/NunitoRegular';
 
 //styles
 import useTheme from '../../hooks/useTheme/useTheme';
@@ -11,12 +11,12 @@ function Mark({markFilled}: {markFilled: boolean}) {
   const {textColor} = useTheme();
 
   return (
-    <PoppinsRegular
+    <NunitoRegular
       size={30}
       color={markFilled ? textColor.primary : '#ffffff44'}
       style={styles.mark}>
       .
-    </PoppinsRegular>
+    </NunitoRegular>
   );
 }
 
