@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Vibration, View} from 'react-native';
 import {useSelector} from 'react-redux';
+import {scale, verticalScale} from 'react-native-size-matters';
 
 //types
 import {RootState} from '../../types/types';
@@ -11,18 +12,17 @@ import millisecondsToTime from '../../utils/millisecondsToTime';
 import {schedule} from '../../utils/constans';
 
 //components
-import NunitoRegular from '../../components/fonts/NunitoRegular';
-import ResetButton from './ResetButton';
-import ToggleTimerButton from './ToggleTimerButton';
-import ScheduleMarks from './ScheduleMarks';
+import ScheduleBullets from './ScheduleBullets';
 import NunitoBold from '../../components/fonts/NunitoBold';
+import BasicButton from '../../components/buttons/BasicButton';
+import ClockFace from './clockFace/Index';
 
 function Timer() {
   const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
     (state: RootState) => state.timer,
   );
 
-  const [timer, setTimer] = useState(1000); //pomodoroTimeInMS
+  const [timer, setTimer] = useState(pomodoroTimeInMS);
   const [timerType, setTimerType] = useState<
     'Pomodoro' | 'Short Break' | 'Long Break'
   >('Pomodoro');
@@ -91,20 +91,30 @@ function Timer() {
     setIsRunning(false);
   };
 
-  const pomodoroMarksToBeFilled = timerSchedule.filter(
-    mark => mark === 'Pomodoro',
+  const pomodoroBulletToBeFilled = timerSchedule.filter(
+    bullet => bullet === 'Pomodoro',
   ).length;
 
   return (
     <View style={styles.container}>
-      <View style={styles.textContainer}>
+      <View style={styles.innerContainer}>
         <NunitoBold size={55}>{timerShown}</NunitoBold>
-        <NunitoRegular style={styles.title}>{timerType}</NunitoRegular>
-        <ScheduleMarks marksToBeFilled={pomodoroMarksToBeFilled} />
+        <ClockFace />
+        <ScheduleBullets
+          style={styles.scheduleBullets}
+          bulletsToBeFilled={pomodoroBulletToBeFilled}
+        />
+        <View style={styles.buttonContainer}>
+          <BasicButton onPress={resetTimer} moreStyles={styles.resetButton}>
+            Reset
+          </BasicButton>
+          <BasicButton onPress={toggleTimer} filled={true}>
+            {isRunning ? 'Pause' : 'Start'}
+          </BasicButton>
+        </View>
         <RenderCounter message="Timer" />
       </View>
-      <ToggleTimerButton toggleTimer={toggleTimer} isRunning={isRunning} />
-      <ResetButton resetTimer={resetTimer} />
+      {/* <ToggleTimerButton toggleTimer={toggleTimer} isRunning={isRunning} /> */}
     </View>
   );
 }
@@ -117,11 +127,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
-  textContainer: {
+  innerContainer: {
     justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
     flex: 3,
   },
   title: {
     textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    maxWidth: scale(248),
+  },
+  resetButton: {
+    marginRight: scale(8),
+  },
+  scheduleBullets: {
+    marginTop: verticalScale(24),
+    marginBottom: verticalScale(48),
   },
 });
