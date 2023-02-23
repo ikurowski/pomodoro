@@ -2,14 +2,21 @@ import React from 'react';
 import {View, PixelRatio, StyleSheet} from 'react-native';
 import {CircularProgress} from './CircularProgress';
 
-const PointerOfTheClock = () => {
+const PointerOfTheClock = ({
+  isRunning,
+  timer,
+}: {
+  isRunning: boolean;
+  timer: number;
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.ringChartContainer}>
         <CircularProgress
+          isRunning={isRunning}
+          timer={timer}
           radius={radius}
           backgroundColor="#F7FAF3"
-          percentageComplete={60}
         />
       </View>
     </View>
