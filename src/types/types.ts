@@ -21,20 +21,18 @@ export type ToggleTimerButtonProps = {
   isRunning: boolean;
 };
 
-export type IntervalType = 'Pomodoro' | 'Short Break' | 'Long Break';
+export type IntervalType =
+  | 'pomodoroTimeInMS'
+  | 'shortBreakTimeInMS'
+  | 'longBreakTimeInMS';
 
 export interface TimerSettingsState {
-  pomodoroTimeInMS: number;
-  shortBreakTimeInMS: number;
-  longBreakTimeInMS: number;
-}
-
-export interface UpdateTimeAction {
-  type: 'timerSettings/updateTime';
-  payload: {
-    type: keyof TimerSettingsState;
-    amount: number;
+  timers: {
+    pomodoroTimeInMS: number;
+    shortBreakTimeInMS: number;
+    longBreakTimeInMS: number;
   };
+  currentTimerType: IntervalType;
 }
 
 export type RootState = {

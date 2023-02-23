@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Vibration, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {scale, verticalScale} from 'react-native-size-matters';
 
 //types
@@ -15,19 +15,18 @@ import {schedule} from '../../utils/constans';
 import ScheduleBullets from './ScheduleBullets';
 import NunitoBold from '../../components/fonts/NunitoBold';
 import BasicButton from '../../components/buttons/BasicButton';
-import ClockFace from './clockFace/Index';
+// import ClockFace from './clockFace/Index';
+import PointerOfTheClock from './clockFace/PointerOfTheClock';
+import {updateTimerType} from '../../features/timerSettingsSlice';
 
 function Timer() {
   const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
-    (state: RootState) => state.timer,
+    (state: RootState) => state.timer.timers,
   );
+  const dispatch = useDispatch();
 
   const [timer, setTimer] = useState(pomodoroTimeInMS);
-  const [timerType, setTimerType] = useState<
-    'Pomodoro' | 'Short Break' | 'Long Break'
-  >('Pomodoro');
   const [timerSchedule, setTimerSchedule] = useState(schedule);
-
   const [isRunning, setIsRunning] = useState(false);
 
   const timerShown = millisecondsToTime(timer);
@@ -46,18 +45,25 @@ function Timer() {
       setTimerSchedule(schedule);
     }
     const nextTimerType = timerSchedule[0];
-    setTimerType(nextTimerType);
+    dispatch(updateTimerType({type: nextTimerType}));
+
     switch (nextTimerType) {
-      case 'Pomodoro':
+      case 'pomodoroTimeInMS':
         setTimer(pomodoroTimeInMS);
         break;
-      case 'Short Break':
+      case 'shortBreakTimeInMS':
         setTimer(shortBreakTimeInMS);
         break;
-      case 'Long Break':
+      case 'longBreakTimeInMS':
         setTimer(longBreakTimeInMS);
     }
-  }, [timerSchedule, longBreakTimeInMS, shortBreakTimeInMS, pomodoroTimeInMS]);
+  }, [
+    timerSchedule,
+    longBreakTimeInMS,
+    shortBreakTimeInMS,
+    pomodoroTimeInMS,
+    dispatch,
+  ]);
 
   useEffect(() => {
     if (timerIdRef.current) {
@@ -88,18 +94,19 @@ function Timer() {
     }
     setTimerSchedule(schedule);
     setTimer(pomodoroTimeInMS);
-    setIsRunning(false);
+    setIsRunning(() => false);
   };
 
   const pomodoroBulletToBeFilled = timerSchedule.filter(
-    bullet => bullet === 'Pomodoro',
+    bullet => bullet === 'pomodoroTimeInMS',
   ).length;
 
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <NunitoBold size={55}>{timerShown}</NunitoBold>
-        <ClockFace />
+        {/* <ClockFace /> */}
+        <PointerOfTheClock isRunning={isRunning} timer={timer} />
         <ScheduleBullets
           style={styles.scheduleBullets}
           bulletsToBeFilled={pomodoroBulletToBeFilled}
@@ -114,7 +121,6 @@ function Timer() {
         </View>
         <RenderCounter message="Timer" />
       </View>
-      {/* <ToggleTimerButton toggleTimer={toggleTimer} isRunning={isRunning} /> */}
     </View>
   );
 }

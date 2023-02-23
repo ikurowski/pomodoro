@@ -7,19 +7,19 @@ import Card from '../../components/Card';
 import NunitoRegular from '../../components/fonts/NunitoRegular';
 
 //types
-import {RootState, TimerSettingsState} from '../../types/types';
+import {IntervalType, RootState} from '../../types/types';
 
 //redux
 import {updateTime} from '../../features/timerSettingsSlice';
 
 function Duration() {
   const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
-    (state: RootState) => state.timer,
+    (state: RootState) => state.timer.timers,
   );
 
   const dispatch = useDispatch();
 
-  const createButtonPressFunctions = (type: keyof TimerSettingsState) => ({
+  const createButtonPressFunctions = (type: IntervalType) => ({
     leftButtonPress: () => {
       dispatch(updateTime({type, amount: -60000}));
     },
