@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {View, StyleSheet, Button} from 'react-native';
 import Animated, {
   Easing,
@@ -11,6 +11,7 @@ import {withPause} from 'react-native-redash';
 import {Svg, Circle} from 'react-native-svg';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../types/types';
+import RenderCounter from '../../../utils/RenderCounter';
 
 type CircularProgressProps = {
   radius: number;
@@ -30,56 +31,59 @@ export const CircularProgress: FC<CircularProgressProps> = ({
     currentTimerType,
   } = useSelector((state: RootState) => state.timer);
 
-  // useEffect(() => {
-  //   sharedValue.value = withPause(withTiming(1), paused);
-  // }, []);
-
   const halfRadius = radius / 2;
   const circumfrence = 2 * Math.PI * halfRadius;
 
-  const paused = useSharedValue(false);
-  const sharedValue = useSharedValue(0);
-  const animateTo = useDerivedValue(() => -circumfrence);
-  const animatedProps = useAnimatedProps(() => {
-    let animationDuration;
-    switch (currentTimerType) {
-      case 'pomodoroTimeInMS':
-        animationDuration = pomodoroTimeInMS;
-        break;
-      case 'shortBreakTimeInMS':
-        animationDuration = shortBreakTimeInMS;
-        break;
-      case 'longBreakTimeInMS':
-        animationDuration = longBreakTimeInMS;
-    }
-    return {
-      strokeDashoffset: withPause(
-        withTiming(sharedValue.value, {
-          duration: animationDuration,
-          easing: Easing.linear,
-        }),
-        paused,
-      ),
-    };
-  });
-
-  const animate = () => {
-    sharedValue.value = withPause(withTiming(1), paused);
-  };
+  // const paused = useSharedValue(false);
+  const clockProgress = useSharedValue(0);
 
   useEffect(() => {
-    if (isRunning) {
-      animate();
+    let timerInMS: number;
+    switch (currentTimerType) {
+      case 'pomodoroTimeInMS':
+        timerInMS = pomodoroTimeInMS;
+        break;
+      case 'shortBreakTimeInMS':
+        timerInMS = shortBreakTimeInMS;
+        break;
+      case 'longBreakTimeInMS':
+        timerInMS = longBreakTimeInMS;
+        break;
     }
-    // if (!isRunning) {
+    const partOfClockToMultiple = circumfrence / (timerInMS / 1000);
+    const ticks = partOfClockToMultiple * ((timerInMS - timer) / 1000);
+    if (isRunning) {
+      clockProgress.value = withTiming(-ticks, {
+        duration: 1000,
+        easing: Easing.linear,
+      });
+    }
+  }, [
+    isRunning,
+    timer,
+    clockProgress,
+    circumfrence,
+    pomodoroTimeInMS,
+    shortBreakTimeInMS,
+    longBreakTimeInMS,
+    currentTimerType,
+  ]);
 
-    // }
-  }, [isRunning, animateTo, sharedValue]);
+  useEffect(() => {
+    if (timer === 0) {
+      clockProgress.value = 0;
+    }
+  }, [timer, clockProgress]);
+
+  const animatedProps = useAnimatedProps(() => ({
+    strokeDashoffset: clockProgress.value,
+  }));
 
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
   return (
     <View style={styles.container}>
+      <RenderCounter message="Clock" />
       <Svg style={StyleSheet.absoluteFill}>
         <AnimatedCircle
           animatedProps={animatedProps}
@@ -94,7 +98,6 @@ export const CircularProgress: FC<CircularProgressProps> = ({
           transform={`rotate(-90 ${radius} ${radius})`}
         />
       </Svg>
-      <Button title="Pause" onPress={() => (paused.value = true)} />
     </View>
   );
 };
