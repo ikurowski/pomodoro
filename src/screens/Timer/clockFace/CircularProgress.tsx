@@ -71,7 +71,7 @@ export const CircularProgress: FC<CircularProgressProps> = ({
 
   useEffect(() => {
     clockOpacity.value = withSequence(
-      withTiming(0.02, {
+      withTiming(0.2, {
         duration: 500,
         easing: Easing.linear,
       }),
@@ -90,29 +90,26 @@ export const CircularProgress: FC<CircularProgressProps> = ({
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
   return (
-    <View style={styles.container}>
-      <RenderCounter message="Clock" />
-      <Svg style={StyleSheet.absoluteFill}>
-        <AnimatedCircle
-          animatedProps={animatedProps}
-          cx={radius}
-          cy={radius}
-          fill={'transparent'}
-          r={halfRadius}
-          stroke={backgroundColor}
-          strokeWidth={radius}
-          strokeDasharray={`${circumfrence} ${circumfrence}`}
-          transform={`rotate(-90 ${radius} ${radius})`}
-        />
-      </Svg>
-    </View>
+    <Svg>
+      <AnimatedCircle
+        animatedProps={animatedProps}
+        cx={radius}
+        cy={radius}
+        fill={'transparent'}
+        r={halfRadius}
+        stroke={backgroundColor}
+        strokeWidth={radius}
+        strokeDasharray={`${circumfrence} ${circumfrence}`}
+        transform={`rotate(-90 ${radius} ${radius})`}
+      />
+    </Svg>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+// });

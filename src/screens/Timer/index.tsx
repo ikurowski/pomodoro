@@ -15,9 +15,8 @@ import {schedule} from '../../utils/constans';
 import ScheduleBullets from './ScheduleBullets';
 import NunitoBold from '../../components/fonts/NunitoBold';
 import BasicButton from '../../components/buttons/BasicButton';
-// import ClockFace from './clockFace/Index';
-import PointerOfTheClock from './clockFace/PointerOfTheClock';
 import {updateTimerType} from '../../features/timerSettingsSlice';
+import ClockFace from './clockFace/Index';
 
 function Timer() {
   const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
@@ -104,9 +103,9 @@ function Timer() {
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <NunitoBold size={55}>{timerShown}</NunitoBold>
-        {/* <ClockFace /> */}
-        <PointerOfTheClock isRunning={isRunning} timer={timer} />
+        <ClockFace isRunning={isRunning} timer={timer}>
+          <NunitoBold size={55}>{timerShown}</NunitoBold>
+        </ClockFace>
         <ScheduleBullets
           style={styles.scheduleBullets}
           bulletsToBeFilled={pomodoroBulletToBeFilled}
