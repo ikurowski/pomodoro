@@ -1,13 +1,12 @@
-import React, {FC, useEffect, useState} from 'react';
-import {View, StyleSheet, Button} from 'react-native';
+import React, {FC, useEffect} from 'react';
+import {View, StyleSheet} from 'react-native';
 import Animated, {
   Easing,
   useAnimatedProps,
-  useDerivedValue,
   useSharedValue,
+  withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import {withPause} from 'react-native-redash';
 import {Svg, Circle} from 'react-native-svg';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../types/types';
@@ -34,8 +33,8 @@ export const CircularProgress: FC<CircularProgressProps> = ({
   const halfRadius = radius / 2;
   const circumfrence = 2 * Math.PI * halfRadius;
 
-  // const paused = useSharedValue(false);
   const clockProgress = useSharedValue(0);
+  const clockOpacity = useSharedValue(0.1);
 
   useEffect(() => {
     let timerInMS: number;
@@ -50,16 +49,17 @@ export const CircularProgress: FC<CircularProgressProps> = ({
         timerInMS = longBreakTimeInMS;
         break;
     }
+
     const partOfClockToMultiple = circumfrence / (timerInMS / 1000);
-    const ticks = partOfClockToMultiple * ((timerInMS - timer) / 1000);
-    if (isRunning) {
-      clockProgress.value = withTiming(-ticks, {
-        duration: 1000,
-        easing: Easing.linear,
-      });
-    }
+    const increasingTimer = timerInMS - timer;
+
+    let ticks = partOfClockToMultiple * (increasingTimer / 1000);
+
+    clockProgress.value = withTiming(-ticks, {
+      duration: 1000,
+      easing: Easing.linear,
+    });
   }, [
-    isRunning,
     timer,
     clockProgress,
     circumfrence,
@@ -70,13 +70,21 @@ export const CircularProgress: FC<CircularProgressProps> = ({
   ]);
 
   useEffect(() => {
-    if (timer === 0) {
-      clockProgress.value = 0;
-    }
-  }, [timer, clockProgress]);
+    clockOpacity.value = withSequence(
+      withTiming(0.02, {
+        duration: 500,
+        easing: Easing.linear,
+      }),
+      withTiming(0.1, {
+        duration: 500,
+        easing: Easing.linear,
+      }),
+    );
+  }, [isRunning, clockOpacity]);
 
   const animatedProps = useAnimatedProps(() => ({
     strokeDashoffset: clockProgress.value,
+    opacity: clockOpacity.value,
   }));
 
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -91,7 +99,6 @@ export const CircularProgress: FC<CircularProgressProps> = ({
           cy={radius}
           fill={'transparent'}
           r={halfRadius}
-          opacity=".1"
           stroke={backgroundColor}
           strokeWidth={radius}
           strokeDasharray={`${circumfrence} ${circumfrence}`}
