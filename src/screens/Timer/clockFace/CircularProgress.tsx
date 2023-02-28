@@ -1,5 +1,4 @@
-import React, {FC, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {FC, useEffect, useState} from 'react';
 import Animated, {
   Easing,
   useAnimatedProps,
@@ -9,8 +8,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import {Svg, Circle} from 'react-native-svg';
 import {useSelector} from 'react-redux';
+
+// types
 import {RootState} from '../../../types/types';
-import RenderCounter from '../../../utils/RenderCounter';
 
 type CircularProgressProps = {
   radius: number;
@@ -29,6 +29,7 @@ export const CircularProgress: FC<CircularProgressProps> = ({
     timers: {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS},
     currentTimerType,
   } = useSelector((state: RootState) => state.timer);
+  const [timeFromTimerType, setTimeFromTimerType] = useState(pomodoroTimeInMS);
 
   const halfRadius = radius / 2;
   const circumfrence = 2 * Math.PI * halfRadius;
@@ -37,37 +38,49 @@ export const CircularProgress: FC<CircularProgressProps> = ({
   const clockOpacity = useSharedValue(0.1);
 
   useEffect(() => {
-    let timerInMS: number;
     switch (currentTimerType) {
       case 'pomodoroTimeInMS':
-        timerInMS = pomodoroTimeInMS;
+        setTimeFromTimerType(pomodoroTimeInMS);
         break;
       case 'shortBreakTimeInMS':
-        timerInMS = shortBreakTimeInMS;
+        setTimeFromTimerType(shortBreakTimeInMS);
         break;
       case 'longBreakTimeInMS':
-        timerInMS = longBreakTimeInMS;
+        setTimeFromTimerType(longBreakTimeInMS);
         break;
+      default:
+        setTimeFromTimerType(pomodoroTimeInMS);
     }
-
-    const partOfClockToMultiple = circumfrence / (timerInMS / 1000);
-    const increasingTimer = timerInMS - timer;
-
-    let ticks = partOfClockToMultiple * (increasingTimer / 1000);
-
-    clockProgress.value = withTiming(-ticks, {
-      duration: 1000,
-      easing: Easing.linear,
-    });
   }, [
-    timer,
-    clockProgress,
-    circumfrence,
     pomodoroTimeInMS,
     shortBreakTimeInMS,
     longBreakTimeInMS,
     currentTimerType,
   ]);
+
+  useEffect(() => {
+    const oneTickPI = circumfrence / (timeFromTimerType / 1000);
+    const tickDivider = circumfrence / oneTickPI;
+    const tickDivisor = (timeFromTimerType - timer) / 1000;
+
+    // makes sure that the ticks are between 0 and 1
+    let ticks = Math.min(Math.max(tickDivisor / tickDivider, 0), 1);
+
+    // workaround for the bug that the clock animation is interrupted when the timer is reset
+    if (!isRunning && ticks === 0) {
+      clockProgress.value = withTiming(0, {
+        duration: 1000,
+        easing: Easing.linear,
+      });
+    }
+
+    if (isRunning) {
+      clockProgress.value = withTiming(ticks, {
+        duration: 1000,
+        easing: Easing.linear,
+      });
+    }
+  }, [clockProgress, circumfrence, timeFromTimerType, timer, isRunning]);
 
   useEffect(() => {
     clockOpacity.value = withSequence(
@@ -83,7 +96,7 @@ export const CircularProgress: FC<CircularProgressProps> = ({
   }, [isRunning, clockOpacity]);
 
   const animatedProps = useAnimatedProps(() => ({
-    strokeDashoffset: clockProgress.value,
+    strokeDashoffset: -circumfrence * clockProgress.value,
     opacity: clockOpacity.value,
   }));
 
@@ -105,11 +118,3 @@ export const CircularProgress: FC<CircularProgressProps> = ({
     </Svg>
   );
 };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-// });
