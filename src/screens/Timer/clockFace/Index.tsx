@@ -1,5 +1,5 @@
 import React from 'react';
-import {scale} from 'react-native-size-matters';
+import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import {Svg, Rect, Ellipse, SvgProps} from 'react-native-svg';
 import {ColorValue} from 'react-native/types';
 import {View, PixelRatio, StyleSheet} from 'react-native';
@@ -19,7 +19,7 @@ function ClockFace(props: ClockFaceProps) {
     <View>
       <Svg
         width={scale(size)}
-        height={scale(size)}
+        height={verticalScale(size)}
         viewBox="0 0 280 280"
         fill="none"
         {...props}>
@@ -276,7 +276,7 @@ function ClockFace(props: ClockFaceProps) {
           <PointerOfTheClock
             isRunning={props.isRunning}
             timer={props.timer}
-            radius={radius * 1}
+            radius={radius}
           />
         </View>
       </View>
@@ -284,7 +284,7 @@ function ClockFace(props: ClockFaceProps) {
   );
 }
 
-const radius = PixelRatio.roundToNearestPixel(110);
+const radius = PixelRatio.roundToNearestPixel(moderateScale(100));
 
 const styles = StyleSheet.create({
   pointerOfTheClockContainer: {
