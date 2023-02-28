@@ -44,6 +44,11 @@ function Timer() {
       setTimerSchedule(schedule);
     }
     const nextTimerType = timerSchedule[0];
+    if (nextTimerType === undefined) {
+      dispatch(updateTimerType({type: 'pomodoroTimeInMS'}));
+      setTimer(pomodoroTimeInMS);
+      return;
+    }
     dispatch(updateTimerType({type: nextTimerType}));
 
     switch (nextTimerType) {
@@ -71,9 +76,7 @@ function Timer() {
 
     if (isRunning) {
       timerIdRef.current = setInterval(() => {
-        setTimer(prev => {
-          return prev - 1000;
-        });
+        setTimer(prev => prev - 1000);
       }, 1000);
     }
     return () => {
