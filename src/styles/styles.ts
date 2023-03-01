@@ -8,7 +8,8 @@ export const colors = {
   white: '#FFFFFF',
   black: '#000000',
   grey: '#E5E5E5',
-  lightGrey: '#F5F5F5',
+  lightGrey: '#BDD7D1',
+  lightestGrey: '#ffffff33',
 };
 
 export const theme: Theme = {
@@ -19,7 +20,7 @@ export const theme: Theme = {
       primary: colors.primary,
       background: colors.secondary,
       border: colors.black,
-      card: colors.secondary,
+      card: colors.lightGrey,
       text: colors.white,
       notification: colors.primary,
     },
