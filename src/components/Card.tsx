@@ -11,7 +11,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {moderateScale} from 'react-native-size-matters';
-import WheelPicker from 'react-native-wheely';
 
 //components
 import NunitoMedium from './fonts/NunitoMedium';
@@ -22,6 +21,7 @@ import {wheelPickerNumbers} from '../utils/constans';
 //styles
 import useTheme from '../hooks/useTheme/useTheme';
 import {colors as colorsSheet} from '../styles/styles';
+import WheelPicker from 'react-native-wheely';
 
 function Card({
   title,
@@ -46,10 +46,6 @@ function Card({
       : withTiming(0),
   );
   const height = useSharedValue(0);
-
-  useEffect(() => {
-    updateTimeFunction((selectedIndex + 1) * 60000);
-  }, [selectedIndex, updateTimeFunction]);
 
   const animatedItemsStyle = useAnimatedStyle(() => ({
     height: height.value * progress.value + 1,
@@ -86,7 +82,7 @@ function Card({
           {title}
         </NunitoMedium>
         <NunitoMedium color={colors.card} size={16}>
-          TEST
+          {wheelPickerNumbers[selectedIndex]}
         </NunitoMedium>
       </Pressable>
 
@@ -97,7 +93,15 @@ function Card({
             options={wheelPickerNumbers}
             onChange={index => {
               setSelectedIndex(index);
+              updateTimeFunction(Number(wheelPickerNumbers[index]) * 60000);
+              console.log('Czas', Number(wheelPickerNumbers[index]));
             }}
+            itemTextStyle={{...styles.numbers, color: colors.text}}
+            selectedIndicatorStyle={{
+              ...styles.selectedIndicatorStyle,
+              backgroundColor: colors.primary,
+            }}
+            itemHeight={moderateScale(30)}
           />
         </View>
       </Animated.View>
@@ -111,21 +115,24 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: moderateScale(10),
     paddingBottom: moderateScale(9), // one pixel less for compensation of one pixel added to animatedItemsStyle.height
-    paddingHorizontal: moderateScale(20),
     margin: 4, //FIXME remove this
     backgroundColor: colorsSheet.lightestGrey,
     borderRadius: 60,
     // borderRadius: 25,
   },
   innerContainer: {
+    paddingHorizontal: moderateScale(20),
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  wheelPicker: {
-    // borderWidth: 1,
-    // borderColor: 'red',
+  selectedIndicatorStyle: {
+    borderRadius: 8,
   },
   items: {
     overflow: 'hidden',
+  },
+  numbers: {
+    fontFamily: 'Nunito-Regular',
+    fontSize: moderateScale(23),
   },
 });
