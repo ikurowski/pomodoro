@@ -25,6 +25,7 @@
     "react-native-screens": "^3.19.0",
     "react-native-size-matters": "^0.4.0",
     "react-native-svg": "^13.8.0",
+    "react-native-wheely": "^0.6.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.1"
   },
