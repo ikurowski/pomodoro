@@ -4,7 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 //components
 import Card from '../../components/Card';
-import NunitoRegular from '../../components/fonts/NunitoRegular';
+import NunitoSemiBold from '../../components/fonts/NunitoSemiBold';
 
 //types
 import {IntervalType, RootState} from '../../types/types';
@@ -19,40 +19,36 @@ function Duration() {
 
   const dispatch = useDispatch();
 
-  const createButtonPressFunctions = (type: IntervalType) => ({
-    leftButtonPress: () => {
-      dispatch(updateTime({type, amount: -60000}));
-    },
-    rightButtonPress: () => {
-      dispatch(updateTime({type, amount: 60000}));
-    },
+  const createUpdateTimeFunction = (type: IntervalType) => ({
+    updateTimeFunction: (wheelPickerTime: number) =>
+      dispatch(updateTime({type, wheelPickerTime})),
   });
 
-  const pomodoroButtonPressFunctions =
-    createButtonPressFunctions('pomodoroTimeInMS');
-  const shortBreakButtonPressFunctions =
-    createButtonPressFunctions('shortBreakTimeInMS');
-  const longBreakButtonPressFunctions =
-    createButtonPressFunctions('longBreakTimeInMS');
+  const pomodoroUpdateFunction = createUpdateTimeFunction('pomodoroTimeInMS');
+  const shortBreakUpdateFunction =
+    createUpdateTimeFunction('shortBreakTimeInMS');
+  const longBreakUpdateFunction = createUpdateTimeFunction('longBreakTimeInMS');
 
   return (
     <View style={styles.container}>
-      <NunitoRegular>Duration</NunitoRegular>
+      <NunitoSemiBold size={20} style={styles.header}>
+        Duration
+      </NunitoSemiBold>
       <View style={styles.cardsContainer}>
         <Card
           title="Pomodoro"
           time={pomodoroTimeInMS}
-          {...pomodoroButtonPressFunctions}
+          {...pomodoroUpdateFunction}
         />
         <Card
           title="Short Break"
           time={shortBreakTimeInMS}
-          {...shortBreakButtonPressFunctions}
+          {...shortBreakUpdateFunction}
         />
         <Card
           title="Long Break"
           time={longBreakTimeInMS}
-          {...longBreakButtonPressFunctions}
+          {...longBreakUpdateFunction}
         />
       </View>
     </View>
@@ -69,8 +65,11 @@ const styles = StyleSheet.create({
   },
   cardsContainer: {
     width: '100%',
-    flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: 20,
+  },
+  header: {
+    alignSelf: 'flex-start',
+    flex: 1,
   },
 });
