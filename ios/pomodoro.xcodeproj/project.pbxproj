@@ -22,6 +22,8 @@
 		785E0BAC299FB2D200C395BA /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 785E0BA4299FB2D100C395BA /* Nunito-SemiBold.ttf */; };
 		785E0BAD299FB2D200C395BA /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 785E0BA5299FB2D100C395BA /* Nunito-Black.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		AE36901ABECAD85BB1F528C6 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EED9AAD393D11C13AE1693 /* ExpoModulesProvider.swift */; };
+		DAD91CFD60D93EF947758F8C /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15FA0A05A42D332117DBF2B3 /* ExpoModulesProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,11 +46,13 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = pomodoro/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = pomodoro/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = pomodoro/main.m; sourceTree = "<group>"; };
+		15FA0A05A42D332117DBF2B3 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-pomodoro/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-pomodoro-pomodoroTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pomodoro-pomodoroTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-pomodoro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pomodoro.debug.xcconfig"; path = "Target Support Files/Pods-pomodoro/Pods-pomodoro.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-pomodoro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pomodoro.release.xcconfig"; path = "Target Support Files/Pods-pomodoro/Pods-pomodoro.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-pomodoro-pomodoroTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pomodoro-pomodoroTests.debug.xcconfig"; path = "Target Support Files/Pods-pomodoro-pomodoroTests/Pods-pomodoro-pomodoroTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-pomodoro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pomodoro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		61EED9AAD393D11C13AE1693 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-pomodoro-pomodoroTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		785E0B9E299FB2D100C395BA /* Nunito-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Medium.ttf"; path = "../../src/assets/fonts/Nunito-Medium.ttf"; sourceTree = "<group>"; };
 		785E0B9F299FB2D100C395BA /* Nunito-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Light.ttf"; path = "../../src/assets/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 		785E0BA0299FB2D100C395BA /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraLight.ttf"; path = "../../src/assets/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
@@ -122,6 +126,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3BFB24C098C3DBC6A013AA41 /* pomodoroTests */ = {
+			isa = PBXGroup;
+			children = (
+				61EED9AAD393D11C13AE1693 /* ExpoModulesProvider.swift */,
+			);
+			name = pomodoroTests;
+			sourceTree = "<group>";
+		};
+		45E62E3C357CEEF5B1A4FF04 /* pomodoro */ = {
+			isa = PBXGroup;
+			children = (
+				15FA0A05A42D332117DBF2B3 /* ExpoModulesProvider.swift */,
+			);
+			name = pomodoro;
+			sourceTree = "<group>";
+		};
 		7838D235298D1E6500959CB1 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +174,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				A65B38A3E3CB406970906E2C /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -167,6 +188,15 @@
 				00E356EE1AD99517003FC87E /* pomodoroTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A65B38A3E3CB406970906E2C /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				45E62E3C357CEEF5B1A4FF04 /* pomodoro */,
+				3BFB24C098C3DBC6A013AA41 /* pomodoroTests */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -445,6 +475,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* pomodoroTests.m in Sources */,
+				AE36901ABECAD85BB1F528C6 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +485,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				DAD91CFD60D93EF947758F8C /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,7 +510,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = pomodoroTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -489,6 +521,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pomodoro.app/pomodoro";
@@ -502,7 +535,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = pomodoroTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -513,6 +546,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pomodoro.app/pomodoro";
@@ -539,6 +573,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier).ik";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.example.pomodoro.ik;
 				PRODUCT_NAME = pomodoro;
@@ -571,6 +606,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier).ik";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=*]" = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier).ik";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = org.reactjs.native.example.pomodoro.ik;
@@ -633,7 +669,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -698,7 +734,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
