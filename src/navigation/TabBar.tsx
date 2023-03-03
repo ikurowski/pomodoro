@@ -6,6 +6,7 @@ import NavIcons from './NavIcons';
 import NunitoRegular from '../components/fonts/NunitoRegular';
 import {Route} from '@react-navigation/native';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+import {BlurView} from 'expo-blur';
 
 const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
   const {
@@ -20,9 +21,11 @@ const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
         paddingBottom: insets.bottom,
         paddingLeft: insets.left,
         paddingRight: insets.right,
-        backgroundColor: colors.background,
       }}>
       <View style={styles.innerContainer}>
+        <View style={styles.blurContainer}>
+          <BlurView intensity={30} style={styles.blur} tint={'dark'} />
+        </View>
         {state.routes.map((route: Route<string>, index: number) => {
           const {options} = descriptors[route.key];
 
@@ -79,16 +82,27 @@ const styles = StyleSheet.create({
   outerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   innerContainer: {
     flexDirection: 'row',
-    borderRadius: 60,
-    backgroundColor: '#00000026',
     paddingTop: 10,
     paddingBottom: 7,
     paddingHorizontal: 25,
   },
-
+  blur: {
+    ...StyleSheet.absoluteFillObject,
+    // backgroundColor: '#0000004c',
+  },
+  blurContainer: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 60,
+    overflow: 'hidden',
+  },
   buttonContainer: {
     alignItems: 'center',
     justifyContent: 'center',
