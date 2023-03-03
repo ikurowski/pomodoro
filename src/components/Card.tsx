@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import Animated, {
   measure,
@@ -22,6 +22,7 @@ import {wheelPickerNumbers} from '../utils/constans';
 import useTheme from '../hooks/useTheme/useTheme';
 import {colors as colorsSheet} from '../styles/styles';
 import WheelPicker from 'react-native-wheely';
+import Chevron from './Chevron';
 
 function Card({
   title,
@@ -52,7 +53,13 @@ function Card({
     opacity: progress.value === 0 ? 0 : 1,
   }));
   const animatedContainerStyle = useAnimatedStyle(() => ({
-    borderRadius: progress.value === 0 ? 60 : 22,
+    borderRadius: open.value
+      ? withTiming(30, {duration: 600})
+      : withTiming(40, {duration: 1000}),
+  }));
+  const animatedBorderWidth = useAnimatedStyle(() => ({
+    borderBottomWidth: progress.value === 0 ? withTiming(0) : withTiming(1),
+    paddingBottom: progress.value === 0 ? withTiming(0) : withTiming(10),
   }));
 
   const onPress = () => {
@@ -78,12 +85,20 @@ function Card({
         hitSlop={moderateScale(10)}
         style={styles.innerContainer}
         onPress={onPress}>
-        <NunitoMedium color={colors.card} size={16}>
-          {title}
-        </NunitoMedium>
-        <NunitoMedium color={colors.card} size={16}>
-          {wheelPickerNumbers[selectedIndex]}
-        </NunitoMedium>
+        <Animated.View style={[styles.titleContainer, animatedBorderWidth]}>
+          <NunitoMedium color={colors.card} size={16}>
+            {title}
+          </NunitoMedium>
+          <View style={styles.chevronAndTimeContainer}>
+            <NunitoMedium
+              color={colors.text}
+              size={16}
+              style={styles.timeInHeader}>
+              {wheelPickerNumbers[selectedIndex]} min
+            </NunitoMedium>
+            <Chevron {...{progress}} />
+          </View>
+        </Animated.View>
       </Pressable>
 
       <Animated.View style={[styles.items, animatedItemsStyle]}>
@@ -122,8 +137,19 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     paddingHorizontal: moderateScale(20),
+  },
+  titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    borderColor: colorsSheet.lightGrey,
+  },
+  chevronAndTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  timeInHeader: {
+    marginRight: moderateScale(8),
   },
   selectedIndicatorStyle: {
     borderRadius: 8,

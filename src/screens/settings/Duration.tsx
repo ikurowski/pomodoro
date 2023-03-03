@@ -36,7 +36,7 @@ function Duration() {
       </NunitoSemiBold>
       <View style={styles.cardsContainer}>
         <Card
-          title="Pomodoro"
+          title="Focus Time"
           time={pomodoroTimeInMS}
           {...pomodoroUpdateFunction}
         />
@@ -70,6 +70,5 @@ const styles = StyleSheet.create({
   },
   header: {
     alignSelf: 'flex-start',
-    flex: 1,
   },
 });
