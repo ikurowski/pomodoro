@@ -15,19 +15,18 @@ import {RootState} from '../../../types/types';
 type CircularProgressProps = {
   radius: number;
   backgroundColor: string;
-  isRunning: boolean;
   timer: number;
 };
 
 export const CircularProgress: FC<CircularProgressProps> = ({
   radius,
   backgroundColor,
-  isRunning,
   timer,
 }) => {
   const {
     timers: {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS},
     currentTimerType,
+    isRunning,
   } = useSelector((state: RootState) => state.timer);
   const [timeFromTimerType, setTimeFromTimerType] = useState(pomodoroTimeInMS);
 

@@ -33,6 +33,7 @@ export interface TimerSettingsState {
     longBreakTimeInMS: number;
   };
   currentTimerType: IntervalType;
+  isRunning: boolean;
 }
 
 export type RootState = {

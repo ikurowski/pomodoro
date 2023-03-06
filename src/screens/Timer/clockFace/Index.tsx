@@ -1,14 +1,12 @@
 import React from 'react';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import {Svg, Rect, Ellipse, SvgProps} from 'react-native-svg';
-import {ColorValue} from 'react-native/types';
 import {View, PixelRatio, StyleSheet} from 'react-native';
-import PointerOfTheClock from './PointerOfTheClock';
+import {CircularProgress} from './CircularProgress';
 
 interface ClockFaceProps extends SvgProps {
-  colorOfLines?: ColorValue;
+  colorOfLines?: string;
   size?: number;
-  isRunning: boolean;
   timer: number;
 }
 
@@ -273,10 +271,10 @@ function ClockFace(props: ClockFaceProps) {
       <View style={styles.pointerOfTheClockContainer}>
         <View style={styles.pointerOfTheClockInner}>
           <View style={styles.timer}>{props.children}</View>
-          <PointerOfTheClock
-            isRunning={props.isRunning}
+          <CircularProgress
             timer={props.timer}
             radius={radius}
+            backgroundColor={colorOfLines}
           />
         </View>
       </View>

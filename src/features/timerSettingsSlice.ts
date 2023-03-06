@@ -8,6 +8,7 @@ export const initialState: TimerSettingsState = {
     longBreakTimeInMS: 5_000, // 15 minutes
   },
   currentTimerType: 'pomodoroTimeInMS',
+  isRunning: false,
 };
 
 const timerSettingsSlice = createSlice({
@@ -29,9 +30,14 @@ const timerSettingsSlice = createSlice({
       const {type} = action.payload;
       state.currentTimerType = type;
     },
+    updateIsRunning: (state, action: PayloadAction<{isRunning: boolean}>) => {
+      const {isRunning} = action.payload;
+      state.isRunning = isRunning;
+    },
   },
 });
 
-export const {updateTime, updateTimerType} = timerSettingsSlice.actions;
+export const {updateTime, updateTimerType, updateIsRunning} =
+  timerSettingsSlice.actions;
 
 export default timerSettingsSlice.reducer;

@@ -15,29 +15,32 @@ import {schedule} from '../../utils/constans';
 import ScheduleBullets from './ScheduleBullets';
 import NunitoBold from '../../components/fonts/NunitoBold';
 import BasicButton from '../../components/buttons/BasicButton';
-import {updateTimerType} from '../../features/timerSettingsSlice';
+import {
+  updateIsRunning,
+  updateTimerType,
+} from '../../features/timerSettingsSlice';
 import ClockFace from './clockFace/Index';
 
 function Timer() {
-  const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
-    (state: RootState) => state.timer.timers,
-  );
+  const {
+    timers: {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS},
+    isRunning,
+  } = useSelector((state: RootState) => state.timer);
   const dispatch = useDispatch();
 
   const [timer, setTimer] = useState(pomodoroTimeInMS);
   const [timerSchedule, setTimerSchedule] = useState(schedule);
-  const [isRunning, setIsRunning] = useState(false);
 
   const timerShown = millisecondsToTime(timer);
   const timerIdRef = useRef<number>();
 
   useEffect(() => {
     if (timer < 0) {
-      setIsRunning(false);
+      dispatch(updateIsRunning({isRunning: false}));
       setTimerSchedule(prev => prev.slice(1));
       Vibration.vibrate();
     }
-  }, [timer]);
+  }, [timer, dispatch]);
 
   useEffect(() => {
     if (timerSchedule.length === 0) {
@@ -87,7 +90,7 @@ function Timer() {
   }, [isRunning]);
 
   const toggleTimer = () => {
-    setIsRunning(prev => !prev);
+    dispatch(updateIsRunning({isRunning: !isRunning}));
   };
 
   const resetTimer = () => {
@@ -96,7 +99,7 @@ function Timer() {
     }
     setTimerSchedule(schedule);
     setTimer(pomodoroTimeInMS);
-    setIsRunning(() => false);
+    dispatch(updateIsRunning({isRunning: false}));
   };
 
   const pomodoroBulletToBeFilled = timerSchedule.filter(
@@ -106,7 +109,7 @@ function Timer() {
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
-        <ClockFace isRunning={isRunning} timer={timer}>
+        <ClockFace timer={timer}>
           <NunitoBold size={55}>{timerShown}</NunitoBold>
         </ClockFace>
         <ScheduleBullets
