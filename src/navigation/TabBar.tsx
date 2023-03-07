@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import useTheme from '../hooks/useTheme/useTheme';
@@ -7,21 +7,41 @@ import NunitoRegular from '../components/fonts/NunitoRegular';
 import {Route} from '@react-navigation/native';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {BlurView} from 'expo-blur';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import {RootState} from '../types/types';
+import {useSelector} from 'react-redux';
 
 const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
   const {
     navigation: {colors},
   } = useTheme();
+  const {isRunning} = useSelector((reduxState: RootState) => reduxState.timer);
   const insets = useSafeAreaInsets();
+  const offset = useSharedValue(0);
+
+  useEffect(() => {
+    if (isRunning) {
+      offset.value = withSpring(100, {damping: 100});
+    } else {
+      offset.value = withSpring(0, {damping: 100});
+    }
+  }, [isRunning, offset]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      paddingBottom: insets.bottom,
+      paddingLeft: insets.left,
+      paddingRight: insets.right,
+      transform: [{translateY: offset.value}],
+    };
+  });
 
   return (
-    <View
-      style={{
-        ...styles.outerContainer,
-        paddingBottom: insets.bottom,
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-      }}>
+    <Animated.View style={[styles.outerContainer, animatedStyle]}>
       <View style={styles.innerContainer}>
         <View style={styles.blurContainer}>
           <BlurView intensity={30} style={styles.blur} tint={'dark'} />
@@ -72,7 +92,7 @@ const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
           );
         })}
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -96,7 +116,6 @@ const styles = StyleSheet.create({
   },
   blur: {
     ...StyleSheet.absoluteFillObject,
-    // backgroundColor: '#0000004c',
   },
   blurContainer: {
     ...StyleSheet.absoluteFillObject,
