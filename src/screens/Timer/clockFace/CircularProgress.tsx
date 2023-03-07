@@ -83,7 +83,7 @@ export const CircularProgress: FC<CircularProgressProps> = ({
 
   useEffect(() => {
     clockOpacity.value = withSequence(
-      withTiming(0.2, {
+      withTiming(0.18, {
         duration: 500,
         easing: Easing.linear,
       }),

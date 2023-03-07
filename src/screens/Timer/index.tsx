@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Vibration, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {scale, verticalScale} from 'react-native-size-matters';
+import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 
 //types
 import {RootState} from '../../types/types';
@@ -20,6 +20,8 @@ import {
   updateTimerType,
 } from '../../features/timerSettingsSlice';
 import ClockFace from './clockFace/Index';
+import Pause from '../../assets/svg/pause.svg';
+import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 
 function Timer() {
   const {
@@ -30,6 +32,7 @@ function Timer() {
 
   const [timer, setTimer] = useState(pomodoroTimeInMS);
   const [timerSchedule, setTimerSchedule] = useState(schedule);
+  const [isPaused, setIsPaused] = useState(false);
 
   const timerShown = millisecondsToTime(timer);
   const timerIdRef = useRef<number>();
@@ -91,6 +94,12 @@ function Timer() {
 
   const toggleTimer = () => {
     dispatch(updateIsRunning({isRunning: !isRunning}));
+
+    if (isRunning) {
+      setIsPaused(true);
+    } else {
+      setIsPaused(false);
+    }
   };
 
   const resetTimer = () => {
@@ -100,6 +109,7 @@ function Timer() {
     setTimerSchedule(schedule);
     setTimer(pomodoroTimeInMS);
     dispatch(updateIsRunning({isRunning: false}));
+    setIsPaused(false);
   };
 
   const pomodoroBulletToBeFilled = timerSchedule.filter(
@@ -110,7 +120,18 @@ function Timer() {
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <ClockFace timer={timer}>
-          <NunitoBold size={55}>{timerShown}</NunitoBold>
+          {isPaused ? (
+            <Animated.View
+              key={'pause'} // this is needed for animation to work
+              entering={FadeIn.delay(300)}
+              exiting={FadeOut}>
+              <Pause width={moderateScale(52)} height={moderateScale(82)} />
+            </Animated.View>
+          ) : (
+            <Animated.View entering={FadeIn.delay(300)} exiting={FadeOut}>
+              <NunitoBold size={55}>{timerShown}</NunitoBold>
+            </Animated.View>
+          )}
         </ClockFace>
         <ScheduleBullets
           style={styles.scheduleBullets}
@@ -121,7 +142,7 @@ function Timer() {
             Reset
           </BasicButton>
           <BasicButton onPress={toggleTimer} filled={true}>
-            {isRunning ? 'Pause' : 'Start'}
+            {isRunning ? 'Pause' : !isPaused ? 'Start' : 'Resume'}
           </BasicButton>
         </View>
         <RenderCounter message="Timer" />
