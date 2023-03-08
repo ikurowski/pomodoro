@@ -1,8 +1,9 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {RootStackParamList} from '../types/navigation';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {LogBox} from 'react-native';
+import {RootStackParamList} from '../types/navigation';
 
 //components
 import Timer from '../screens/timer/Index';
@@ -11,7 +12,13 @@ import Tasks from '../screens/tasks/Index';
 import useTheme from '../hooks/useTheme/useTheme';
 import TabBar from './TabBar';
 
-const Tab = createBottomTabNavigator<RootStackParamList>();
+// const Tab = createBottomTabNavigator<RootStackParamList>(); // need add types
+const Tab = createMaterialTopTabNavigator<RootStackParamList>();
+
+LogBox.ignoreLogs([
+  // FIXME warning "Sending onAnimatedValueUpdate with no listeners registered" - library issue, low priority  https://github.com/react-navigation/react-navigation/issues/7839
+  'Sending `onAnimatedValueUpdate` with no listeners registered.',
+]);
 
 function Navigation() {
   const {navigation: navigationTheme} = useTheme();
@@ -27,13 +34,15 @@ function Navigation() {
           paddingLeft: insets.left,
           paddingRight: insets.right,
         }}
-        tabBar={props => <TabBar {...props} />}
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Tab.Screen name="Tasks" component={Tasks} />
-        <Tab.Screen name="Timer" component={Timer} />
-        <Tab.Screen name="Settings" component={Settings} />
+        tabBarPosition="bottom"
+        tabBar={props => <TabBar {...props} />}>
+        <Tab.Screen name="Tasks" component={Tasks} options={{title: 'Tasks'}} />
+        <Tab.Screen name="Timer" component={Timer} options={{title: 'Timer'}} />
+        <Tab.Screen
+          name="Settings"
+          component={Settings}
+          options={{title: 'Settings'}}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

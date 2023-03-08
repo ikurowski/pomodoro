@@ -5,7 +5,7 @@ import useTheme from '../hooks/useTheme/useTheme';
 import NavIcons from './NavIcons';
 import NunitoRegular from '../components/fonts/NunitoRegular';
 import {Route} from '@react-navigation/native';
-import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
+import {MaterialTopTabBarProps} from '@react-navigation/material-top-tabs';
 import {BlurView} from 'expo-blur';
 import Animated, {
   useAnimatedStyle,
@@ -15,7 +15,7 @@ import Animated, {
 import {RootState} from '../types/types';
 import {useSelector} from 'react-redux';
 
-const TabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
+const TabBar = ({state, descriptors, navigation}: MaterialTopTabBarProps) => {
   const {
     navigation: {colors},
   } = useTheme();
