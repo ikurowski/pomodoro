@@ -116,7 +116,7 @@ function Card({
               ...styles.selectedIndicatorStyle,
               backgroundColor: colors.primary,
             }}
-            itemHeight={moderateScale(30)}
+            itemHeight={moderateScale(40)}
           />
         </View>
       </Animated.View>
@@ -130,10 +130,9 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: moderateScale(10),
     paddingBottom: moderateScale(9), // one pixel less for compensation of one pixel added to animatedItemsStyle.height
-    margin: 4, //FIXME remove this
+    marginVertical: 4,
     backgroundColor: colorsSheet.lightestGrey,
     borderRadius: 60,
-    // borderRadius: 25,
   },
   innerContainer: {
     paddingHorizontal: moderateScale(20),
