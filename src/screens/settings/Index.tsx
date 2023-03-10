@@ -2,8 +2,8 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import NunitoBold from '../../components/fonts/NunitoBold';
-import RenderCounter from '../../utils/RenderCounter';
 import Duration from './Duration';
+import Sound from './Sound';
 
 function Settings() {
   return (
@@ -12,7 +12,7 @@ function Settings() {
         Settings
       </NunitoBold>
       <Duration />
-      <RenderCounter message="Settings" />
+      <Sound />
     </View>
   );
 }
