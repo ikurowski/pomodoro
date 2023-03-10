@@ -307,7 +307,7 @@ function ClockFace(props: ClockFaceProps) {
   );
 }
 
-const radius = PixelRatio.roundToNearestPixel(moderateScale(100));
+const radius = PixelRatio.roundToNearestPixel(moderateScale(108));
 
 const styles = StyleSheet.create({
   pointerOfTheClockContainer: {

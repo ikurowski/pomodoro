@@ -11,6 +11,7 @@ import {IntervalType, RootState} from '../../types/types';
 
 //redux
 import {updateTime} from '../../features/timerSettingsSlice';
+import {moderateScale} from 'react-native-size-matters';
 
 function Duration() {
   const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   cardsContainer: {
     width: '100%',
     justifyContent: 'space-evenly',
-    marginTop: 20,
+    marginTop: moderateScale(12),
   },
   header: {
     alignSelf: 'flex-start',
