@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Vibration, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
+import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 
 //types
 import {RootState} from '../../types/types';
@@ -21,7 +22,9 @@ import {
 } from '../../features/timerSettingsSlice';
 import ClockFace from './clockFace/Index';
 import Pause from '../../assets/svg/pause.svg';
-import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
+import InspirationalAnimation from './inspirationalAnimation/Index';
+import TextContainer from '../../components/TextContainer';
+import NunitoMedium from '../../components/fonts/NunitoMedium';
 
 function Timer() {
   const {
@@ -33,14 +36,18 @@ function Timer() {
   const [timer, setTimer] = useState(pomodoroTimeInMS);
   const [timerSchedule, setTimerSchedule] = useState(schedule);
   const [isPaused, setIsPaused] = useState(false);
+  const [reset, setReset] = useState(false);
+  const [scheduleElementCompleted, setScheduleElementCompleted] =
+    useState(false);
 
   const timerShown = millisecondsToTime(timer);
-  const timerIdRef = useRef<number>();
+  const timerIdRef = useRef<NodeJS.Timer>();
 
   useEffect(() => {
     if (timer < 0) {
       dispatch(updateIsRunning({isRunning: false}));
       setTimerSchedule(prev => prev.slice(1));
+      setScheduleElementCompleted(prev => !prev);
       Vibration.vibrate();
     }
   }, [timer, dispatch]);
@@ -48,6 +55,7 @@ function Timer() {
   useEffect(() => {
     if (timerSchedule.length === 0) {
       setTimerSchedule(schedule);
+      setScheduleElementCompleted(prev => !prev);
     }
     const nextTimerType = timerSchedule[0];
     if (nextTimerType === undefined) {
@@ -94,7 +102,7 @@ function Timer() {
 
   const toggleTimer = () => {
     dispatch(updateIsRunning({isRunning: !isRunning}));
-
+    setReset(false);
     if (isRunning) {
       setIsPaused(true);
     } else {
@@ -110,6 +118,7 @@ function Timer() {
     setTimer(pomodoroTimeInMS);
     dispatch(updateIsRunning({isRunning: false}));
     setIsPaused(false);
+    setReset(true);
   };
 
   const pomodoroBulletToBeFilled = timerSchedule.filter(
@@ -118,7 +127,12 @@ function Timer() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.innerContainer}>
+      <View style={styles.taskContainer}>
+        <TextContainer>
+          <NunitoMedium>Choose your task...</NunitoMedium>
+        </TextContainer>
+      </View>
+      <View style={styles.clockFaceContainer}>
         <ClockFace timer={timer}>
           {isPaused ? (
             <Animated.View
@@ -147,6 +161,12 @@ function Timer() {
         </View>
         <RenderCounter message="Timer" />
       </View>
+      <InspirationalAnimation
+        isMoving={isRunning}
+        reset={reset}
+        scheduleElementCompleted={scheduleElementCompleted}
+        isPaused={isPaused}
+      />
     </View>
   );
 }
@@ -159,11 +179,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
-  innerContainer: {
-    justifyContent: 'center',
+  taskContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  clockFaceContainer: {
     alignItems: 'center',
     width: '100%',
-    flex: 3,
+    flex: 4,
   },
   title: {
     textAlign: 'center',
@@ -177,7 +200,7 @@ const styles = StyleSheet.create({
     marginRight: scale(8),
   },
   scheduleBullets: {
-    marginTop: verticalScale(24),
-    marginBottom: verticalScale(48),
+    marginTop: verticalScale(12),
+    marginBottom: verticalScale(32),
   },
 });
