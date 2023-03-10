@@ -11,6 +11,8 @@ import Settings from '../screens/settings/Index';
 import Tasks from '../screens/tasks/Index';
 import useTheme from '../hooks/useTheme/useTheme';
 import TabBar from './TabBar';
+import {RootState} from '../types/types';
+import {useSelector} from 'react-redux';
 
 // const Tab = createBottomTabNavigator<RootStackParamList>(); // need add types
 const Tab = createMaterialTopTabNavigator<RootStackParamList>();
@@ -23,19 +25,22 @@ LogBox.ignoreLogs([
 function Navigation() {
   const {navigation: navigationTheme} = useTheme();
   const insets = useSafeAreaInsets();
+  const {isRunning} = useSelector((reduxState: RootState) => reduxState.timer);
 
   return (
     <NavigationContainer theme={navigationTheme}>
       <Tab.Navigator
         initialRouteName="Timer"
+        screenOptions={{
+          swipeEnabled: !isRunning,
+        }}
         sceneContainerStyle={{
           paddingTop: insets.top,
-          paddingBottom: insets.bottom,
           paddingLeft: insets.left,
           paddingRight: insets.right,
         }}
         tabBarPosition="bottom"
-        tabBar={props => <TabBar {...props} />}>
+        tabBar={props => <TabBar isRunning={isRunning} {...props} />}>
         <Tab.Screen name="Tasks" component={Tasks} options={{title: 'Tasks'}} />
         <Tab.Screen name="Timer" component={Timer} options={{title: 'Timer'}} />
         <Tab.Screen

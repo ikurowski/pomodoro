@@ -12,14 +12,16 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {RootState} from '../types/types';
-import {useSelector} from 'react-redux';
 
-const TabBar = ({state, descriptors, navigation}: MaterialTopTabBarProps) => {
+interface TabBarProps extends MaterialTopTabBarProps {
+  isRunning: boolean;
+}
+
+const TabBar = ({state, descriptors, navigation, isRunning}: TabBarProps) => {
   const {
     navigation: {colors},
   } = useTheme();
-  const {isRunning} = useSelector((reduxState: RootState) => reduxState.timer);
+
   const insets = useSafeAreaInsets();
   const offset = useSharedValue(0);
 
