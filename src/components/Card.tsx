@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import Animated, {
   measure,
@@ -7,7 +7,6 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import {moderateScale} from 'react-native-size-matters';
@@ -27,10 +26,14 @@ import Chevron from './Chevron';
 function Card({
   title,
   time,
+  openCard,
+  setOpenCard,
   updateTimeFunction,
 }: {
   title: string;
   time: number;
+  openCard: string | false;
+  setOpenCard: (title: string | false) => void;
   updateTimeFunction: (wheelPickerTime: number) => void;
 }) {
   const initialWheelPickerTime = time / 1000 - 1;
@@ -39,14 +42,17 @@ function Card({
   const wheelPicker = useAnimatedRef<View>();
   const open = useSharedValue(false);
   const progress = useDerivedValue(() =>
-    open.value
-      ? withSpring(1, {
-          mass: 0.9,
-          stiffness: 75,
-        })
-      : withTiming(0),
+    open.value ? withTiming(1) : withTiming(0),
   );
   const height = useSharedValue(0);
+
+  useEffect(() => {
+    if (openCard === title) {
+      open.value = true;
+    } else {
+      open.value = false;
+    }
+  }, [openCard, open, title]);
 
   const animatedItemsStyle = useAnimatedStyle(() => ({
     height: height.value * progress.value + 1,
@@ -73,6 +79,7 @@ function Card({
       })();
     }
     open.value = !open.value;
+    setOpenCard(title);
   };
 
   const {
@@ -109,7 +116,6 @@ function Card({
             onChange={index => {
               setSelectedIndex(index);
               updateTimeFunction(Number(wheelPickerNumbers[index]) * 60000);
-              console.log('Czas', Number(wheelPickerNumbers[index]));
             }}
             itemTextStyle={{...styles.numbers, color: colors.text}}
             selectedIndicatorStyle={{

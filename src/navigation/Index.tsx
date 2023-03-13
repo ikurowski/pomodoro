@@ -14,7 +14,6 @@ import TabBar from './TabBar';
 import {RootState} from '../types/types';
 import {useSelector} from 'react-redux';
 
-// const Tab = createBottomTabNavigator<RootStackParamList>(); // need add types
 const Tab = createMaterialTopTabNavigator<RootStackParamList>();
 
 LogBox.ignoreLogs([

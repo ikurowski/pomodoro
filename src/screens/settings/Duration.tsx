@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -17,6 +17,7 @@ function Duration() {
   const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
     (state: RootState) => state.timer.timers,
   );
+  const [openCard, setOpenCard] = useState<string | false>(false);
 
   const dispatch = useDispatch();
 
@@ -39,16 +40,22 @@ function Duration() {
         <Card
           title="Focus Time"
           time={pomodoroTimeInMS}
+          openCard={openCard}
+          setOpenCard={setOpenCard}
           {...pomodoroUpdateFunction}
         />
         <Card
           title="Short Break"
           time={shortBreakTimeInMS}
+          openCard={openCard}
+          setOpenCard={setOpenCard}
           {...shortBreakUpdateFunction}
         />
         <Card
           title="Long Break"
           time={longBreakTimeInMS}
+          openCard={openCard}
+          setOpenCard={setOpenCard}
           {...longBreakUpdateFunction}
         />
       </View>
