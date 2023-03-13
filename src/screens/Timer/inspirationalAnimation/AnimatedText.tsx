@@ -63,7 +63,7 @@ function AnimatedText({
 
   return (
     <Animated.View
-      exiting={isEven ? SlideOutRight : SlideOutLeft}
+      exiting={isEven ? SlideOutLeft : SlideOutRight}
       style={[styles.listItemContainer, animatedStyle, {alignSelf: alignment}]}>
       <TextContainer>
         <NunitoSemiBold>{item}</NunitoSemiBold>

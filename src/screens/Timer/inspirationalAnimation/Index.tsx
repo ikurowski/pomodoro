@@ -52,9 +52,9 @@ function InspirationalAnimation({
 
   useEffect(() => {
     const arr = inspirationalLines;
-    console.log('animationArray.length', animationArray.length);
 
     if (isMoving) {
+      //FIXME eventually this can be changed, bc now when animation is paused and  then resumed, it creates a small gap in the animation
       if (animationArray.length === 0) {
         getArrayElement(arr, setAnimationArray);
       }
@@ -73,7 +73,7 @@ function InspirationalAnimation({
         {animationArray.map((item, index) => {
           return (
             <AnimatedText
-              key={index + Math.random()}
+              key={index + item}
               item={item}
               index={index}
               isMoving={isMoving}
