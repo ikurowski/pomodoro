@@ -1,3 +1,5 @@
+import {Dispatch, SetStateAction} from 'react';
+
 export type Theme = {
   navigation: {
     dark: boolean;
@@ -32,6 +34,8 @@ export interface TimerSettingsState {
     shortBreakTimeInMS: number;
     longBreakTimeInMS: number;
   };
+  vibration: boolean;
+  sound: boolean;
   currentTimerType: IntervalType;
   isRunning: boolean;
 }
@@ -39,3 +43,9 @@ export interface TimerSettingsState {
 export type RootState = {
   timer: TimerSettingsState;
 };
+
+export interface CardWithSwitchProps {
+  title: string;
+  isEnabled: boolean;
+  setIsEnabled: Dispatch<SetStateAction<boolean>>;
+}

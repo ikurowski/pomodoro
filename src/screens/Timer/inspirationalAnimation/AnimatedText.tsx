@@ -1,6 +1,8 @@
 import React, {Dispatch, SetStateAction, useEffect} from 'react';
 import Animated, {
   Easing,
+  SlideInLeft,
+  SlideInRight,
   SlideOutLeft,
   SlideOutRight,
   useAnimatedStyle,
@@ -63,10 +65,11 @@ function AnimatedText({
 
   return (
     <Animated.View
+      entering={isEven ? SlideInLeft : SlideInRight}
       exiting={isEven ? SlideOutLeft : SlideOutRight}
       style={[styles.listItemContainer, animatedStyle, {alignSelf: alignment}]}>
       <TextContainer>
-        <NunitoSemiBold>{item}</NunitoSemiBold>
+        <NunitoSemiBold size={16}>{item}</NunitoSemiBold>
       </TextContainer>
     </Animated.View>
   );
