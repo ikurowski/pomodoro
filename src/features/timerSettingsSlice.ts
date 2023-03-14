@@ -3,11 +3,13 @@ import {IntervalType, TimerSettingsState} from '../types/types';
 
 export const initialState: TimerSettingsState = {
   timers: {
-    pomodoroTimeInMS: 5_000, // 25 minutes //FIXME: change to 25 minutes
-    shortBreakTimeInMS: 7_000, // 5 minutes
-    longBreakTimeInMS: 5_000, // 15 minutes
+    pomodoroTimeInMS: 1_500_000, // 25 minutes
+    shortBreakTimeInMS: 300_000, // 5 minutes
+    longBreakTimeInMS: 900_000, // 15 minutes
   },
   currentTimerType: 'pomodoroTimeInMS',
+  vibration: true,
+  sound: true,
   isRunning: false,
 };
 
@@ -30,14 +32,20 @@ const timerSettingsSlice = createSlice({
       const {type} = action.payload;
       state.currentTimerType = type;
     },
-    updateIsRunning: (state, action: PayloadAction<{isRunning: boolean}>) => {
-      const {isRunning} = action.payload;
-      state.isRunning = isRunning;
+    updateSettings: (
+      state,
+      action: PayloadAction<{
+        property: 'vibration' | 'sound' | 'isRunning';
+        value: boolean;
+      }>,
+    ) => {
+      const {property, value} = action.payload;
+      state[property] = value;
     },
   },
 });
 
-export const {updateTime, updateTimerType, updateIsRunning} =
+export const {updateTime, updateTimerType, updateSettings} =
   timerSettingsSlice.actions;
 
 export default timerSettingsSlice.reducer;

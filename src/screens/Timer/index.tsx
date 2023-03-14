@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, Vibration, View} from 'react-native';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {Button, StyleSheet, Vibration, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
@@ -17,7 +17,7 @@ import ScheduleBullets from './ScheduleBullets';
 import NunitoBold from '../../components/fonts/NunitoBold';
 import BasicButton from '../../components/buttons/BasicButton';
 import {
-  updateIsRunning,
+  updateSettings,
   updateTimerType,
 } from '../../features/timerSettingsSlice';
 import ClockFace from './clockFace/Index';
@@ -26,12 +26,27 @@ import InspirationalAnimation from './inspirationalAnimation/Index';
 import TextContainer from '../../components/TextContainer';
 import NunitoMedium from '../../components/fonts/NunitoMedium';
 
+import Sound from 'react-native-sound';
+
 function Timer() {
   const {
     timers: {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS},
     isRunning,
+    sound,
+    vibration,
   } = useSelector((state: RootState) => state.timer);
   const dispatch = useDispatch();
+
+  const IOS_SOUND = require('../../../ios/sounds/ios-sound.mp3');
+  const alertSound = useMemo(
+    () =>
+      new Sound(IOS_SOUND, error => {
+        if (error) {
+          console.log('Error loading sound: ', error);
+        }
+      }),
+    [IOS_SOUND],
+  );
 
   const [timer, setTimer] = useState(pomodoroTimeInMS);
   const [timerSchedule, setTimerSchedule] = useState(schedule);
@@ -45,12 +60,17 @@ function Timer() {
 
   useEffect(() => {
     if (timer < 0) {
-      dispatch(updateIsRunning({isRunning: false}));
+      dispatch(updateSettings({property: 'isRunning', value: false}));
       setTimerSchedule(prev => prev.slice(1));
       setScheduleElementCompleted(prev => !prev);
-      Vibration.vibrate();
+      if (vibration) {
+        Vibration.vibrate(1000);
+      }
+      if (sound) {
+        alertSound.play();
+      }
     }
-  }, [timer, dispatch]);
+  }, [timer, dispatch, vibration, sound, alertSound]);
 
   useEffect(() => {
     if (timerSchedule.length === 0) {
@@ -101,7 +121,7 @@ function Timer() {
   }, [isRunning]);
 
   const toggleTimer = () => {
-    dispatch(updateIsRunning({isRunning: !isRunning}));
+    dispatch(updateSettings({property: 'isRunning', value: !isRunning}));
     setReset(false);
     if (isRunning) {
       setIsPaused(true);
@@ -116,7 +136,7 @@ function Timer() {
     }
     setTimerSchedule(schedule);
     setTimer(pomodoroTimeInMS);
-    dispatch(updateIsRunning({isRunning: false}));
+    dispatch(updateSettings({property: 'isRunning', value: false}));
     setIsPaused(false);
     setReset(true);
   };
