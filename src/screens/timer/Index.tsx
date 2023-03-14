@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Button, StyleSheet, Vibration, View} from 'react-native';
+import {StyleSheet, Vibration, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
@@ -8,7 +8,6 @@ import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import {RootState} from '../../types/types';
 
 //utils
-import RenderCounter from '../../utils/RenderCounter';
 import millisecondsToTime from '../../utils/millisecondsToTime';
 import {schedule} from '../../utils/constans';
 
@@ -179,7 +178,6 @@ function Timer() {
             {isRunning ? 'Pause' : !isPaused ? 'Start' : 'Resume'}
           </BasicButton>
         </View>
-        <RenderCounter message="Timer" />
       </View>
       <InspirationalAnimation
         isMoving={isRunning}
