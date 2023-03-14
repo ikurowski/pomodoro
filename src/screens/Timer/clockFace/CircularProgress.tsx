@@ -1,22 +1,21 @@
 import React, {FC, useEffect, useState} from 'react';
-import Animated, {
+import {
   Easing,
   useAnimatedProps,
   useSharedValue,
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import {Svg, Circle} from 'react-native-svg';
+import {Svg} from 'react-native-svg';
 import {useSelector} from 'react-redux';
 
 // types
-import {RootState} from '../../../types/types';
-
-type CircularProgressProps = {
-  radius: number;
-  backgroundColor: string;
-  timer: number;
-};
+import {
+  UseAnimatedProps,
+  CircularProgressProps,
+  RootState,
+} from '../../../types/types';
+import MemoizedAnimatedCircle from './MemoizedAnimatedCircle';
 
 export const CircularProgress: FC<CircularProgressProps> = ({
   radius,
@@ -94,16 +93,14 @@ export const CircularProgress: FC<CircularProgressProps> = ({
     );
   }, [isRunning, clockOpacity]);
 
-  const animatedProps = useAnimatedProps(() => ({
+  const animatedProps = useAnimatedProps<UseAnimatedProps>(() => ({
     strokeDashoffset: -circumfrence * clockProgress.value,
     opacity: clockOpacity.value,
   }));
 
-  const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-
   return (
     <Svg>
-      <AnimatedCircle
+      <MemoizedAnimatedCircle
         animatedProps={animatedProps}
         cx={radius}
         cy={radius}

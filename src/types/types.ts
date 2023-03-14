@@ -49,3 +49,14 @@ export interface CardWithSwitchProps {
   isEnabled: boolean;
   setIsEnabled: Dispatch<SetStateAction<boolean>>;
 }
+
+export type CircularProgressProps = {
+  radius: number;
+  backgroundColor: string;
+  timer: number;
+};
+
+export interface UseAnimatedProps {
+  strokeDashoffset: number;
+  opacity: number;
+}
