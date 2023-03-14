@@ -22,22 +22,28 @@ import useTheme from '../hooks/useTheme/useTheme';
 import {colors as colorsSheet} from '../styles/styles';
 import WheelPicker from 'react-native-wheely';
 import Chevron from './Chevron';
+import {STORAGE_KEY, storeAsyncData} from '../stores/RNAsyncStorage';
 
 function Card({
   title,
   time,
   openCard,
+  storageKey,
   setOpenCard,
   updateTimeFunction,
 }: {
   title: string;
   time: number;
   openCard: string | false;
+  storageKey: STORAGE_KEY;
   setOpenCard: (title: string | false) => void;
   updateTimeFunction: (wheelPickerTime: number) => void;
 }) {
-  const initialWheelPickerTime = time / 1000 - 1;
-  const [selectedIndex, setSelectedIndex] = useState(initialWheelPickerTime);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    setSelectedIndex(time / 60000 - 1);
+  }, [time]);
 
   const wheelPicker = useAnimatedRef<View>();
   const open = useSharedValue(false);
@@ -116,6 +122,10 @@ function Card({
             onChange={index => {
               setSelectedIndex(index);
               updateTimeFunction(Number(wheelPickerNumbers[index]) * 60000);
+              storeAsyncData(
+                Number(wheelPickerNumbers[index]) * 60000,
+                storageKey,
+              );
             }}
             itemTextStyle={{...styles.numbers, color: colors.text}}
             selectedIndicatorStyle={{

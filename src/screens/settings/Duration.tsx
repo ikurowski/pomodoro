@@ -13,6 +13,9 @@ import {IntervalType, RootState} from '../../types/types';
 import {updateTime} from '../../features/timerSettingsSlice';
 import {moderateScale} from 'react-native-size-matters';
 
+//storage
+import {STORAGE_KEY} from '../../stores/RNAsyncStorage';
+
 function Duration() {
   const {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS} = useSelector(
     (state: RootState) => state.timer.timers,
@@ -41,6 +44,7 @@ function Duration() {
           title="Focus Time"
           time={pomodoroTimeInMS}
           openCard={openCard}
+          storageKey={STORAGE_KEY.FOCUS_TIME}
           setOpenCard={setOpenCard}
           {...pomodoroUpdateFunction}
         />
@@ -48,6 +52,7 @@ function Duration() {
           title="Short Break"
           time={shortBreakTimeInMS}
           openCard={openCard}
+          storageKey={STORAGE_KEY.SHORT_BREAK_TIME}
           setOpenCard={setOpenCard}
           {...shortBreakUpdateFunction}
         />
@@ -55,6 +60,7 @@ function Duration() {
           title="Long Break"
           time={longBreakTimeInMS}
           openCard={openCard}
+          storageKey={STORAGE_KEY.LONG_BREAK_TIME}
           setOpenCard={setOpenCard}
           {...longBreakUpdateFunction}
         />
