@@ -18,7 +18,7 @@ function NunitoLight(props: Props) {
   const {
     children,
     color = colors.text,
-    size = moderateScale(16),
+    size = 16,
     style,
     numberOfLines,
   } = props;
