@@ -3,6 +3,7 @@ import {StyleSheet, Vibration, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
+import Sound from 'react-native-sound';
 
 //types
 import {RootState} from '../../types/types';
@@ -25,7 +26,7 @@ import InspirationalAnimation from './inspirationalAnimation/Index';
 import TextContainer from '../../components/TextContainer';
 import NunitoMedium from '../../components/fonts/NunitoMedium';
 
-import Sound from 'react-native-sound';
+const IOS_SOUND = require('../../../ios/sounds/ios-sound.mp3');
 
 function Timer() {
   const {
@@ -47,7 +48,6 @@ function Timer() {
     dispatch(updateSettings({property: 'isPaused', value: dispatchValue}));
   };
 
-  const IOS_SOUND = require('../../../ios/sounds/ios-sound.mp3');
   const alertSound = useMemo(
     () =>
       new Sound(IOS_SOUND, error => {
@@ -55,7 +55,7 @@ function Timer() {
           console.log('Error loading sound: ', error);
         }
       }),
-    [IOS_SOUND],
+    [],
   );
 
   const [timer, setTimer] = useState(pomodoroTimeInMS);
@@ -137,11 +137,7 @@ function Timer() {
   const toggleTimer = () => {
     dispatchIsRunning(!isRunning);
     setReset(false);
-    if (isRunning) {
-      dispatchIsPaused(true);
-    } else {
-      dispatchIsPaused(false);
-    }
+    dispatchIsPaused(isRunning);
   };
 
   const resetTimer = () => {
