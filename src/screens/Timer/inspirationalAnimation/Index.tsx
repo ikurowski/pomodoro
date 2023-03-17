@@ -3,7 +3,6 @@ import {StyleSheet, View} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
 } from 'react-native-reanimated';
 
 import {inspirationalLines} from '../../../utils/constans';
@@ -15,7 +14,6 @@ function InspirationalAnimation({
   isMoving,
   reset,
   scheduleElementCompleted,
-  isPaused,
 }: {
   isMoving: boolean;
   reset: boolean;
@@ -30,14 +28,6 @@ function InspirationalAnimation({
       opacity: opacity.value,
     };
   });
-
-  useEffect(() => {
-    if (isPaused) {
-      opacity.value = withTiming(0);
-    } else {
-      opacity.value = withTiming(1);
-    }
-  }, [isPaused, opacity]);
 
   useEffect(() => {
     if (reset) {

@@ -4,6 +4,7 @@ export enum STORAGE_KEY {
   FOCUS_TIME = '@focus_time',
   SHORT_BREAK_TIME = '@short_break_time',
   LONG_BREAK_TIME = '@long_break_time',
+  REPEATS = '@repeats',
   SOUND = '@sound',
   VIBRATION = '@vibration',
 }

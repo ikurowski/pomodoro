@@ -34,6 +34,7 @@ export interface TimerSettingsState {
     shortBreakTimeInMS: number;
     longBreakTimeInMS: number;
   };
+  repeats: number;
   vibration: boolean;
   sound: boolean;
   currentTimerType: IntervalType;

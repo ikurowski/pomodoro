@@ -9,7 +9,7 @@ import {RootState} from '../../types/types';
 
 //utils
 import millisecondsToTime from '../../utils/millisecondsToTime';
-import {schedule} from '../../utils/constans';
+import {generateSchedule} from '../../utils/generateSchedule';
 
 //components
 import ScheduleBullets from './ScheduleBullets';
@@ -34,6 +34,7 @@ function Timer() {
     sound,
     vibration,
     isPaused,
+    repeats,
   } = useSelector((state: RootState) => state.timer);
   const dispatch = useDispatch();
   const dispatchIsRunning = useCallback(
@@ -58,13 +59,17 @@ function Timer() {
   );
 
   const [timer, setTimer] = useState(pomodoroTimeInMS);
-  const [timerSchedule, setTimerSchedule] = useState(schedule);
+  const [timerSchedule, setTimerSchedule] = useState(generateSchedule(repeats));
   const [reset, setReset] = useState(false);
   const [scheduleElementCompleted, setScheduleElementCompleted] =
     useState(false);
 
   const timerShown = millisecondsToTime(timer);
   const timerIdRef = useRef<NodeJS.Timer>();
+
+  useEffect(() => {
+    setTimerSchedule(generateSchedule(repeats));
+  }, [repeats]);
 
   useEffect(() => {
     if (timer < 0) {
@@ -82,7 +87,7 @@ function Timer() {
 
   useEffect(() => {
     if (timerSchedule.length === 0) {
-      setTimerSchedule(schedule);
+      setTimerSchedule(generateSchedule(repeats));
       setScheduleElementCompleted(prev => !prev);
     }
     const nextTimerType = timerSchedule[0];
@@ -109,6 +114,7 @@ function Timer() {
     shortBreakTimeInMS,
     pomodoroTimeInMS,
     dispatch,
+    repeats,
   ]);
 
   useEffect(() => {
@@ -142,7 +148,7 @@ function Timer() {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
     }
-    setTimerSchedule(schedule);
+    setTimerSchedule(generateSchedule(repeats));
     setTimer(pomodoroTimeInMS);
     dispatchIsRunning(false);
     dispatchIsPaused(false);
@@ -176,8 +182,9 @@ function Timer() {
           )}
         </ClockFace>
         <ScheduleBullets
-          style={styles.scheduleBullets}
+          numberOfBullets={repeats}
           bulletsToBeFilled={pomodoroBulletToBeFilled}
+          style={styles.scheduleBullets}
         />
         <View style={styles.buttonContainer}>
           <BasicButton onPress={resetTimer} moreStyles={styles.resetButton}>

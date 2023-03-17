@@ -1,16 +1,3 @@
-import {IntervalType} from '../types/types';
-
-export const schedule: IntervalType[] = [
-  'pomodoroTimeInMS',
-  'shortBreakTimeInMS',
-  'pomodoroTimeInMS',
-  'shortBreakTimeInMS',
-  'pomodoroTimeInMS',
-  'shortBreakTimeInMS',
-  'pomodoroTimeInMS',
-  'longBreakTimeInMS',
-];
-
 export const wheelPickerNumbers = [
   '1',
   '2',
@@ -73,6 +60,8 @@ export const wheelPickerNumbers = [
   '59',
   '60',
 ];
+
+export const repeats = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
 export const inspirationalLines = [
   'Dream big 🌟',

@@ -14,11 +14,11 @@ function Bullet({bulletFilled}: {bulletFilled: boolean}) {
 }
 
 function ScheduleBullets({
-  numberOfBullets = 4,
+  numberOfBullets,
   bulletsToBeFilled,
   style,
 }: {
-  numberOfBullets?: number;
+  numberOfBullets: number;
   bulletsToBeFilled: number;
   style?: Object;
 }) {

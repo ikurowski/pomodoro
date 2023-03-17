@@ -14,11 +14,15 @@ import TabBar from './TabBar';
 
 //storages
 import {useDispatch, useSelector} from 'react-redux';
-import {updateSettings, updateTime} from '../features/timerSettingsSlice';
+import {
+  updateSettings,
+  updateTime,
+  updateRepeats,
+} from '../features/timerSettingsSlice';
 import {getAsyncData, STORAGE_KEY} from '../stores/RNAsyncStorage';
 
 //types
-import {RootState} from '../types/types';
+import {IntervalType, RootState} from '../types/types';
 
 const Tab = createMaterialTopTabNavigator<RootStackParamList>();
 
@@ -30,45 +34,49 @@ LogBox.ignoreLogs([
 function Navigation() {
   const {navigation: navigationTheme} = useTheme();
   const insets = useSafeAreaInsets();
-  const {isRunning} = useSelector((reduxState: RootState) => reduxState.timer);
+  const {isRunning, isPaused} = useSelector(
+    (reduxState: RootState) => reduxState.timer,
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       try {
-        const pomodoroTimeInMS = await getAsyncData(STORAGE_KEY.FOCUS_TIME);
-        const shortBreakTimeInMS = await getAsyncData(
-          STORAGE_KEY.SHORT_BREAK_TIME,
-        );
-        const longBreakTimeInMS = await getAsyncData(
-          STORAGE_KEY.LONG_BREAK_TIME,
-        );
-        const sound = await getAsyncData(STORAGE_KEY.SOUND);
-        const vibration = await getAsyncData(STORAGE_KEY.VIBRATION);
+        const [
+          pomodoroTimeInMS,
+          shortBreakTimeInMS,
+          longBreakTimeInMS,
+          sound,
+          vibration,
+          repeats,
+        ] = await Promise.all([
+          getAsyncData(STORAGE_KEY.FOCUS_TIME),
+          getAsyncData(STORAGE_KEY.SHORT_BREAK_TIME),
+          getAsyncData(STORAGE_KEY.LONG_BREAK_TIME),
+          getAsyncData(STORAGE_KEY.SOUND),
+          getAsyncData(STORAGE_KEY.VIBRATION),
+          getAsyncData(STORAGE_KEY.REPEATS),
+        ]);
+
+        const updateTimeDispatch = (
+          type: IntervalType,
+          wheelPickerTime: number,
+        ) => {
+          dispatch(updateTime({type, wheelPickerTime}));
+        };
+
         if (pomodoroTimeInMS) {
-          dispatch(
-            updateTime({
-              type: 'pomodoroTimeInMS',
-              wheelPickerTime: pomodoroTimeInMS,
-            }),
-          );
+          updateTimeDispatch('pomodoroTimeInMS', pomodoroTimeInMS);
         }
         if (shortBreakTimeInMS) {
-          dispatch(
-            updateTime({
-              type: 'shortBreakTimeInMS',
-              wheelPickerTime: shortBreakTimeInMS,
-            }),
-          );
+          updateTimeDispatch('shortBreakTimeInMS', shortBreakTimeInMS);
         }
         if (longBreakTimeInMS) {
-          dispatch(
-            updateTime({
-              type: 'longBreakTimeInMS',
-              wheelPickerTime: longBreakTimeInMS,
-            }),
-          );
+          updateTimeDispatch('longBreakTimeInMS', longBreakTimeInMS);
+        }
+        if (repeats) {
+          dispatch(updateRepeats({repeats: repeats}));
         }
         if (sound) {
           dispatch(updateSettings({property: 'sound', value: sound}));
@@ -87,7 +95,7 @@ function Navigation() {
       <Tab.Navigator
         initialRouteName="Timer"
         screenOptions={{
-          swipeEnabled: !isRunning,
+          swipeEnabled: isRunning ? false : !isPaused,
         }}
         sceneContainerStyle={{
           paddingTop: insets.top,
@@ -95,7 +103,9 @@ function Navigation() {
           paddingRight: insets.right,
         }}
         tabBarPosition="bottom"
-        tabBar={props => <TabBar isRunning={isRunning} {...props} />}>
+        tabBar={props => (
+          <TabBar isRunning={isRunning} isPaused={isPaused} {...props} />
+        )}>
         <Tab.Screen name="Tasks" component={Tasks} options={{title: 'Tasks'}} />
         <Tab.Screen name="Timer" component={Timer} options={{title: 'Timer'}} />
         <Tab.Screen

@@ -7,6 +7,7 @@ export const initialState: TimerSettingsState = {
     shortBreakTimeInMS: 300_000, // 5 minutes
     longBreakTimeInMS: 900_000, // 15 minutes
   },
+  repeats: 4,
   currentTimerType: 'pomodoroTimeInMS',
   vibration: true,
   sound: true,
@@ -43,10 +44,14 @@ const timerSettingsSlice = createSlice({
       const {property, value} = action.payload;
       state[property] = value;
     },
+    updateRepeats: (state, action: PayloadAction<{repeats: number}>) => {
+      const {repeats} = action.payload;
+      state.repeats = repeats;
+    },
   },
 });
 
-export const {updateTime, updateTimerType, updateSettings} =
+export const {updateTime, updateTimerType, updateSettings, updateRepeats} =
   timerSettingsSlice.actions;
 
 export default timerSettingsSlice.reducer;

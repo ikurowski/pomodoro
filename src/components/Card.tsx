@@ -14,9 +14,6 @@ import {moderateScale} from 'react-native-size-matters';
 //components
 import NunitoMedium from './fonts/NunitoMedium';
 
-//utils
-import {wheelPickerNumbers} from '../utils/constans';
-
 //styles
 import useTheme from '../hooks/useTheme/useTheme';
 import {colors as colorsSheet} from '../styles/styles';
@@ -27,23 +24,29 @@ import {STORAGE_KEY, storeAsyncData} from '../stores/RNAsyncStorage';
 function Card({
   title,
   time,
+  millisecondsFormat = true,
   openCard,
   storageKey,
+  cardEnd,
+  wheelPickOptions,
   setOpenCard,
-  updateTimeFunction,
+  updateNumberFunction,
 }: {
   title: string;
   time: number;
+  millisecondsFormat?: boolean;
   openCard: string | false;
   storageKey: STORAGE_KEY;
+  cardEnd: string;
+  wheelPickOptions: string[];
   setOpenCard: (title: string | false) => void;
-  updateTimeFunction: (wheelPickerTime: number) => void;
+  updateNumberFunction: (wheelPickerNumber: number) => void;
 }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {
-    setSelectedIndex(time / 60000 - 1);
-  }, [time]);
+    setSelectedIndex(time / (millisecondsFormat ? 60000 : 1) - 1);
+  }, [time, millisecondsFormat]);
 
   const wheelPicker = useAnimatedRef<View>();
   const open = useSharedValue(false);
@@ -107,7 +110,7 @@ function Card({
               color={colors.text}
               size={16}
               style={styles.timeInHeader}>
-              {wheelPickerNumbers[selectedIndex]} min
+              {wheelPickOptions[selectedIndex]} {cardEnd}
             </NunitoMedium>
             <Chevron {...{progress}} />
           </View>
@@ -118,12 +121,16 @@ function Card({
         <View ref={wheelPicker}>
           <WheelPicker
             selectedIndex={selectedIndex}
-            options={wheelPickerNumbers}
+            options={wheelPickOptions}
             onChange={index => {
               setSelectedIndex(index);
-              updateTimeFunction(Number(wheelPickerNumbers[index]) * 60000);
+              updateNumberFunction(
+                Number(wheelPickOptions[index]) *
+                  (millisecondsFormat ? 60000 : 1),
+              );
               storeAsyncData(
-                Number(wheelPickerNumbers[index]) * 60000,
+                Number(wheelPickOptions[index]) *
+                  (millisecondsFormat ? 60000 : 1),
                 storageKey,
               );
             }}
