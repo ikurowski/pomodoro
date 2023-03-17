@@ -76,6 +76,13 @@ export type UpdateSettingsType =
   | 'isPaused'
   | 'breaks';
 
+export interface NavIconsProps {
+  label: string;
+  isFocused: boolean;
+  color: string;
+  focusColor: string;
+}
+
 export interface UseAnimatedProps {
   strokeDashoffset: number;
   opacity: number;

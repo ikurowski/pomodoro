@@ -1,29 +1,30 @@
 import React, {ReactNode} from 'react';
 import {scale, verticalScale} from 'react-native-size-matters';
-import useTheme from '../hooks/useTheme/useTheme';
 
 //icons
 import SettingsIcon from '../assets/svg/settings-icon.svg';
 import ClockIcon from '../assets/svg/clock-icon.svg';
 import ListIcon from '../assets/svg/list-icon.svg';
+import {NavIconsProps} from '../types/types';
 
-const NavIcons = (label: string, isFocused: boolean): ReactNode => {
-  const {
-    navigation: {colors},
-  } = useTheme();
-
-  let color;
+const NavIcons = ({
+  label,
+  isFocused,
+  color = 'lightgrey',
+  focusColor = 'white',
+}: NavIconsProps): ReactNode => {
+  let iconColor: string;
   if (isFocused) {
-    color = 'red'; //FIXME
+    iconColor = focusColor;
   } else {
-    color = colors.text;
+    iconColor = color;
   }
 
   switch (label) {
     case 'Settings':
       return (
         <SettingsIcon
-          color={color}
+          color={iconColor}
           width={scale(22)}
           height={verticalScale(22)}
         />
@@ -31,12 +32,20 @@ const NavIcons = (label: string, isFocused: boolean): ReactNode => {
 
     case 'Timer':
       return (
-        <ClockIcon color={color} width={scale(22)} height={verticalScale(22)} />
+        <ClockIcon
+          color={iconColor}
+          width={scale(22)}
+          height={verticalScale(22)}
+        />
       );
 
     case 'Tasks':
       return (
-        <ListIcon color={color} width={scale(22)} height={verticalScale(22)} />
+        <ListIcon
+          color={iconColor}
+          width={scale(22)}
+          height={verticalScale(22)}
+        />
       );
 
     default:

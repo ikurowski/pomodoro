@@ -94,8 +94,17 @@ const TabBar = ({
               onPress={onPress}
               onLongPress={onLongPress}>
               <View style={styles.buttonContainer}>
-                {NavIcons(label, isFocused)}
-                <NunitoRegular size={10}>{label}</NunitoRegular>
+                {NavIcons({
+                  label,
+                  isFocused,
+                  color: colors.card,
+                  focusColor: colors.text,
+                })}
+                <NunitoRegular
+                  color={isFocused ? colors.text : colors.card}
+                  size={10}>
+                  {label}
+                </NunitoRegular>
               </View>
             </Pressable>
           );
