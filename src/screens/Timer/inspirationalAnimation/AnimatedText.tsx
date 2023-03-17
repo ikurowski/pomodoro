@@ -41,6 +41,7 @@ function AnimatedText({
         },
         () => {
           opacity.value = withTiming(0, {duration: 1000});
+          positionY.value = withTiming(-10, {duration: 1000});
         },
       ),
 
