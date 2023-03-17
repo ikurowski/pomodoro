@@ -13,10 +13,11 @@ export const initialState: TimerSettingsState = {
   },
   repeats: 4,
   currentTimerType: 'pomodoroTimeInMS',
-  vibration: true,
-  sound: true,
+  vibration: false,
+  sound: false,
   isRunning: false,
   isPaused: false,
+  breaks: false,
 };
 
 const timerSettingsSlice = createSlice({

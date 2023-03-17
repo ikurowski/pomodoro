@@ -36,6 +36,7 @@ function Timer() {
     vibration,
     isPaused,
     repeats,
+    breaks,
   } = useSelector((state: RootState) => state.timer);
   const dispatch = useDispatch();
   const dispatchIsRunning = useCallback(
@@ -59,7 +60,9 @@ function Timer() {
   );
 
   const [timer, setTimer] = useState(pomodoroTimeInMS);
-  const [timerSchedule, setTimerSchedule] = useState(generateSchedule(repeats));
+  const [timerSchedule, setTimerSchedule] = useState(
+    generateSchedule(repeats, breaks),
+  );
   const [reset, setReset] = useState(false);
   const [scheduleElementCompleted, setScheduleElementCompleted] =
     useState(false);
@@ -68,8 +71,8 @@ function Timer() {
   const timerIdRef = useRef<NodeJS.Timer>();
 
   useEffect(() => {
-    setTimerSchedule(generateSchedule(repeats));
-  }, [repeats]);
+    setTimerSchedule(generateSchedule(repeats, breaks));
+  }, [repeats, breaks]);
 
   useEffect(() => {
     if (timer < 0) {
@@ -87,7 +90,7 @@ function Timer() {
 
   useEffect(() => {
     if (timerSchedule.length === 0) {
-      setTimerSchedule(generateSchedule(repeats));
+      setTimerSchedule(generateSchedule(repeats, breaks));
       setScheduleElementCompleted(prev => !prev);
     }
     const nextTimerType = timerSchedule[0];
@@ -115,6 +118,7 @@ function Timer() {
     pomodoroTimeInMS,
     dispatch,
     repeats,
+    breaks,
   ]);
 
   useEffect(() => {
@@ -144,7 +148,7 @@ function Timer() {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
     }
-    setTimerSchedule(generateSchedule(repeats));
+    setTimerSchedule(generateSchedule(repeats, breaks));
     setTimer(pomodoroTimeInMS);
     dispatchIsRunning(false);
     dispatchIsPaused(false);

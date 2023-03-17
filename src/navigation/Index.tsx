@@ -50,6 +50,7 @@ function Navigation() {
           sound,
           vibration,
           repeats,
+          breaks,
         ] = await Promise.all([
           getAsyncData(STORAGE_KEY.FOCUS_TIME),
           getAsyncData(STORAGE_KEY.SHORT_BREAK_TIME),
@@ -57,6 +58,7 @@ function Navigation() {
           getAsyncData(STORAGE_KEY.SOUND),
           getAsyncData(STORAGE_KEY.VIBRATION),
           getAsyncData(STORAGE_KEY.REPEATS),
+          getAsyncData(STORAGE_KEY.BREAKS),
         ]);
 
         const updateTimeDispatch = (
@@ -83,6 +85,9 @@ function Navigation() {
         }
         if (vibration !== null) {
           dispatch(updateSettings({property: 'vibration', value: vibration}));
+        }
+        if (breaks !== null) {
+          dispatch(updateSettings({property: 'breaks', value: breaks}));
         }
       } catch (e) {
         console.log(e);

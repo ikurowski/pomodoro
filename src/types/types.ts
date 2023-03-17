@@ -25,6 +25,7 @@ export enum STORAGE_KEY {
   REPEATS = '@repeats',
   SOUND = '@sound',
   VIBRATION = '@vibration',
+  BREAKS = '@breaks',
 }
 
 export type IntervalType =
@@ -44,6 +45,7 @@ export interface TimerSettingsState {
   currentTimerType: IntervalType;
   isRunning: boolean;
   isPaused: boolean;
+  breaks: boolean;
 }
 
 export type RootState = {
@@ -71,7 +73,8 @@ export type UpdateSettingsType =
   | 'vibration'
   | 'sound'
   | 'isRunning'
-  | 'isPaused';
+  | 'isPaused'
+  | 'breaks';
 
 export interface UseAnimatedProps {
   strokeDashoffset: number;

@@ -10,11 +10,17 @@ import {useSoundSettings} from '../../hooks/useSoundSettings';
 import {RootState} from '../../types/types';
 
 function Sound() {
-  const {sound, vibration} = useSelector((state: RootState) => state.timer);
+  const {sound, vibration, breaks} = useSelector(
+    (state: RootState) => state.timer,
+  );
   const [soundIsEnabled, setSoundIsEnabled] = useSoundSettings(sound, 'sound');
   const [vibrationIsEnabled, setVibrationIsEnabled] = useSoundSettings(
     vibration,
     'vibration',
+  );
+  const [turnOffBreaksIsEnabled, setTurnOffBreaksIsEnabled] = useSoundSettings(
+    breaks,
+    'breaks',
   );
 
   return (
@@ -33,6 +39,11 @@ function Sound() {
           title="Vibration"
           setIsEnabled={setVibrationIsEnabled}
           isEnabled={vibrationIsEnabled}
+        />
+        <CardWithSwitch
+          title="Turn off breaks"
+          setIsEnabled={setTurnOffBreaksIsEnabled}
+          isEnabled={turnOffBreaksIsEnabled}
         />
       </View>
     </View>
