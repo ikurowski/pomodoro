@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {StyleSheet, Vibration, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
@@ -33,8 +33,18 @@ function Timer() {
     isRunning,
     sound,
     vibration,
+    isPaused,
   } = useSelector((state: RootState) => state.timer);
   const dispatch = useDispatch();
+  const dispatchIsRunning = useCallback(
+    (dispatchValue: boolean) => {
+      dispatch(updateSettings({property: 'isRunning', value: dispatchValue}));
+    },
+    [dispatch],
+  );
+  const dispatchIsPaused = (dispatchValue: boolean) => {
+    dispatch(updateSettings({property: 'isPaused', value: dispatchValue}));
+  };
 
   const IOS_SOUND = require('../../../ios/sounds/ios-sound.mp3');
   const alertSound = useMemo(
@@ -49,7 +59,6 @@ function Timer() {
 
   const [timer, setTimer] = useState(pomodoroTimeInMS);
   const [timerSchedule, setTimerSchedule] = useState(schedule);
-  const [isPaused, setIsPaused] = useState(false);
   const [reset, setReset] = useState(false);
   const [scheduleElementCompleted, setScheduleElementCompleted] =
     useState(false);
@@ -59,7 +68,7 @@ function Timer() {
 
   useEffect(() => {
     if (timer < 0) {
-      dispatch(updateSettings({property: 'isRunning', value: false}));
+      dispatchIsRunning(false);
       setTimerSchedule(prev => prev.slice(1));
       setScheduleElementCompleted(prev => !prev);
       if (vibration) {
@@ -69,7 +78,7 @@ function Timer() {
         alertSound.play();
       }
     }
-  }, [timer, dispatch, vibration, sound, alertSound]);
+  }, [timer, dispatchIsRunning, vibration, sound, alertSound]);
 
   useEffect(() => {
     if (timerSchedule.length === 0) {
@@ -120,12 +129,12 @@ function Timer() {
   }, [isRunning]);
 
   const toggleTimer = () => {
-    dispatch(updateSettings({property: 'isRunning', value: !isRunning}));
+    dispatchIsRunning(!isRunning);
     setReset(false);
     if (isRunning) {
-      setIsPaused(true);
+      dispatchIsPaused(true);
     } else {
-      setIsPaused(false);
+      dispatchIsPaused(false);
     }
   };
 
@@ -135,8 +144,8 @@ function Timer() {
     }
     setTimerSchedule(schedule);
     setTimer(pomodoroTimeInMS);
-    dispatch(updateSettings({property: 'isRunning', value: false}));
-    setIsPaused(false);
+    dispatchIsRunning(false);
+    dispatchIsPaused(false);
     setReset(true);
   };
 

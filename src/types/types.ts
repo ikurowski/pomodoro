@@ -38,6 +38,7 @@ export interface TimerSettingsState {
   sound: boolean;
   currentTimerType: IntervalType;
   isRunning: boolean;
+  isPaused: boolean;
 }
 
 export type RootState = {

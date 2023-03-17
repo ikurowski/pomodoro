@@ -11,6 +11,7 @@ export const initialState: TimerSettingsState = {
   vibration: true,
   sound: true,
   isRunning: false,
+  isPaused: false,
 };
 
 const timerSettingsSlice = createSlice({
@@ -35,7 +36,7 @@ const timerSettingsSlice = createSlice({
     updateSettings: (
       state,
       action: PayloadAction<{
-        property: 'vibration' | 'sound' | 'isRunning';
+        property: 'vibration' | 'sound' | 'isRunning' | 'isPaused';
         value: boolean;
       }>,
     ) => {

@@ -15,9 +15,16 @@ import Animated, {
 
 interface TabBarProps extends MaterialTopTabBarProps {
   isRunning: boolean;
+  isPaused: boolean;
 }
 
-const TabBar = ({state, descriptors, navigation, isRunning}: TabBarProps) => {
+const TabBar = ({
+  state,
+  descriptors,
+  navigation,
+  isRunning,
+  isPaused,
+}: TabBarProps) => {
   const {
     navigation: {colors},
   } = useTheme();
@@ -26,12 +33,12 @@ const TabBar = ({state, descriptors, navigation, isRunning}: TabBarProps) => {
   const offset = useSharedValue(0);
 
   useEffect(() => {
-    if (isRunning) {
+    if (isRunning || isPaused) {
       offset.value = withSpring(100, {damping: 100});
     } else {
       offset.value = withSpring(0, {damping: 100});
     }
-  }, [isRunning, offset]);
+  }, [isRunning, isPaused, offset]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
