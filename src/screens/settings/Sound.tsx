@@ -1,28 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
-import {useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import CardWithSwitch from '../../components/CardWithSwitch';
 
 //components
 import NunitoSemiBold from '../../components/fonts/NunitoSemiBold';
-import {updateSettings} from '../../features/timerSettingsSlice';
+import {useSoundSettings} from '../../hooks/useSoundSettings';
+import {RootState} from '../../types/types';
 
 function Sound() {
-  const [soundIsEnabled, setSoundIsEnabled] = useState(false);
-  const [vibrationIsEnabled, setVibrationIsEnabled] = useState(false);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(updateSettings({property: 'sound', value: soundIsEnabled}));
-  }, [dispatch, soundIsEnabled]);
-
-  useEffect(() => {
-    dispatch(
-      updateSettings({property: 'vibration', value: vibrationIsEnabled}),
-    );
-  }, [dispatch, vibrationIsEnabled]);
+  const {sound, vibration} = useSelector((state: RootState) => state.timer);
+  const [soundIsEnabled, setSoundIsEnabled] = useSoundSettings(sound, 'sound');
+  const [vibrationIsEnabled, setVibrationIsEnabled] = useSoundSettings(
+    vibration,
+    'vibration',
+  );
 
   return (
     <View style={styles.container}>
