@@ -19,10 +19,10 @@ import {
   updateTime,
   updateRepeats,
 } from '../features/timerSettingsSlice';
-import {getAsyncData, STORAGE_KEY} from '../stores/RNAsyncStorage';
+import {getAsyncData} from '../stores/RNAsyncStorage';
 
 //types
-import {IntervalType, RootState} from '../types/types';
+import {IntervalType, RootState, STORAGE_KEY} from '../types/types';
 
 const Tab = createMaterialTopTabNavigator<RootStackParamList>();
 
@@ -78,10 +78,10 @@ function Navigation() {
         if (repeats) {
           dispatch(updateRepeats({repeats: repeats}));
         }
-        if (sound) {
+        if (sound !== null) {
           dispatch(updateSettings({property: 'sound', value: sound}));
         }
-        if (vibration) {
+        if (vibration !== null) {
           dispatch(updateSettings({property: 'vibration', value: vibration}));
         }
       } catch (e) {

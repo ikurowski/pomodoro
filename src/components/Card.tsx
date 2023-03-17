@@ -10,16 +10,21 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {moderateScale} from 'react-native-size-matters';
+import WheelPicker from 'react-native-wheely';
 
 //components
 import NunitoMedium from './fonts/NunitoMedium';
+import Chevron from './Chevron';
 
 //styles
 import useTheme from '../hooks/useTheme/useTheme';
 import {colors as colorsSheet} from '../styles/styles';
-import WheelPicker from 'react-native-wheely';
-import Chevron from './Chevron';
-import {STORAGE_KEY, storeAsyncData} from '../stores/RNAsyncStorage';
+
+//types
+import {CardProps} from '../types/types';
+
+//stores
+import {storeAsyncData} from '../stores/RNAsyncStorage';
 
 function Card({
   title,
@@ -31,17 +36,7 @@ function Card({
   wheelPickOptions,
   setOpenCard,
   updateNumberFunction,
-}: {
-  title: string;
-  time: number;
-  millisecondsFormat?: boolean;
-  openCard: string | false;
-  storageKey: STORAGE_KEY;
-  cardEnd: string;
-  wheelPickOptions: string[];
-  setOpenCard: (title: string | false) => void;
-  updateNumberFunction: (wheelPickerNumber: number) => void;
-}) {
+}: CardProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   useEffect(() => {

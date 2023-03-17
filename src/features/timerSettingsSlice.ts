@@ -1,5 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IntervalType, TimerSettingsState} from '../types/types';
+import {
+  IntervalType,
+  TimerSettingsState,
+  UpdateSettingsType,
+} from '../types/types';
 
 export const initialState: TimerSettingsState = {
   timers: {
@@ -37,7 +41,7 @@ const timerSettingsSlice = createSlice({
     updateSettings: (
       state,
       action: PayloadAction<{
-        property: 'vibration' | 'sound' | 'isRunning' | 'isPaused';
+        property: UpdateSettingsType;
         value: boolean;
       }>,
     ) => {
