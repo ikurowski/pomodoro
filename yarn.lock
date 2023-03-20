@@ -1804,11 +1804,6 @@
   dependencies:
     merge-options "^3.0.4"
 
-"@react-native-community/blur@^4.3.0":
-  version "4.3.0"
-  resolved "https://registry.npmjs.org/@react-native-community/blur/-/blur-4.3.0.tgz"
-  integrity sha512-d6phh39kKcbZ4IluDftiVWqfeFOgjl1AbQWzN47x+hLKQ5GvQJ6QhRvgAuDZ+xbJksrbXgNpMjVYkjsbcVehxg==
-
 "@react-native-community/cli-clean@^10.1.1":
   version "10.1.1"
   resolved "https://registry.npmjs.org/@react-native-community/cli-clean/-/cli-clean-10.1.1.tgz"
