@@ -12,18 +12,16 @@ import {colors as colorsSheet} from '../styles/styles';
 //types
 import {CardWithSwitchProps} from '../types/types';
 
-function CardWithSwitch({title, isEnabled, setIsEnabled}: CardWithSwitchProps) {
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-  };
-
+function CardWithSwitch(props: CardWithSwitchProps) {
   const {
     navigation: {colors},
   } = useTheme();
 
+  const {title, titleColor = colors.card, isEnabled, toggleSwitch} = props;
+
   return (
     <TextContainer>
-      <NunitoMedium color={colors.card} size={16}>
+      <NunitoMedium color={titleColor} size={16}>
         {title}
       </NunitoMedium>
       <Switch
