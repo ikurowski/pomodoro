@@ -48,14 +48,15 @@ export interface TimerSettingsState {
   breaks: boolean;
 }
 
-export type RootState = {
+export type TimerRootState = {
   timer: TimerSettingsState;
 };
 
 export interface CardWithSwitchProps {
   title: string;
+  titleColor?: string;
   isEnabled: boolean;
-  setIsEnabled: Dispatch<SetStateAction<boolean>>;
+  toggleSwitch: () => void;
 }
 
 export type ToggleTimerButtonProps = {
@@ -90,12 +91,37 @@ export interface UseAnimatedProps {
 
 export interface CardProps {
   title: string;
+  titleColor?: string;
   time: number;
   millisecondsFormat?: boolean;
   openCard: string | false;
-  storageKey: STORAGE_KEY;
+  storageKey?: STORAGE_KEY | false;
   cardEnd: string;
   wheelPickOptions: string[];
   setOpenCard: (title: string | false) => void;
   updateNumberFunction: (wheelPickerNumber: number) => void;
+}
+
+export interface ITasks {
+  currentTask: ITask | null;
+  otherTasks: ITask[];
+}
+
+export interface ITask {
+  name: string;
+  pomodoroTimeInMs: number;
+  shortBreakTimeInMs: number;
+  longBreakTimeInMs: number;
+  repeats: number;
+  repeatsDone: number;
+  currentTask: boolean;
+}
+
+export interface TasksRootState {
+  tasks: ITasks;
+}
+
+export interface newTaskModalProps {
+  visible: boolean;
+  setModalVisible: Dispatch<SetStateAction<boolean>>;
 }
