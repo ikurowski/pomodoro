@@ -26,18 +26,24 @@ import {CardProps} from '../types/types';
 //stores
 import {storeAsyncData} from '../stores/RNAsyncStorage';
 
-function Card({
-  title,
-  time,
-  millisecondsFormat = true,
-  openCard,
-  storageKey,
-  cardEnd,
-  wheelPickOptions,
-  setOpenCard,
-  updateNumberFunction,
-}: CardProps) {
+function Card(props: CardProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const {
+    navigation: {colors},
+  } = useTheme();
+
+  const {
+    title,
+    titleColor = colors.card,
+    time,
+    millisecondsFormat = true,
+    openCard,
+    storageKey = false,
+    cardEnd,
+    wheelPickOptions,
+    setOpenCard,
+    updateNumberFunction,
+  } = props;
 
   useEffect(() => {
     setSelectedIndex(time / (millisecondsFormat ? 60000 : 1) - 1);
@@ -86,10 +92,6 @@ function Card({
     setOpenCard(title);
   };
 
-  const {
-    navigation: {colors},
-  } = useTheme();
-
   return (
     <Animated.View style={[styles.container, animatedContainerStyle]}>
       <Pressable
@@ -97,7 +99,7 @@ function Card({
         style={styles.innerContainer}
         onPress={onPress}>
         <Animated.View style={[styles.titleContainer, animatedBorderWidth]}>
-          <NunitoMedium color={colors.card} size={16}>
+          <NunitoMedium color={titleColor} size={16}>
             {title}
           </NunitoMedium>
           <View style={styles.chevronAndTimeContainer}>
@@ -123,18 +125,20 @@ function Card({
                 Number(wheelPickOptions[index]) *
                   (millisecondsFormat ? 60000 : 1),
               );
-              storeAsyncData(
-                Number(wheelPickOptions[index]) *
-                  (millisecondsFormat ? 60000 : 1),
-                storageKey,
-              );
+              if (storageKey !== false) {
+                storeAsyncData(
+                  Number(wheelPickOptions[index]) *
+                    (millisecondsFormat ? 60000 : 1),
+                  storageKey,
+                );
+              }
             }}
             itemTextStyle={{...styles.numbers, color: colors.text}}
             selectedIndicatorStyle={{
               ...styles.selectedIndicatorStyle,
               backgroundColor: colors.primary,
             }}
-            itemHeight={moderateScale(40)}
+            itemHeight={moderateScale(35)}
           />
         </View>
       </Animated.View>
