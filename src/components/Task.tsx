@@ -5,13 +5,17 @@ import NunitoMedium from './fonts/NunitoMedium';
 import {colors as colorsSheet} from '../styles/styles';
 import {moderateScale} from 'react-native-size-matters';
 import XIconCircle from '../assets/svg/x-icon-circle.svg';
+import millisecondsToTime from '../utils/millisecondsToTime';
 
 interface TaskProps {
   name: string;
+  timeInMS: number;
+  repeatsDone: number;
+  repeats: number;
   onPress: () => void;
 }
 
-function Task({name, onPress}: TaskProps) {
+function Task({name, timeInMS, repeatsDone, repeats, onPress}: TaskProps) {
   const {
     navigation: {colors},
   } = useTheme();
@@ -20,13 +24,15 @@ function Task({name, onPress}: TaskProps) {
       <View style={styles.taskNameContainer}>
         <NunitoMedium size={16}>{name}</NunitoMedium>
         <NunitoMedium size={12} color={colors.card}>
-          25 min
+          {millisecondsToTime(timeInMS, true)} min
         </NunitoMedium>
       </View>
       <View style={styles.timerFractionContainer}>
-        <NunitoMedium size={16}>1/4</NunitoMedium>
+        <NunitoMedium size={16}>
+          {repeatsDone}/{repeats}
+        </NunitoMedium>
         <NunitoMedium size={12} color={colors.card}>
-          100 min
+          {Number(millisecondsToTime(timeInMS, true)) * repeats} min
         </NunitoMedium>
       </View>
       <Pressable onPress={onPress} style={styles.XButtonContainer}>
