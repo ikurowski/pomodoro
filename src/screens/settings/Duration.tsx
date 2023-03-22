@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
 //components
@@ -48,7 +48,7 @@ function Duration() {
       </NunitoSemiBold>
       <View style={styles.cardsContainer}>
         <Card
-          title="Focus Time"
+          title="Focus time"
           time={pomodoroTimeInMS}
           wheelPickOptions={wheelPickerNumbers}
           openCard={openCard}
@@ -58,7 +58,7 @@ function Duration() {
           {...pomodoroUpdateFunction}
         />
         <Card
-          title="Short Break"
+          title="Short break"
           time={shortBreakTimeInMS}
           wheelPickOptions={wheelPickerNumbers}
           openCard={openCard}
@@ -68,7 +68,7 @@ function Duration() {
           {...shortBreakUpdateFunction}
         />
         <Card
-          title="Long Break"
+          title="Long break"
           time={longBreakTimeInMS}
           wheelPickOptions={wheelPickerNumbers}
           openCard={openCard}

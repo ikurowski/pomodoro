@@ -5,7 +5,7 @@ import {
   UpdateSettingsType,
 } from '../types/types';
 
-export const initialState: TimerSettingsState = {
+const initialState: TimerSettingsState = {
   timers: {
     pomodoroTimeInMS: 1_500_000, // 25 minutes
     shortBreakTimeInMS: 300_000, // 5 minutes
