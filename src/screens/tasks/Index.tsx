@@ -1,22 +1,46 @@
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {Pressable, SectionList, StyleSheet, View} from 'react-native';
 import NunitoBold from '../../components/fonts/NunitoBold';
 import PencilIcon from '../../assets/svg/pencil.svg';
 import {moderateScale} from 'react-native-size-matters';
 import useTheme from '../../hooks/useTheme/useTheme';
 import NunitoSemiBold from '../../components/fonts/NunitoSemiBold';
 import Task from '../../components/Task';
+import NewTaskModal from '../../components/modal/NewTaskModal';
+import {useDispatch, useSelector} from 'react-redux';
+import {ITask, TasksRootState} from '../../types/types';
+import {removeTask} from '../../features/tasksSlice';
 
 function Tasks() {
-  const [tasks, setTasks] = useState(['Task 1', 'Task 2', 'Task 3']);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const {
     navigation: {colors},
   } = useTheme();
 
-  const renderTasks = ({item}: {item: string}) => {
+  const dispatch = useDispatch();
+
+  const {currentTask, otherTasks} = useSelector(
+    (state: TasksRootState) => state.tasks,
+  );
+
+  const onXButtonPress = (task: ITask) => {
+    dispatch(removeTask(task));
+  };
+
+  console.log(currentTask, otherTasks);
+
+  const renderTasks = ({item}: {item: ITask}) => {
+    const {name, pomodoroTimeInMs, repeatsDone, repeats} = item;
+
     return (
       <View>
-        <Task name={item} />
+        <Task
+          name={name}
+          timeInMS={pomodoroTimeInMs}
+          repeatsDone={repeatsDone}
+          repeats={repeats}
+          onPress={() => onXButtonPress(item)}
+        />
       </View>
     );
   };
@@ -29,23 +53,46 @@ function Tasks() {
     );
   };
 
+  const pressHandler = () => {
+    setIsModalVisible(true);
+  };
+
   return (
     <View style={styles.container}>
+      <NewTaskModal
+        visible={isModalVisible}
+        setModalVisible={setIsModalVisible}
+      />
       <View style={styles.header}>
         <NunitoBold size={32}>Tasks</NunitoBold>
-        <View
-          style={{...styles.pencilContainer, backgroundColor: colors.primary}}>
-          <PencilIcon
-            width={moderateScale(22)}
-            height={moderateScale(22)}
-            color={colors.text}
-          />
-        </View>
+        <Pressable onPress={pressHandler}>
+          <View
+            style={{
+              ...styles.pencilContainer,
+              backgroundColor: colors.primary,
+            }}>
+            <PencilIcon
+              width={moderateScale(22)}
+              height={moderateScale(22)}
+              color={colors.text}
+            />
+          </View>
+        </Pressable>
       </View>
-      <FlatList
-        data={tasks}
+      <SectionList
+        sections={[
+          ...(currentTask
+            ? [{title: 'Current Task', data: [currentTask]}]
+            : []),
+          ...(otherTasks.length > 0
+            ? [{title: 'Other Tasks', data: [...otherTasks]}]
+            : []),
+        ]}
+        renderSectionHeader={({section: {title}}) => (
+          <NunitoSemiBold size={20}>{title}</NunitoSemiBold>
+        )}
         renderItem={renderTasks}
-        keyExtractor={item => item}
+        keyExtractor={item => item.name} //FIXME
         contentContainerStyle={styles.contentContainerStyle}
         ListEmptyComponent={listEmptyComponent}
       />
