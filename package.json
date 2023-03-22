@@ -36,7 +36,8 @@
     "react-native-tab-view": "^3.5.1",
     "react-native-wheely": "^0.6.0",
     "react-redux": "^8.0.5",
-    "redux": "^4.2.1"
+    "redux": "^4.2.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
