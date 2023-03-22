@@ -13,7 +13,7 @@ import {useSelector} from 'react-redux';
 import {
   UseAnimatedProps,
   CircularProgressProps,
-  RootState,
+  TimerRootState,
 } from '../../../types/types';
 import MemoizedAnimatedCircle from './MemoizedAnimatedCircle';
 
@@ -26,7 +26,7 @@ export const CircularProgress: FC<CircularProgressProps> = ({
     timers: {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS},
     currentTimerType,
     isRunning,
-  } = useSelector((state: RootState) => state.timer);
+  } = useSelector((state: TimerRootState) => state.timer);
   const [timeFromTimerType, setTimeFromTimerType] = useState(pomodoroTimeInMS);
 
   const halfRadius = radius / 2;

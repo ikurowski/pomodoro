@@ -6,7 +6,7 @@ import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import Sound from 'react-native-sound';
 
 //types
-import {RootState} from '../../types/types';
+import {TimerRootState} from '../../types/types';
 
 //utils
 import millisecondsToTime from '../../utils/millisecondsToTime';
@@ -37,7 +37,7 @@ function Timer() {
     isPaused,
     repeats,
     breaks,
-  } = useSelector((state: RootState) => state.timer);
+  } = useSelector((state: TimerRootState) => state.timer);
   const dispatch = useDispatch();
   const dispatchIsRunning = useCallback(
     (dispatchValue: boolean) => {

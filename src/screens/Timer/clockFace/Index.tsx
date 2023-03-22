@@ -9,7 +9,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../../types/types';
+import {TimerRootState} from '../../../types/types';
 
 interface ClockFaceProps extends SvgProps {
   colorOfLines?: string;
@@ -19,7 +19,9 @@ interface ClockFaceProps extends SvgProps {
 
 function ClockFace(props: ClockFaceProps) {
   const {colorOfLines = '#F7FAF3', size = 280} = props;
-  const {isRunning} = useSelector((reduxState: RootState) => reduxState.timer);
+  const {isRunning} = useSelector(
+    (reduxState: TimerRootState) => reduxState.timer,
+  );
   const rotation = useSharedValue(0);
 
   useEffect(() => {

@@ -7,7 +7,7 @@ import Card from '../../components/Card';
 import NunitoSemiBold from '../../components/fonts/NunitoSemiBold';
 
 //types
-import {IntervalType, RootState, STORAGE_KEY} from '../../types/types';
+import {IntervalType, TimerRootState, STORAGE_KEY} from '../../types/types';
 
 //redux
 import {updateRepeats, updateTime} from '../../features/timerSettingsSlice';
@@ -23,7 +23,7 @@ function Duration() {
   const {
     timers: {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS},
     repeats,
-  } = useSelector((state: RootState) => state.timer);
+  } = useSelector((state: TimerRootState) => state.timer);
   const [openCard, setOpenCard] = useState<string | false>(false);
 
   const dispatch = useDispatch();

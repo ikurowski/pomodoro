@@ -22,7 +22,7 @@ import {
 import {getAsyncData} from '../stores/RNAsyncStorage';
 
 //types
-import {IntervalType, RootState, STORAGE_KEY} from '../types/types';
+import {IntervalType, TimerRootState, STORAGE_KEY} from '../types/types';
 
 const Tab = createMaterialTopTabNavigator<RootStackParamList>();
 
@@ -35,7 +35,7 @@ function Navigation() {
   const {navigation: navigationTheme} = useTheme();
   const insets = useSafeAreaInsets();
   const {isRunning, isPaused} = useSelector(
-    (reduxState: RootState) => reduxState.timer,
+    (reduxState: TimerRootState) => reduxState.timer,
   );
 
   const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import {useSelector} from 'react-redux';
@@ -7,11 +7,11 @@ import CardWithSwitch from '../../components/CardWithSwitch';
 //components
 import NunitoSemiBold from '../../components/fonts/NunitoSemiBold';
 import {useSoundSettings} from '../../hooks/useSoundSettings';
-import {RootState} from '../../types/types';
+import {TimerRootState} from '../../types/types';
 
 function Sound() {
   const {sound, vibration, breaks} = useSelector(
-    (state: RootState) => state.timer,
+    (state: TimerRootState) => state.timer,
   );
   const [soundIsEnabled, setSoundIsEnabled] = useSoundSettings(sound, 'sound');
   const [vibrationIsEnabled, setVibrationIsEnabled] = useSoundSettings(
@@ -23,6 +23,10 @@ function Sound() {
     'breaks',
   );
 
+  const toggleSwitch = (setState: Dispatch<SetStateAction<boolean>>) => {
+    setState((previousState: boolean) => !previousState);
+  };
+
   return (
     <View style={styles.container}>
       <NunitoSemiBold size={20} style={styles.header}>
@@ -31,18 +35,18 @@ function Sound() {
       <View style={styles.cardsContainer}>
         <CardWithSwitch
           title="Sound alert"
-          setIsEnabled={setSoundIsEnabled}
+          toggleSwitch={() => toggleSwitch(setSoundIsEnabled)}
           isEnabled={soundIsEnabled}
         />
 
         <CardWithSwitch
           title="Vibration"
-          setIsEnabled={setVibrationIsEnabled}
+          toggleSwitch={() => toggleSwitch(setVibrationIsEnabled)}
           isEnabled={vibrationIsEnabled}
         />
         <CardWithSwitch
           title="Turn off breaks"
-          setIsEnabled={setTurnOffBreaksIsEnabled}
+          toggleSwitch={() => toggleSwitch(setTurnOffBreaksIsEnabled)}
           isEnabled={turnOffBreaksIsEnabled}
         />
       </View>
