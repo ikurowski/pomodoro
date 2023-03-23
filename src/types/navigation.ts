@@ -20,3 +20,8 @@ export type TasksScreenNavigation = NativeStackScreenProps<
   RootStackParamList,
   'Tasks'
 >;
+
+export type BottomTabsNavigationProp =
+  | TimerScreenNavigation['navigation']
+  | TasksScreenNavigation['navigation']
+  | SettingsScreenNavigation['navigation'];

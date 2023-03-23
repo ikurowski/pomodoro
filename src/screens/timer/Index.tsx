@@ -1,16 +1,9 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {StyleSheet, Vibration, View} from 'react-native';
+import {Pressable, StyleSheet, Vibration, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import Sound from 'react-native-sound';
-
-//types
-import {TimerRootState} from '../../types/types';
-
-//utils
-import millisecondsToTime from '../../utils/millisecondsToTime';
-import {generateSchedule} from '../../utils/generateSchedule';
 
 //components
 import ScheduleBullets from './ScheduleBullets';
@@ -23,12 +16,19 @@ import {
 import ClockFace from './clockFace/Index';
 import Pause from '../../assets/svg/pause.svg';
 import InspirationalAnimation from './inspirationalAnimation/Index';
-import TextContainer from '../../components/TextContainer';
-import NunitoMedium from '../../components/fonts/NunitoMedium';
+import ChooseTask from './ChooseTask';
+
+//types
+import {BottomTabsNavigationProp} from '../../types/navigation';
+import {TimerRootState} from '../../types/types';
+
+//utils
+import millisecondsToTime from '../../utils/millisecondsToTime';
+import {generateSchedule} from '../../utils/generateSchedule';
 
 const IOS_SOUND = require('../../../ios/sounds/ios-sound.mp3');
 
-function Timer() {
+function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   const {
     timers: {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS},
     isRunning,
@@ -161,11 +161,10 @@ function Timer() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.taskContainer}>
-        <TextContainer>
-          <NunitoMedium>Choose your task...</NunitoMedium>
-        </TextContainer>
-      </View>
+      <ChooseTask
+        navigation={navigation}
+        disableChooseTask={isPaused ? true : isRunning}
+      />
       <View style={styles.clockFaceContainer}>
         <ClockFace timer={timer}>
           {isPaused ? (
@@ -173,7 +172,9 @@ function Timer() {
               key={'pause'} // this is needed for animation to work
               entering={FadeIn.delay(300)}
               exiting={FadeOut}>
-              <Pause width={moderateScale(52)} height={moderateScale(82)} />
+              <Pressable onPress={toggleTimer}>
+                <Pause width={moderateScale(52)} height={moderateScale(82)} />
+              </Pressable>
             </Animated.View>
           ) : (
             <Animated.View entering={FadeIn.delay(300)} exiting={FadeOut}>
@@ -213,17 +214,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
-  taskContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
   clockFaceContainer: {
     alignItems: 'center',
     width: '100%',
     flex: 4,
-  },
-  title: {
-    textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
