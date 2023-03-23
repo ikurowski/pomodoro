@@ -9,12 +9,14 @@ import {
 import {Svg} from 'react-native-svg';
 import {useSelector} from 'react-redux';
 
-// types
+//types
 import {
   UseAnimatedProps,
   CircularProgressProps,
   TimerRootState,
 } from '../../../types/types';
+
+//components
 import MemoizedAnimatedCircle from './MemoizedAnimatedCircle';
 
 export const CircularProgress: FC<CircularProgressProps> = ({

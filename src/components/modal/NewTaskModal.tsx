@@ -6,7 +6,7 @@ import {moderateScale} from 'react-native-size-matters';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 
-// components
+//components
 import BasicButton from '../buttons/BasicButton';
 import CardWithSwitch from '../CardWithSwitch';
 import DurationComponentInModal from './DurationComponentInModal';
@@ -15,14 +15,14 @@ import NunitoBold from '../fonts/NunitoBold';
 import NunitoSemiBold from '../fonts/NunitoSemiBold';
 import TextContainer from '../TextContainer';
 
-// types
+//types
 import {ITask, newTaskModalProps} from '../../types/types';
 
-// styles
+//styles
 import useTheme from '../../hooks/useTheme/useTheme';
 import {useDispatch} from 'react-redux';
 
-//store
+//stores
 import {addTask} from '../../features/tasksSlice';
 
 function NewTaskModal({visible, setModalVisible}: newTaskModalProps) {

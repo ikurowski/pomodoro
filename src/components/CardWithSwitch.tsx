@@ -1,11 +1,11 @@
 import React from 'react';
 import {Switch} from 'react-native';
 
-// components
+//components
 import NunitoMedium from './fonts/NunitoMedium';
 import TextContainer from './TextContainer';
 
-// styles
+//styles
 import useTheme from '../hooks/useTheme/useTheme';
 import {colors as colorsSheet} from '../styles/styles';
 
