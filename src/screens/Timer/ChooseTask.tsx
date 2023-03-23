@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChooseTask;
+export default React.memo(ChooseTask);

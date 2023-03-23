@@ -45,9 +45,12 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     },
     [dispatch],
   );
-  const dispatchIsPaused = (dispatchValue: boolean) => {
-    dispatch(updateSettings({property: 'isPaused', value: dispatchValue}));
-  };
+  const dispatchIsPaused = useCallback(
+    (dispatchValue: boolean) => {
+      dispatch(updateSettings({property: 'isPaused', value: dispatchValue}));
+    },
+    [dispatch],
+  );
 
   const alertSound = useMemo(
     () =>
@@ -138,13 +141,13 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     };
   }, [isRunning]);
 
-  const toggleTimer = () => {
+  const toggleTimer = useCallback(() => {
     dispatchIsRunning(!isRunning);
     setReset(false);
     dispatchIsPaused(isRunning);
-  };
+  }, [dispatchIsRunning, dispatchIsPaused, isRunning, setReset]);
 
-  const resetTimer = () => {
+  const resetTimer = useCallback(() => {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
     }
@@ -153,7 +156,16 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     dispatchIsRunning(false);
     dispatchIsPaused(false);
     setReset(true);
-  };
+  }, [
+    timerIdRef,
+    repeats,
+    breaks,
+    pomodoroTimeInMS,
+    setTimerSchedule,
+    setTimer,
+    dispatchIsRunning,
+    dispatchIsPaused,
+  ]);
 
   const pomodoroBulletToBeFilled = timerSchedule.filter(
     bullet => bullet === 'pomodoroTimeInMS',

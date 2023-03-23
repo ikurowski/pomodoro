@@ -38,7 +38,7 @@ function BasicButton({
   );
 }
 
-export default BasicButton;
+export default React.memo(BasicButton);
 
 const sharedStyles: ViewStyle = {
   borderRadius: 60,

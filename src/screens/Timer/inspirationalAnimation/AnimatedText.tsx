@@ -85,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AnimatedText;
+export default React.memo(AnimatedText);
