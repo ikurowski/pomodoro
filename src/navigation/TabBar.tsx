@@ -114,8 +114,6 @@ const TabBar = ({
   );
 };
 
-export default TabBar;
-
 const styles = StyleSheet.create({
   outerContainer: {
     justifyContent: 'center',
@@ -146,3 +144,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 });
+
+export default TabBar;

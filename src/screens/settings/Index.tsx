@@ -17,8 +17,6 @@ function Settings() {
   );
 }
 
-export default Settings;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -29,3 +27,5 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
 });
+
+export default Settings;

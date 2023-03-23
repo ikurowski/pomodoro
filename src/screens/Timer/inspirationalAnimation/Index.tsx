@@ -76,8 +76,6 @@ function InspirationalAnimation({
   );
 }
 
-export default InspirationalAnimation;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1.6,
@@ -85,3 +83,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
   },
 });
+
+export default InspirationalAnimation;

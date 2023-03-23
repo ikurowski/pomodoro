@@ -79,10 +79,10 @@ function AnimatedText({
   );
 }
 
-export default AnimatedText;
-
 const styles = StyleSheet.create({
   listItemContainer: {
     position: 'absolute',
   },
 });
+
+export default AnimatedText;

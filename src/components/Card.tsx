@@ -146,8 +146,6 @@ function Card(props: CardProps) {
   );
 }
 
-export default Card;
-
 const styles = StyleSheet.create({
   container: {
     paddingTop: moderateScale(10),
@@ -183,3 +181,5 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(23),
   },
 });
+
+export default Card;

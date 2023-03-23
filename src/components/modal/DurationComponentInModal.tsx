@@ -90,8 +90,6 @@ function DurationComponentInModal({
   );
 }
 
-export default DurationComponentInModal;
-
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
@@ -107,3 +105,5 @@ const styles = StyleSheet.create({
     marginVertical: moderateScale(6),
   },
 });
+
+export default DurationComponentInModal;

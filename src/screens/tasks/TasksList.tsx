@@ -50,8 +50,6 @@ function TasksList({currentTask, otherTasks, onXButtonPress}: TaskListProps) {
   );
 }
 
-export default TasksList;
-
 const styles = StyleSheet.create({
   contentContainerStyle: {
     flexGrow: 1,
@@ -64,3 +62,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+export default TasksList;

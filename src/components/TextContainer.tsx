@@ -13,8 +13,6 @@ function TextContainer({
   return <View style={{...styles.container, ...moreStyles}}>{children}</View>;
 }
 
-export default TextContainer;
-
 const styles = StyleSheet.create({
   container: {
     paddingVertical: moderateScale(10),
@@ -27,3 +25,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+export default TextContainer;
