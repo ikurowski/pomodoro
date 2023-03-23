@@ -30,8 +30,6 @@ function Tasks() {
   const tasks = useSelector((state: TasksRootState) => state.tasks);
   const {currentTask, otherTasks} = tasks;
 
-  console.log('tasks', tasks);
-
   const onXButtonPress = (task: ITask) => {
     dispatch(removeTask(task));
   };
