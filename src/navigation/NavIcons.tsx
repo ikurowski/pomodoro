@@ -1,17 +1,22 @@
 import React, {ReactNode} from 'react';
 import {scale, verticalScale} from 'react-native-size-matters';
 
-//icons
+//components
 import SettingsIcon from '../assets/svg/settings-icon.svg';
 import ClockIcon from '../assets/svg/clock-icon.svg';
 import ListIcon from '../assets/svg/list-icon.svg';
+
+//types
 import {NavIconsProps} from '../types/types';
+
+//styles
+import {colors} from '../styles/styles';
 
 const NavIcons = ({
   label,
   isFocused,
-  color = 'lightgrey',
-  focusColor = 'white',
+  color = colors.lightGrey,
+  focusColor = colors.white,
 }: NavIconsProps): ReactNode => {
   let iconColor: string;
   if (isFocused) {
