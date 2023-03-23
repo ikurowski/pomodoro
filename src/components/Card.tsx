@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import Animated, {
+  Easing,
   measure,
   runOnUI,
   useAnimatedRef,
@@ -68,14 +69,13 @@ function Card(props: CardProps) {
     height: height.value * progress.value + 1,
     opacity: progress.value === 0 ? 0 : 1,
   }));
-  const animatedContainerStyle = useAnimatedStyle(() => ({
-    borderRadius: open.value
-      ? withTiming(30, {duration: 600})
-      : withTiming(40, {duration: 1000}),
-  }));
+
   const animatedBorderWidth = useAnimatedStyle(() => ({
-    borderBottomWidth: progress.value === 0 ? withTiming(0) : withTiming(1),
-    paddingBottom: progress.value === 0 ? withTiming(0) : withTiming(10),
+    borderBottomWidth: progress.value === 0 ? withTiming(0) : withTiming(0.5),
+    paddingBottom:
+      progress.value === 0
+        ? withTiming(0, {duration: 150, easing: Easing.linear})
+        : withTiming(10, {duration: 100, easing: Easing.linear}),
   }));
 
   const onPress = () => {
@@ -93,7 +93,7 @@ function Card(props: CardProps) {
   };
 
   return (
-    <Animated.View style={[styles.container, animatedContainerStyle]}>
+    <View style={styles.container}>
       <Pressable
         hitSlop={moderateScale(10)}
         style={styles.innerContainer}
@@ -142,7 +142,7 @@ function Card(props: CardProps) {
           />
         </View>
       </Animated.View>
-    </Animated.View>
+    </View>
   );
 }
 
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     paddingBottom: moderateScale(9), // one pixel less for compensation of one pixel added to animatedItemsStyle.height
     marginVertical: 4,
     backgroundColor: colorsSheet.lightestGrey,
-    borderRadius: 60,
+    borderRadius: 25,
   },
   innerContainer: {
     paddingHorizontal: moderateScale(20),
