@@ -3,11 +3,13 @@ import {BlurView} from 'expo-blur';
 import {StyleSheet, View, TextInput, Alert} from 'react-native';
 import Modal from 'react-native-modal';
 import {moderateScale} from 'react-native-size-matters';
+import 'react-native-get-random-values';
+import {v4 as uuidv4} from 'uuid';
 
 // components
 import BasicButton from '../buttons/BasicButton';
 import CardWithSwitch from '../CardWithSwitch';
-import DurationModal from './DurationModal';
+import DurationComponentInModal from './DurationComponentInModal';
 import Handle from '../../assets/svg/handle.svg';
 import NunitoBold from '../fonts/NunitoBold';
 import NunitoSemiBold from '../fonts/NunitoSemiBold';
@@ -23,17 +25,17 @@ import {useDispatch} from 'react-redux';
 //store
 import {addTask} from '../../features/tasksSlice';
 
-const defaultTask: ITask = {
-  name: '',
-  pomodoroTimeInMs: 1_500_000,
-  shortBreakTimeInMs: 300_000,
-  longBreakTimeInMs: 900_000,
-  repeats: 4,
-  repeatsDone: 0,
-  currentTask: false,
-};
-
 function NewTaskModal({visible, setModalVisible}: newTaskModalProps) {
+  const defaultTask: ITask = {
+    name: '',
+    pomodoroTimeInMs: 1_500_000,
+    shortBreakTimeInMs: 300_000,
+    longBreakTimeInMs: 900_000,
+    repeats: 4,
+    repeatsDone: 0,
+    currentTask: false,
+    id: uuidv4(),
+  };
   const [newTask, setNewTask] = useState<ITask>(defaultTask);
   const dispatch = useDispatch();
 
@@ -111,7 +113,7 @@ function NewTaskModal({visible, setModalVisible}: newTaskModalProps) {
               style={{...styles.textInput, color: colors.text}}
             />
           </TextContainer>
-          <DurationModal
+          <DurationComponentInModal
             newTask={newTask}
             setNewTask={setNewTask}
             createUpdateFunction={createUpdateFunction}

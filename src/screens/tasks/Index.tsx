@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, SectionList, StyleSheet, View} from 'react-native';
 import NunitoBold from '../../components/fonts/NunitoBold';
 import PencilIcon from '../../assets/svg/pencil.svg';
@@ -8,8 +8,9 @@ import NunitoSemiBold from '../../components/fonts/NunitoSemiBold';
 import Task from '../../components/Task';
 import NewTaskModal from '../../components/modal/NewTaskModal';
 import {useDispatch, useSelector} from 'react-redux';
-import {ITask, TasksRootState} from '../../types/types';
+import {ITask, STORAGE_KEY, TasksRootState} from '../../types/types';
 import {removeTask} from '../../features/tasksSlice';
+import {storeAsyncData} from '../../stores/RNAsyncStorage';
 
 function Tasks() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -19,15 +20,16 @@ function Tasks() {
 
   const dispatch = useDispatch();
 
-  const {currentTask, otherTasks} = useSelector(
-    (state: TasksRootState) => state.tasks,
-  );
+  const tasks = useSelector((state: TasksRootState) => state.tasks);
+  const {currentTask, otherTasks} = tasks;
 
   const onXButtonPress = (task: ITask) => {
     dispatch(removeTask(task));
   };
 
-  console.log(currentTask, otherTasks);
+  useEffect(() => {
+    storeAsyncData(tasks, STORAGE_KEY.TASKS);
+  }, [tasks]);
 
   const renderTasks = ({item}: {item: ITask}) => {
     const {name, pomodoroTimeInMs, repeatsDone, repeats} = item;
@@ -92,7 +94,7 @@ function Tasks() {
           <NunitoSemiBold size={20}>{title}</NunitoSemiBold>
         )}
         renderItem={renderTasks}
-        keyExtractor={item => item.name} //FIXME
+        keyExtractor={item => item.id}
         contentContainerStyle={styles.contentContainerStyle}
         ListEmptyComponent={listEmptyComponent}
       />

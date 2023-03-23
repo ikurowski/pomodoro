@@ -23,6 +23,7 @@ import {getAsyncData} from '../stores/RNAsyncStorage';
 
 //types
 import {IntervalType, TimerRootState, STORAGE_KEY} from '../types/types';
+import {updateTasks} from '../features/tasksSlice';
 
 const Tab = createMaterialTopTabNavigator<RootStackParamList>();
 
@@ -51,6 +52,7 @@ function Navigation() {
           vibration,
           repeats,
           breaks,
+          tasks,
         ] = await Promise.all([
           getAsyncData(STORAGE_KEY.FOCUS_TIME),
           getAsyncData(STORAGE_KEY.SHORT_BREAK_TIME),
@@ -59,6 +61,7 @@ function Navigation() {
           getAsyncData(STORAGE_KEY.VIBRATION),
           getAsyncData(STORAGE_KEY.REPEATS),
           getAsyncData(STORAGE_KEY.BREAKS),
+          getAsyncData(STORAGE_KEY.TASKS),
         ]);
 
         const updateTimeDispatch = (
@@ -68,16 +71,16 @@ function Navigation() {
           dispatch(updateTime({type, wheelPickerTime}));
         };
 
-        if (pomodoroTimeInMS) {
+        if (pomodoroTimeInMS !== null) {
           updateTimeDispatch('pomodoroTimeInMS', pomodoroTimeInMS);
         }
-        if (shortBreakTimeInMS) {
+        if (shortBreakTimeInMS !== null) {
           updateTimeDispatch('shortBreakTimeInMS', shortBreakTimeInMS);
         }
-        if (longBreakTimeInMS) {
+        if (longBreakTimeInMS !== null) {
           updateTimeDispatch('longBreakTimeInMS', longBreakTimeInMS);
         }
-        if (repeats) {
+        if (repeats !== null) {
           dispatch(updateRepeats({repeats: repeats}));
         }
         if (sound !== null) {
@@ -88,6 +91,9 @@ function Navigation() {
         }
         if (breaks !== null) {
           dispatch(updateSettings({property: 'breaks', value: breaks}));
+        }
+        if (tasks !== null) {
+          dispatch(updateTasks(tasks));
         }
       } catch (e) {
         console.log(e);

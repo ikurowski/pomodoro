@@ -26,6 +26,7 @@ export enum STORAGE_KEY {
   SOUND = '@sound',
   VIBRATION = '@vibration',
   BREAKS = '@breaks',
+  TASKS = '@tasks',
 }
 
 export type IntervalType =
@@ -108,6 +109,7 @@ export interface ITasks {
 }
 
 export interface ITask {
+  id: string;
   name: string;
   pomodoroTimeInMs: number;
   shortBreakTimeInMs: number;
