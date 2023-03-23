@@ -18,7 +18,7 @@ import {
 } from '../../utils/constans';
 import useTheme from '../../hooks/useTheme/useTheme';
 
-function Duration({
+function DurationComponentInModal({
   newTask,
   createUpdateFunction,
 }: {
@@ -90,7 +90,7 @@ function Duration({
   );
 }
 
-export default Duration;
+export default DurationComponentInModal;
 
 const styles = StyleSheet.create({
   container: {
