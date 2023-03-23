@@ -13,7 +13,7 @@ const tasksSlice = createSlice({
     addTask: (state, action: PayloadAction<ITask>) => {
       if (action.payload.currentTask) {
         if (state.currentTask !== null) {
-          state.otherTasks.push(state.currentTask);
+          state.otherTasks.push({...state.currentTask, currentTask: false});
         }
         state.currentTask = action.payload;
       } else {
@@ -21,11 +21,12 @@ const tasksSlice = createSlice({
       }
     },
     removeTask: (state, action: PayloadAction<ITask>) => {
-      if (action.payload.currentTask) {
+      const taskToRemove = action.payload;
+      if (taskToRemove.currentTask) {
         state.currentTask = null;
-      } else {
+      } else if (taskToRemove.id) {
         state.otherTasks = state.otherTasks.filter(
-          task => task.id !== action.payload.id,
+          task => task.id !== taskToRemove.id,
         );
       }
     },
