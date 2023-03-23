@@ -1,16 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {Pressable, SectionList, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
+import {moderateScale} from 'react-native-size-matters';
+import {useDispatch, useSelector} from 'react-redux';
+
+//components
+import NewTaskModal from '../../components/modal/NewTaskModal';
 import NunitoBold from '../../components/fonts/NunitoBold';
 import PencilIcon from '../../assets/svg/pencil.svg';
-import {moderateScale} from 'react-native-size-matters';
-import useTheme from '../../hooks/useTheme/useTheme';
-import NunitoSemiBold from '../../components/fonts/NunitoSemiBold';
-import Task from '../../components/Task';
-import NewTaskModal from '../../components/modal/NewTaskModal';
-import {useDispatch, useSelector} from 'react-redux';
+import TasksList from './TasksList';
+
+//types
 import {ITask, STORAGE_KEY, TasksRootState} from '../../types/types';
-import {removeTask} from '../../features/tasksSlice';
+
+//store
 import {storeAsyncData} from '../../stores/RNAsyncStorage';
+import {removeTask} from '../../features/tasksSlice';
+
+//styles
+import useTheme from '../../hooks/useTheme/useTheme';
 
 function Tasks() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -23,6 +30,8 @@ function Tasks() {
   const tasks = useSelector((state: TasksRootState) => state.tasks);
   const {currentTask, otherTasks} = tasks;
 
+  console.log('tasks', tasks);
+
   const onXButtonPress = (task: ITask) => {
     dispatch(removeTask(task));
   };
@@ -30,30 +39,6 @@ function Tasks() {
   useEffect(() => {
     storeAsyncData(tasks, STORAGE_KEY.TASKS);
   }, [tasks]);
-
-  const renderTasks = ({item}: {item: ITask}) => {
-    const {name, pomodoroTimeInMs, repeatsDone, repeats} = item;
-
-    return (
-      <View>
-        <Task
-          name={name}
-          timeInMS={pomodoroTimeInMs}
-          repeatsDone={repeatsDone}
-          repeats={repeats}
-          onPress={() => onXButtonPress(item)}
-        />
-      </View>
-    );
-  };
-
-  const listEmptyComponent = () => {
-    return (
-      <View style={styles.emptyListContainer}>
-        <NunitoSemiBold size={20}>No tasks yet</NunitoSemiBold>
-      </View>
-    );
-  };
 
   const pressHandler = () => {
     setIsModalVisible(true);
@@ -81,22 +66,10 @@ function Tasks() {
           </View>
         </Pressable>
       </View>
-      <SectionList
-        sections={[
-          ...(currentTask
-            ? [{title: 'Current Task', data: [currentTask]}]
-            : []),
-          ...(otherTasks.length > 0
-            ? [{title: 'Other Tasks', data: [...otherTasks]}]
-            : []),
-        ]}
-        renderSectionHeader={({section: {title}}) => (
-          <NunitoSemiBold size={20}>{title}</NunitoSemiBold>
-        )}
-        renderItem={renderTasks}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.contentContainerStyle}
-        ListEmptyComponent={listEmptyComponent}
+      <TasksList
+        currentTask={currentTask}
+        otherTasks={otherTasks}
+        onXButtonPress={onXButtonPress}
       />
     </View>
   );
@@ -107,22 +80,14 @@ export default Tasks;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: moderateScale(16),
-    paddingVertical: moderateScale(40),
+    paddingTop: moderateScale(40),
   },
   header: {
+    paddingHorizontal: moderateScale(16),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-  },
-  emptyListContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  contentContainerStyle: {
-    flex: 1,
   },
   pencilContainer: {
     width: moderateScale(50),

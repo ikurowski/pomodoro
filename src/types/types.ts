@@ -127,3 +127,16 @@ export interface newTaskModalProps {
   visible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
 }
+export interface TaskProps {
+  name: string;
+  timeInMS: number;
+  repeatsDone: number;
+  repeats: number;
+  onPress: () => void;
+}
+
+export interface TaskListProps {
+  currentTask: ITask | null;
+  otherTasks: ITask[];
+  onXButtonPress: (task: ITask) => void;
+}

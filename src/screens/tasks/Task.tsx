@@ -1,30 +1,38 @@
 import React from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
-import useTheme from '../hooks/useTheme/useTheme';
-import NunitoMedium from './fonts/NunitoMedium';
-import {colors as colorsSheet} from '../styles/styles';
 import {moderateScale} from 'react-native-size-matters';
-import XIconCircle from '../assets/svg/x-icon-circle.svg';
-import millisecondsToTime from '../utils/millisecondsToTime';
+import Animated, {Layout, SlideOutRight} from 'react-native-reanimated';
 
-interface TaskProps {
-  name: string;
-  timeInMS: number;
-  repeatsDone: number;
-  repeats: number;
-  onPress: () => void;
-}
+//components
+import NunitoMedium from '../../components/fonts/NunitoMedium';
+import XIconCircle from '../../assets/svg/x-icon-circle.svg';
+
+//styles
+import useTheme from '../../hooks/useTheme/useTheme';
+import {colors as colorsSheet} from '../../styles/styles';
+
+//types
+import {TaskProps} from '../../types/types';
+
+//utils
+import millisecondsToTime from '../../utils/millisecondsToTime';
 
 function Task({name, timeInMS, repeatsDone, repeats, onPress}: TaskProps) {
   const {
     navigation: {colors},
   } = useTheme();
+
+  const minutes = millisecondsToTime(timeInMS, true);
+
   return (
-    <View style={styles.container}>
+    <Animated.View
+      exiting={SlideOutRight}
+      layout={Layout}
+      style={styles.container}>
       <View style={styles.taskNameContainer}>
         <NunitoMedium size={16}>{name}</NunitoMedium>
         <NunitoMedium size={12} color={colors.card}>
-          {millisecondsToTime(timeInMS, true)} min
+          {minutes} min
         </NunitoMedium>
       </View>
       <View style={styles.timerFractionContainer}>
@@ -32,13 +40,13 @@ function Task({name, timeInMS, repeatsDone, repeats, onPress}: TaskProps) {
           {repeatsDone}/{repeats}
         </NunitoMedium>
         <NunitoMedium size={12} color={colors.card}>
-          {Number(millisecondsToTime(timeInMS, true)) * repeats} min
+          {Number(minutes) * repeats} min
         </NunitoMedium>
       </View>
-      <Pressable onPress={onPress} style={styles.XButtonContainer}>
+      <Pressable onPress={onPress}>
         <XIconCircle width={moderateScale(29)} height={moderateScale(29)} />
       </Pressable>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -62,5 +70,4 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  XButtonContainer: {},
 });
