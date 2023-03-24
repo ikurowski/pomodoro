@@ -34,9 +34,15 @@ const tasksSlice = createSlice({
       state.currentTask = action.payload.currentTask;
       state.otherTasks = action.payload.otherTasks;
     },
+    updateCurrentTaskRepeatsDone: (state, action: PayloadAction<number>) => {
+      if (state.currentTask) {
+        state.currentTask.repeatsDone = action.payload;
+      }
+    },
   },
 });
 
-export const {addTask, removeTask, updateTasks} = tasksSlice.actions;
+export const {addTask, removeTask, updateTasks, updateCurrentTaskRepeatsDone} =
+  tasksSlice.actions;
 
 export default tasksSlice.reducer;

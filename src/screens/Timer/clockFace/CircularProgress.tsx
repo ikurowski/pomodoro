@@ -23,12 +23,13 @@ export const CircularProgress: FC<CircularProgressProps> = ({
   radius,
   backgroundColor,
   timer,
+  pomodoroTimeInMS,
+  shortBreakTimeInMS,
+  longBreakTimeInMS,
 }) => {
-  const {
-    timers: {pomodoroTimeInMS, shortBreakTimeInMS, longBreakTimeInMS},
-    currentTimerType,
-    isRunning,
-  } = useSelector((state: TimerRootState) => state.timer);
+  const {currentTimerType, isRunning} = useSelector(
+    (state: TimerRootState) => state.timer,
+  );
   const [timeFromTimerType, setTimeFromTimerType] = useState(pomodoroTimeInMS);
 
   const halfRadius = radius / 2;

@@ -15,10 +15,21 @@ interface ClockFaceProps extends SvgProps {
   colorOfLines?: string;
   size?: number;
   timer: number;
+  pomodoroTimeInMS: number;
+  shortBreakTimeInMS: number;
+  longBreakTimeInMS: number;
 }
 
 function ClockFace(props: ClockFaceProps) {
-  const {colorOfLines = '#F7FAF3', size = 280} = props;
+  const {
+    colorOfLines = '#F7FAF3',
+    size = 280,
+    timer,
+    children,
+    pomodoroTimeInMS,
+    shortBreakTimeInMS,
+    longBreakTimeInMS,
+  } = props;
   const {isRunning} = useSelector(
     (reduxState: TimerRootState) => reduxState.timer,
   );
@@ -297,11 +308,14 @@ function ClockFace(props: ClockFaceProps) {
       </Animated.View>
       <View style={styles.pointerOfTheClockContainer}>
         <View style={styles.pointerOfTheClockInner}>
-          <View style={styles.timer}>{props.children}</View>
+          <View style={styles.timer}>{children}</View>
           <CircularProgress
-            timer={props.timer}
+            timer={timer}
             radius={radius}
             backgroundColor={colorOfLines}
+            pomodoroTimeInMS={pomodoroTimeInMS}
+            shortBreakTimeInMS={shortBreakTimeInMS}
+            longBreakTimeInMS={longBreakTimeInMS}
           />
         </View>
       </View>
