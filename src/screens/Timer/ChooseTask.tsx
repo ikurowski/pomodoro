@@ -57,7 +57,7 @@ function ChooseTask({
       <View style={styles.taskContainer}>
         <Task
           name={currentTask.name}
-          timeInMS={currentTask.pomodoroTimeInMs}
+          timeInMS={currentTask.pomodoroTimeInMS}
           repeatsDone={currentTask.repeatsDone}
           repeats={currentTask.repeats}
           onPress={() => onXButtonPress(currentTask)}

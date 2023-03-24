@@ -16,7 +16,7 @@ import NunitoSemiBold from '../fonts/NunitoSemiBold';
 import TextContainer from '../TextContainer';
 
 //types
-import {ITask, newTaskModalProps} from '../../types/types';
+import {ITask, NewTaskModalProps} from '../../types/types';
 
 //styles
 import useTheme from '../../hooks/useTheme/useTheme';
@@ -25,12 +25,12 @@ import {useDispatch} from 'react-redux';
 //stores
 import {addTask} from '../../features/tasksSlice';
 
-function NewTaskModal({visible, setModalVisible}: newTaskModalProps) {
+function NewTaskModal({visible, setModalVisible}: NewTaskModalProps) {
   const defaultTask: ITask = {
     name: '',
-    pomodoroTimeInMs: 1_500_000,
-    shortBreakTimeInMs: 300_000,
-    longBreakTimeInMs: 900_000,
+    pomodoroTimeInMS: 1_500_000,
+    shortBreakTimeInMS: 300_000,
+    longBreakTimeInMS: 900_000,
     repeats: 4,
     repeatsDone: 0,
     currentTask: false,
@@ -105,7 +105,7 @@ function NewTaskModal({visible, setModalVisible}: newTaskModalProps) {
           </View>
           <TextContainer>
             <TextInput
-              maxLength={200}
+              maxLength={80}
               placeholder="Task name..."
               value={newTask.name}
               onChangeText={onChangeTextHandler}

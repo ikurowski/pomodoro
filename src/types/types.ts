@@ -69,6 +69,9 @@ export type CircularProgressProps = {
   radius: number;
   backgroundColor: string;
   timer: number;
+  pomodoroTimeInMS: number;
+  shortBreakTimeInMS: number;
+  longBreakTimeInMS: number;
 };
 
 export type UpdateSettingsType =
@@ -111,9 +114,9 @@ export interface ITasks {
 export interface ITask {
   id: string;
   name: string;
-  pomodoroTimeInMs: number;
-  shortBreakTimeInMs: number;
-  longBreakTimeInMs: number;
+  pomodoroTimeInMS: number;
+  shortBreakTimeInMS: number;
+  longBreakTimeInMS: number;
   repeats: number;
   repeatsDone: number;
   currentTask: boolean;
@@ -123,7 +126,7 @@ export interface TasksRootState {
   tasks: ITasks;
 }
 
-export interface newTaskModalProps {
+export interface NewTaskModalProps {
   visible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
 }
@@ -139,4 +142,11 @@ export interface TaskListProps {
   currentTask: ITask | null;
   otherTasks: ITask[];
   onXButtonPress: (task: ITask) => void;
+}
+
+export interface TimerButtonProps {
+  resetTimer: () => void;
+  toggleTimer: () => void;
+  isRunning: boolean;
+  isPaused: boolean;
 }

@@ -17,7 +17,7 @@ function TasksList({currentTask, otherTasks, onXButtonPress}: TaskListProps) {
           <NunitoSemiBold size={20}>Current Task</NunitoSemiBold>
           <Task
             name={currentTask.name}
-            timeInMS={currentTask.pomodoroTimeInMs}
+            timeInMS={currentTask.pomodoroTimeInMS}
             repeatsDone={currentTask.repeatsDone}
             repeats={currentTask.repeats}
             onPress={() => onXButtonPress(currentTask)}
@@ -32,7 +32,7 @@ function TasksList({currentTask, otherTasks, onXButtonPress}: TaskListProps) {
               <Task
                 key={task.id}
                 name={task.name}
-                timeInMS={task.pomodoroTimeInMs}
+                timeInMS={task.pomodoroTimeInMS}
                 repeatsDone={task.repeatsDone}
                 repeats={task.repeats}
                 onPress={() => onXButtonPress(task)}

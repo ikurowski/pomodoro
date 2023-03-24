@@ -33,9 +33,9 @@ function DurationComponentInModal({
     navigation: {colors},
   } = useTheme();
 
-  const pomodoroUpdateFunction = createUpdateFunction('pomodoroTimeInMs');
-  const shortBreakUpdateFunction = createUpdateFunction('shortBreakTimeInMs');
-  const longBreakUpdateFunction = createUpdateFunction('longBreakTimeInMs');
+  const pomodoroUpdateFunction = createUpdateFunction('pomodoroTimeInMS');
+  const shortBreakUpdateFunction = createUpdateFunction('shortBreakTimeInMS');
+  const longBreakUpdateFunction = createUpdateFunction('longBreakTimeInMS');
   const repeatsUpdateFunction = createUpdateFunction('repeats');
 
   return (
@@ -47,7 +47,7 @@ function DurationComponentInModal({
         <Card
           title="Focus time"
           titleColor={colors.text}
-          time={newTask.pomodoroTimeInMs}
+          time={newTask.pomodoroTimeInMS}
           wheelPickOptions={wheelPickerNumbers}
           openCard={openCard}
           cardEnd={'min'}
@@ -57,7 +57,7 @@ function DurationComponentInModal({
         <Card
           title="Short break"
           titleColor={colors.text}
-          time={newTask.shortBreakTimeInMs}
+          time={newTask.shortBreakTimeInMS}
           wheelPickOptions={wheelPickerNumbers}
           openCard={openCard}
           cardEnd={'min'}
@@ -67,7 +67,7 @@ function DurationComponentInModal({
         <Card
           title="Long break"
           titleColor={colors.text}
-          time={newTask.longBreakTimeInMs}
+          time={newTask.longBreakTimeInMS}
           wheelPickOptions={wheelPickerNumbers}
           openCard={openCard}
           cardEnd={'min'}
