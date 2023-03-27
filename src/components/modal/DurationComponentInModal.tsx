@@ -19,12 +19,12 @@ import {
 import useTheme from '../../hooks/useTheme/useTheme';
 
 function DurationComponentInModal({
-  newTask,
+  task,
   createUpdateFunction,
 }: {
-  newTask: ITask;
-  setNewTask: React.Dispatch<React.SetStateAction<ITask>>;
-  createUpdateFunction: (newTaskKey: keyof ITask) => {
+  task: ITask;
+  setTask: React.Dispatch<React.SetStateAction<ITask>>;
+  createUpdateFunction: (taskKey: keyof ITask) => {
     updateNumberFunction: (newTime: number) => void;
   };
 }) {
@@ -47,7 +47,7 @@ function DurationComponentInModal({
         <Card
           title="Focus time"
           titleColor={colors.text}
-          time={newTask.pomodoroTimeInMS}
+          time={task.pomodoroTimeInMS}
           wheelPickOptions={wheelPickerNumbers}
           openCard={openCard}
           cardEnd={'min'}
@@ -57,7 +57,7 @@ function DurationComponentInModal({
         <Card
           title="Short break"
           titleColor={colors.text}
-          time={newTask.shortBreakTimeInMS}
+          time={task.shortBreakTimeInMS}
           wheelPickOptions={wheelPickerNumbers}
           openCard={openCard}
           cardEnd={'min'}
@@ -67,7 +67,7 @@ function DurationComponentInModal({
         <Card
           title="Long break"
           titleColor={colors.text}
-          time={newTask.longBreakTimeInMS}
+          time={task.longBreakTimeInMS}
           wheelPickOptions={wheelPickerNumbers}
           openCard={openCard}
           cardEnd={'min'}
@@ -77,7 +77,7 @@ function DurationComponentInModal({
         <Card
           title="Repeats until long break"
           titleColor={colors.text}
-          time={newTask.repeats}
+          time={task.repeats}
           millisecondsFormat={false}
           wheelPickOptions={repeatsArray}
           openCard={openCard}

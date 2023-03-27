@@ -4,7 +4,7 @@ import {moderateScale} from 'react-native-size-matters';
 import {useDispatch, useSelector} from 'react-redux';
 
 //components
-import NewTaskModal from '../../components/modal/NewTaskModal';
+import TaskModal from '../../components/modal/TaskModal';
 import NunitoBold from '../../components/fonts/NunitoBold';
 import PencilIcon from '../../assets/svg/pencil.svg';
 import TasksList from './TasksList';
@@ -44,7 +44,8 @@ function Tasks() {
 
   return (
     <View style={styles.container}>
-      <NewTaskModal
+      <TaskModal
+        title="New Modal"
         visible={isModalVisible}
         setModalVisible={setIsModalVisible}
       />

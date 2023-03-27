@@ -126,7 +126,8 @@ export interface TasksRootState {
   tasks: ITasks;
 }
 
-export interface NewTaskModalProps {
+export interface TaskModalProps {
+  title: string;
   visible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
 }

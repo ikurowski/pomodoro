@@ -16,7 +16,7 @@ import NunitoSemiBold from '../fonts/NunitoSemiBold';
 import TextContainer from '../TextContainer';
 
 //types
-import {ITask, NewTaskModalProps} from '../../types/types';
+import {ITask, TaskModalProps} from '../../types/types';
 
 //styles
 import useTheme from '../../hooks/useTheme/useTheme';
@@ -25,8 +25,8 @@ import {useDispatch} from 'react-redux';
 //stores
 import {addTask} from '../../features/tasksSlice';
 
-function NewTaskModal({visible, setModalVisible}: NewTaskModalProps) {
-  const defaultTask: ITask = {
+function TaskModal({title, visible, setModalVisible}: TaskModalProps) {
+  const [task, setTask] = useState<ITask>({
     name: '',
     pomodoroTimeInMS: 1_500_000,
     shortBreakTimeInMS: 300_000,
@@ -35,31 +35,30 @@ function NewTaskModal({visible, setModalVisible}: NewTaskModalProps) {
     repeatsDone: 0,
     currentTask: false,
     id: uuidv4(),
-  };
-  const [newTask, setNewTask] = useState<ITask>(defaultTask);
+  });
   const dispatch = useDispatch();
 
   const {
     navigation: {colors},
   } = useTheme();
 
-  const createUpdateFunction = (newTaskKey: keyof ITask) => ({
+  const createUpdateFunction = (taskKey: keyof ITask) => ({
     updateNumberFunction: (newTime: number) =>
-      setNewTask(prevTask => ({
+      setTask(prevTask => ({
         ...prevTask,
-        [newTaskKey]: newTime,
+        [taskKey]: newTime,
       })),
   });
 
   const toggleSwitch = () => {
-    setNewTask(prevState => ({
+    setTask(prevState => ({
       ...prevState,
       currentTask: !prevState.currentTask,
     }));
   };
 
   const onChangeTextHandler = (text: string) => {
-    setNewTask(prevState => ({
+    setTask(prevState => ({
       ...prevState,
       name: text,
     }));
@@ -70,13 +69,12 @@ function NewTaskModal({visible, setModalVisible}: NewTaskModalProps) {
   };
 
   const onButtonPressHandler = () => {
-    if (newTask.name === '') {
+    if (task.name === '') {
       Alert.alert('Please enter a task name'); //TODO: custom alert
       return;
     }
     setModalVisible(false);
-    dispatch(addTask(newTask));
-    setNewTask(defaultTask);
+    dispatch(addTask(task));
   };
 
   return (
@@ -98,7 +96,7 @@ function NewTaskModal({visible, setModalVisible}: NewTaskModalProps) {
         <BlurView intensity={30} tint={'light'} style={styles.blurContent}>
           <Handle style={styles.handle} />
           <NunitoSemiBold style={styles.tile} size={20}>
-            New Task
+            {title}
           </NunitoSemiBold>
           <View style={styles.cardHeader}>
             <NunitoBold size={16}>Task name</NunitoBold>
@@ -107,15 +105,15 @@ function NewTaskModal({visible, setModalVisible}: NewTaskModalProps) {
             <TextInput
               maxLength={80}
               placeholder="Task name..."
-              value={newTask.name}
+              value={task.name}
               onChangeText={onChangeTextHandler}
               placeholderTextColor={colors.card}
               style={{...styles.textInput, color: colors.text}}
             />
           </TextContainer>
           <DurationComponentInModal
-            newTask={newTask}
-            setNewTask={setNewTask}
+            task={task}
+            setTask={setTask}
             createUpdateFunction={createUpdateFunction}
           />
           <View style={styles.cardHeader}>
@@ -124,7 +122,7 @@ function NewTaskModal({visible, setModalVisible}: NewTaskModalProps) {
           <CardWithSwitch
             title="Current task"
             titleColor={colors.text}
-            isEnabled={newTask.currentTask}
+            isEnabled={task.currentTask}
             toggleSwitch={toggleSwitch}
           />
           <BasicButton
@@ -139,7 +137,7 @@ function NewTaskModal({visible, setModalVisible}: NewTaskModalProps) {
   );
 }
 
-export default NewTaskModal;
+export default TaskModal;
 
 const styles = StyleSheet.create({
   container: {
