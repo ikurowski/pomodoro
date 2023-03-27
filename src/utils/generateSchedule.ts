@@ -2,7 +2,7 @@ import {IntervalType} from '../types/types';
 
 export function generateSchedule(
   repeats: number,
-  turnOfBreaks: boolean,
+  turnOffBreaks: boolean,
 ): IntervalType[] {
   const intervals: IntervalType[] = [];
   const shortBreak = 'shortBreakTimeInMS';
@@ -10,12 +10,12 @@ export function generateSchedule(
 
   for (let i = 0; i < repeats; i++) {
     intervals.push('pomodoroTimeInMS');
-    if (!turnOfBreaks) {
+    if (!turnOffBreaks) {
       intervals.push(shortBreak);
     }
   }
 
-  if (!turnOfBreaks) {
+  if (!turnOffBreaks) {
     intervals.pop();
     intervals.push(longBreak);
   }
