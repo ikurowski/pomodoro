@@ -1,7 +1,7 @@
 import React from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
-import Animated, {Layout, SlideOutRight} from 'react-native-reanimated';
+import Animated, {FadeOut, Layout} from 'react-native-reanimated';
 
 //components
 import NunitoMedium from '../../components/fonts/NunitoMedium';
@@ -17,33 +17,38 @@ import {TaskProps} from '../../types/types';
 //utils
 import millisecondsToTime from '../../utils/millisecondsToTime';
 
-function Task({name, timeInMS, repeatsDone, repeats, onPress}: TaskProps) {
+function Task({task, onXPress, onPress = () => {}}: TaskProps) {
   const {
     navigation: {colors},
   } = useTheme();
 
-  const minutes = millisecondsToTime(timeInMS, true);
+  const minutes = millisecondsToTime(task.pomodoroTimeInMS, true);
 
   return (
-    <Animated.View
-      exiting={SlideOutRight}
-      layout={Layout}
-      style={styles.container}>
+    <Animated.View exiting={FadeOut} layout={Layout} style={styles.container}>
       <View style={styles.taskNameContainer}>
-        <NunitoMedium size={16}>{name}</NunitoMedium>
-        <NunitoMedium size={12} color={colors.card}>
-          {minutes} min
-        </NunitoMedium>
+        <Pressable
+          onPress={() => {
+            onPress(task.id);
+          }}>
+          <NunitoMedium size={16}>{task.name}</NunitoMedium>
+          <NunitoMedium size={12} color={colors.card}>
+            {minutes} min
+          </NunitoMedium>
+        </Pressable>
       </View>
       <View style={styles.timerFractionContainer}>
         <NunitoMedium size={16}>
-          {repeatsDone}/{repeats}
+          {task.repeatsDone}/{task.repeats}
         </NunitoMedium>
         <NunitoMedium size={12} color={colors.card}>
-          {Number(minutes) * repeats} min
+          {Number(minutes) * task.repeats} min
         </NunitoMedium>
       </View>
-      <Pressable onPress={onPress}>
+      <Pressable
+        onPress={() => {
+          onXPress(task);
+        }}>
         <XIconCircle width={moderateScale(29)} height={moderateScale(29)} />
       </Pressable>
     </Animated.View>

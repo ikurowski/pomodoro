@@ -9,18 +9,21 @@ import Task from './Task';
 //types
 import {TaskListProps} from '../../types/types';
 
-function TasksList({currentTask, otherTasks, onXButtonPress}: TaskListProps) {
+function TasksList({
+  currentTask,
+  otherTasks,
+  onXButtonPress,
+  onTaskPress,
+}: TaskListProps) {
   return (
     <ScrollView contentContainerStyle={styles.contentContainerStyle}>
       {currentTask && (
         <>
           <NunitoSemiBold size={20}>Current Task</NunitoSemiBold>
           <Task
-            name={currentTask.name}
-            timeInMS={currentTask.pomodoroTimeInMS}
-            repeatsDone={currentTask.repeatsDone}
-            repeats={currentTask.repeats}
-            onPress={() => onXButtonPress(currentTask)}
+            task={currentTask}
+            onXPress={() => onXButtonPress(currentTask)}
+            onPress={onTaskPress}
           />
         </>
       )}
@@ -31,11 +34,9 @@ function TasksList({currentTask, otherTasks, onXButtonPress}: TaskListProps) {
             return (
               <Task
                 key={task.id}
-                name={task.name}
-                timeInMS={task.pomodoroTimeInMS}
-                repeatsDone={task.repeatsDone}
-                repeats={task.repeats}
-                onPress={() => onXButtonPress(task)}
+                task={task}
+                onXPress={() => onXButtonPress(task)}
+                onPress={onTaskPress}
               />
             );
           })}

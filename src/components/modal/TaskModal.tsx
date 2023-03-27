@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BlurView} from 'expo-blur';
 import {StyleSheet, View, TextInput, Alert} from 'react-native';
 import Modal from 'react-native-modal';
@@ -16,17 +16,22 @@ import NunitoSemiBold from '../fonts/NunitoSemiBold';
 import TextContainer from '../TextContainer';
 
 //types
-import {ITask, TaskModalProps} from '../../types/types';
+import {ITask, TaskModalProps, TasksRootState} from '../../types/types';
 
 //styles
 import useTheme from '../../hooks/useTheme/useTheme';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 //stores
-import {addTask} from '../../features/tasksSlice';
+import {addTask, editTask} from '../../features/tasksSlice';
 
-function TaskModal({title, visible, setModalVisible}: TaskModalProps) {
-  const [task, setTask] = useState<ITask>({
+function TaskModal({
+  title,
+  visible,
+  idOfTaskToEdit = null,
+  setModalVisible,
+}: TaskModalProps) {
+  const defaultTask: ITask = {
     name: '',
     pomodoroTimeInMS: 1_500_000,
     shortBreakTimeInMS: 300_000,
@@ -35,8 +40,10 @@ function TaskModal({title, visible, setModalVisible}: TaskModalProps) {
     repeatsDone: 0,
     currentTask: false,
     id: uuidv4(),
-  });
+  };
+  const [task, setTask] = useState<ITask>(defaultTask);
   const dispatch = useDispatch();
+  const tasks = useSelector((state: TasksRootState) => state.tasks);
 
   const {
     navigation: {colors},
@@ -74,8 +81,23 @@ function TaskModal({title, visible, setModalVisible}: TaskModalProps) {
       return;
     }
     setModalVisible(false);
-    dispatch(addTask(task));
+    idOfTaskToEdit ? dispatch(editTask(task)) : dispatch(addTask(task));
+    setTask(defaultTask);
   };
+
+  useEffect(() => {
+    const allTasks = tasks.currentTask
+      ? [tasks.currentTask, ...tasks.otherTasks]
+      : tasks.otherTasks;
+    if (idOfTaskToEdit) {
+      const taskToEdit = allTasks.find(
+        singleTask => singleTask.id === idOfTaskToEdit,
+      );
+      if (taskToEdit) {
+        setTask(taskToEdit);
+      }
+    }
+  }, [idOfTaskToEdit, tasks]);
 
   return (
     <Modal
@@ -166,6 +188,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textInput: {
+    flex: 1,
     fontSize: moderateScale(16),
     fontFamily: 'Nunito-Medium',
     paddingVertical: 2,

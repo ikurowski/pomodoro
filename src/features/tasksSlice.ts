@@ -39,10 +39,51 @@ const tasksSlice = createSlice({
         state.currentTask.repeatsDone = action.payload;
       }
     },
+    editTask: (state, action: PayloadAction<ITask>) => {
+      const editedTask = action.payload;
+      const editedTaskIsInOtherTasks = state.otherTasks.some(
+        task => task.id === editedTask.id,
+      );
+      const markedAsCurrentTask = editedTask.currentTask;
+      const editedTaskIsCurrentTask = state.currentTask?.id === editedTask.id;
+
+      if (markedAsCurrentTask && editedTaskIsCurrentTask) {
+        // If the edited task is marked as the current task and it's already the current task, update it
+        state.currentTask = editedTask;
+      } else if (markedAsCurrentTask && !editedTaskIsCurrentTask) {
+        // If the edited task is marked as the current task but it's not the current task,
+        // set it as the current task and move the previous current task to the otherTasks array
+        if (state.currentTask) {
+          state.otherTasks.push({...state.currentTask, currentTask: false});
+        }
+        state.currentTask = editedTask;
+        if (editedTaskIsInOtherTasks) {
+          state.otherTasks = state.otherTasks.filter(
+            task => task.id !== editedTask.id,
+          );
+        }
+      } else if (!markedAsCurrentTask && !editedTaskIsCurrentTask) {
+        // If the edited task is not marked as the current task, update it in the otherTasks array
+        const taskIndex = state.otherTasks.findIndex(
+          task => task.id === editedTask.id,
+        );
+        state.otherTasks[taskIndex] = editedTask;
+      } else if (!markedAsCurrentTask && editedTaskIsCurrentTask) {
+        // If the edited task is not marked as the current task but it was the current task,
+        // remove the current task and move the edited task to the otherTasks array
+        state.currentTask = null;
+        state.otherTasks.push(editedTask);
+      }
+    },
   },
 });
 
-export const {addTask, removeTask, updateTasks, updateCurrentTaskRepeatsDone} =
-  tasksSlice.actions;
+export const {
+  addTask,
+  removeTask,
+  updateTasks,
+  updateCurrentTaskRepeatsDone,
+  editTask,
+} = tasksSlice.actions;
 
 export default tasksSlice.reducer;

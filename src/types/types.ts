@@ -128,21 +128,21 @@ export interface TasksRootState {
 
 export interface TaskModalProps {
   title: string;
+  idOfTaskToEdit?: string | null;
   visible: boolean;
   setModalVisible: Dispatch<SetStateAction<boolean>>;
 }
 export interface TaskProps {
-  name: string;
-  timeInMS: number;
-  repeatsDone: number;
-  repeats: number;
-  onPress: () => void;
+  task: ITask;
+  onPress?: (id: string) => void;
+  onXPress: (task: ITask) => void;
 }
 
 export interface TaskListProps {
   currentTask: ITask | null;
   otherTasks: ITask[];
   onXButtonPress: (task: ITask) => void;
+  onTaskPress: (id: string) => void;
 }
 
 export interface TimerButtonProps {

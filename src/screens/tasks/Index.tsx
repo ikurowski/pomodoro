@@ -24,6 +24,8 @@ function Tasks() {
   const {
     navigation: {colors},
   } = useTheme();
+  const [idOfTaskToEdit, setIdOfTaskToEdit] = useState<string | null>(null);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -34,13 +36,18 @@ function Tasks() {
     dispatch(removeTask(task));
   };
 
-  useEffect(() => {
-    storeAsyncData(tasks, STORAGE_KEY.TASKS);
-  }, [tasks]);
-
   const pressHandler = () => {
     setIsModalVisible(true);
   };
+
+  const editPressHandler = (id: string) => {
+    setIdOfTaskToEdit(id);
+    setIsEditModalVisible(true);
+  };
+
+  useEffect(() => {
+    storeAsyncData(tasks, STORAGE_KEY.TASKS);
+  }, [tasks]);
 
   return (
     <View style={styles.container}>
@@ -48,6 +55,12 @@ function Tasks() {
         title="New Modal"
         visible={isModalVisible}
         setModalVisible={setIsModalVisible}
+      />
+      <TaskModal
+        title="Edit Modal"
+        visible={isEditModalVisible}
+        setModalVisible={setIsEditModalVisible}
+        idOfTaskToEdit={idOfTaskToEdit}
       />
       <View style={styles.header}>
         <NunitoBold size={32}>Tasks</NunitoBold>
@@ -69,6 +82,7 @@ function Tasks() {
         currentTask={currentTask}
         otherTasks={otherTasks}
         onXButtonPress={onXButtonPress}
+        onTaskPress={editPressHandler}
       />
     </View>
   );
