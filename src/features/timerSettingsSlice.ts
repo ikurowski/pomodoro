@@ -18,6 +18,16 @@ const initialState: TimerSettingsState = {
   isRunning: false,
   isPaused: false,
   breaks: false,
+  schedule: [
+    'pomodoroTimeInMS',
+    'shortBreakTimeInMS',
+    'pomodoroTimeInMS',
+    'shortBreakTimeInMS',
+    'pomodoroTimeInMS',
+    'shortBreakTimeInMS',
+    'pomodoroTimeInMS',
+    'longBreakTimeInMS',
+  ],
 };
 
 const timerSettingsSlice = createSlice({
@@ -53,10 +63,26 @@ const timerSettingsSlice = createSlice({
       const {repeats} = action.payload;
       state.repeats = repeats;
     },
+    updateSchedule: (
+      state,
+      action: PayloadAction<{schedule: IntervalType[]}>,
+    ) => {
+      const {schedule} = action.payload;
+      state.schedule = schedule;
+    },
+    removeFirstSchedule: state => {
+      state.schedule = state.schedule.slice(1);
+    },
   },
 });
 
-export const {updateTime, updateTimerType, updateSettings, updateRepeats} =
-  timerSettingsSlice.actions;
+export const {
+  updateTime,
+  updateTimerType,
+  updateSettings,
+  updateRepeats,
+  updateSchedule,
+  removeFirstSchedule,
+} = timerSettingsSlice.actions;
 
 export default timerSettingsSlice.reducer;

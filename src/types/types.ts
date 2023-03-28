@@ -47,6 +47,7 @@ export interface TimerSettingsState {
   isRunning: boolean;
   isPaused: boolean;
   breaks: boolean;
+  schedule: IntervalType[];
 }
 
 export type TimerRootState = {

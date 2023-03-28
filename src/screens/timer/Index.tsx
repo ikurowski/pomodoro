@@ -16,13 +16,15 @@ import TimerButtons from './TimerButtons';
 
 //stores
 import {
+  removeFirstSchedule,
+  updateSchedule,
   updateSettings,
   updateTimerType,
 } from '../../features/timerSettingsSlice';
 
 //types
 import {BottomTabsNavigationProp} from '../../types/navigation';
-import {TasksRootState, TimerRootState} from '../../types/types';
+import {IntervalType, TasksRootState, TimerRootState} from '../../types/types';
 
 //utils
 import millisecondsToTime from '../../utils/millisecondsToTime';
@@ -40,6 +42,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     isPaused,
     repeats,
     breaks,
+    schedule,
   } = useSelector((state: TimerRootState) => state.timer);
   const {currentTask} = useSelector((state: TasksRootState) => state.tasks);
   const dispatch = useDispatch();
@@ -61,6 +64,15 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     },
     [dispatch],
   );
+  const dispatchSchedule = useCallback(
+    (dispatchValue: IntervalType[]) => {
+      dispatch(updateSchedule({schedule: dispatchValue}));
+    },
+    [dispatch],
+  );
+  const dispatchRemoveFirstSchedule = useCallback(() => {
+    dispatch(removeFirstSchedule());
+  }, [dispatch]);
 
   const [timerSource, setTimerSource] = useState({
     pomodoroTimeInMS,
@@ -69,16 +81,13 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     longBreakTimeInMS,
   });
   const [timer, setTimer] = useState(timerSource.pomodoroTimeInMS);
-  const [timerSchedule, setTimerSchedule] = useState(
-    generateSchedule(timerSource.repeats, breaks),
-  );
   const [reset, setReset] = useState(false);
   const [scheduleElementCompleted, setScheduleElementCompleted] =
     useState(false);
 
   const timerShown = millisecondsToTime(timer);
   const timerIdRef = useRef<NodeJS.Timer>();
-  const pomodoroBulletToBeFilled = timerSchedule.filter(
+  const pomodoroBulletToBeFilled = schedule.filter(
     bullet => bullet === 'pomodoroTimeInMS',
   ).length;
   const alertSound = useMemo(
@@ -101,7 +110,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
     }
-    setTimerSchedule(generateSchedule(timerSource.repeats, breaks));
+    dispatchSchedule(generateSchedule(timerSource.repeats, breaks));
     setTimer(timerSource.pomodoroTimeInMS);
     dispatchIsRunning(false);
     dispatchIsPaused(false);
@@ -113,7 +122,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     timerSource,
     timerIdRef,
     breaks,
-    setTimerSchedule,
+    dispatchSchedule,
     setTimer,
     dispatchIsRunning,
     dispatchIsPaused,
@@ -145,13 +154,13 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   ]);
 
   useEffect(() => {
-    setTimerSchedule(generateSchedule(timerSource.repeats, breaks));
-  }, [timerSource.repeats, breaks]);
+    dispatchSchedule(generateSchedule(timerSource.repeats, breaks)); // tutaj raczej będzie wrzucenie calej arejki z reduxa
+  }, [timerSource.repeats, breaks, dispatchSchedule]);
 
   useEffect(() => {
     if (timer < 59000) {
       if (currentTask) {
-        if (timerSchedule.length === 0) {
+        if (schedule.length === 0) {
           dispatchCurrentTaskRepeatsDone(0);
           Alert.alert(
             //TODO
@@ -179,14 +188,14 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     currentTask,
     dispatchCurrentTaskRepeatsDone,
     timerSource.repeats,
-    timerSchedule.length,
+    schedule.length,
     navigation,
   ]);
 
   useEffect(() => {
     if (timer < 59000) {
       dispatchIsRunning(false);
-      setTimerSchedule(prev => prev.slice(1));
+      dispatchRemoveFirstSchedule();
       setScheduleElementCompleted(prev => !prev);
       if (vibration) {
         Vibration.vibrate(1000);
@@ -195,14 +204,21 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
         alertSound.play();
       }
     }
-  }, [timer, dispatchIsRunning, vibration, sound, alertSound]);
+  }, [
+    timer,
+    dispatchIsRunning,
+    vibration,
+    sound,
+    alertSound,
+    dispatchRemoveFirstSchedule,
+  ]);
 
   useEffect(() => {
-    if (timerSchedule.length === 0) {
-      setTimerSchedule(generateSchedule(timerSource.repeats, breaks));
+    if (schedule.length === 0) {
+      dispatchSchedule(generateSchedule(timerSource.repeats, breaks));
       setScheduleElementCompleted(prev => !prev);
     }
-    const nextTimerType = timerSchedule[0];
+    const nextTimerType = schedule[0];
     if (nextTimerType === undefined) {
       dispatch(updateTimerType({type: 'pomodoroTimeInMS'}));
       setTimer(timerSource.pomodoroTimeInMS);
@@ -220,7 +236,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
       case 'longBreakTimeInMS':
         setTimer(timerSource.longBreakTimeInMS);
     }
-  }, [timerSource, timerSchedule, dispatch, breaks]);
+  }, [timerSource, dispatch, breaks, schedule, dispatchSchedule]);
 
   useEffect(() => {
     if (timerIdRef.current) {
@@ -270,7 +286,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
           numberOfBullets={timerSource.repeats}
           bulletsToBeFilled={
             currentTask
-              ? currentTask.repeats - currentTask.repeatsDone
+              ? timerSource.repeats - currentTask.repeatsDone
               : pomodoroBulletToBeFilled
           }
           style={styles.scheduleBullets}
