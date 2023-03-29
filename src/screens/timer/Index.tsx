@@ -83,6 +83,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   }, [dispatch]);
 
   const [timerSource, setTimerSource] = useState({
+    // only responsible for the display
     pomodoroTimeInMS,
     repeats,
     shortBreakTimeInMS,
@@ -111,13 +112,11 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     dispatchIsPaused(isRunning);
   }, [dispatchIsRunning, dispatchIsPaused, isRunning, setReset]);
 
-  const [pomodoroBulletsToBeFilled, setPomodoroBulletsToBeFilled] = useState(0);
-
   const resetTimer = useCallback(() => {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
     }
-    dispatchSchedule(generateSchedule(timerSource.repeats, breaks));
+    dispatchSchedule(generateSchedule(timerSource.repeats, breaks)); // TODO reset schedule
     setTimer(timerSource.pomodoroTimeInMS);
     dispatchIsRunning(false);
     dispatchIsPaused(false);
@@ -125,11 +124,11 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   }, [
     timerSource,
     timerIdRef,
-    breaks,
-    dispatchSchedule,
     setTimer,
     dispatchIsRunning,
     dispatchIsPaused,
+    breaks,
+    dispatchSchedule,
   ]);
   useFetchAsyncData();
 
@@ -159,10 +158,6 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     longBreakTimeInMS,
     dispatchIsRunning,
   ]);
-
-  useEffect(() => {
-    dispatchSchedule(generateSchedule(timerSource.repeats, breaks));
-  }, [timerSource.repeats, breaks, dispatchSchedule]);
 
   useEffect(() => {
     if (timer < 59000) {
@@ -198,7 +193,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
 
   useEffect(() => {
     if (schedule.length === 0) {
-      dispatchSchedule(generateSchedule(timerSource.repeats, breaks));
+      dispatchSchedule(generateSchedule(timerSource.repeats, breaks)); // TODO reset schedule
       setScheduleElementCompleted(prev => !prev);
     }
     const nextTimerType = schedule[0];
@@ -239,11 +234,21 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   }, [isRunning]);
 
   useEffect(() => {
-    setPomodoroBulletsToBeFilled(
+    console.log(currentTask?.pomodorosToBeFilled);
+  }, [currentTask?.pomodorosToBeFilled]);
+
+  useEffect(() => {
+    if (currentTask === null) {
+      dispatchSchedule(generateSchedule(timerSource.repeats, breaks));
+    }
+  }, [timerSource.repeats, breaks, dispatchSchedule, currentTask]);
+
+  useEffect(() => {
+    // change currentTask.pomodoroBulletsFilled
+    dispatchPomodorosToBeFilled(
       schedule.filter(bullet => bullet === 'pomodoroTimeInMS').length,
     );
-    dispatchPomodorosToBeFilled(pomodoroBulletsToBeFilled);
-  }, [pomodoroBulletsToBeFilled, dispatchPomodorosToBeFilled, schedule]);
+  }, [dispatchPomodorosToBeFilled, schedule]);
 
   useEffect(() => {
     storeAsyncData(schedule, STORAGE_KEY.SCHEDULE);
@@ -278,7 +283,11 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
         </ClockFace>
         <ScheduleBullets
           numberOfBullets={timerSource.repeats}
-          bulletsToBeFilled={pomodoroBulletsToBeFilled}
+          bulletsToBeFilled={
+            currentTask
+              ? currentTask.pomodorosToBeFilled
+              : schedule.filter(bullet => bullet === 'pomodoroTimeInMS').length
+          }
           style={styles.scheduleBullets}
         />
         <TimerButtons
