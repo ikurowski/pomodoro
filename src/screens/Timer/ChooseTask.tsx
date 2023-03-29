@@ -14,8 +14,8 @@ import {ITask, TasksRootState} from '../../types/types';
 //stores
 import {removeTask} from '../../features/tasksSlice';
 import Animated, {
-  SlideInLeft,
-  SlideOutLeft,
+  FadeIn,
+  FadeOut,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -66,8 +66,8 @@ function ChooseTask({
 
   return (
     <Animated.View
-      entering={SlideInLeft}
-      exiting={SlideOutLeft}
+      entering={FadeIn}
+      exiting={FadeOut}
       style={[styles.chooseTaskContainer, animatedOpacity]}>
       <Pressable disabled={disableChooseTask} onPress={onPressChooseTask}>
         <TextContainer moreStyles={styles.textContainerMoreStyles}>
