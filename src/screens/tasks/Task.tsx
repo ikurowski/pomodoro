@@ -39,7 +39,7 @@ function Task({task, onXPress, onPress = () => {}}: TaskProps) {
       </View>
       <View style={styles.timerFractionContainer}>
         <NunitoMedium size={16}>
-          {task.repeatsDone}/{task.repeats}
+          {task.repeats - task.pomodorosToBeFilled}/{task.repeats}
         </NunitoMedium>
         <NunitoMedium size={12} color={colors.card}>
           {Number(minutes) * task.repeats} min

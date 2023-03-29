@@ -27,6 +27,7 @@ export enum STORAGE_KEY {
   VIBRATION = '@vibration',
   BREAKS = '@breaks',
   TASKS = '@tasks',
+  SCHEDULE = '@schedule',
 }
 
 export type IntervalType =
@@ -119,7 +120,7 @@ export interface ITask {
   shortBreakTimeInMS: number;
   longBreakTimeInMS: number;
   repeats: number;
-  repeatsDone: number;
+  pomodorosToBeFilled: number;
   currentTask: boolean;
 }
 

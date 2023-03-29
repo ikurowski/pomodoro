@@ -34,9 +34,9 @@ const tasksSlice = createSlice({
       state.currentTask = action.payload.currentTask;
       state.otherTasks = action.payload.otherTasks;
     },
-    updateCurrentTaskRepeatsDone: (state, action: PayloadAction<number>) => {
+    updatePomodorosToBeFilled: (state, action: PayloadAction<number>) => {
       if (state.currentTask) {
-        state.currentTask.repeatsDone = action.payload;
+        state.currentTask.pomodorosToBeFilled = action.payload;
       }
     },
     editTask: (state, action: PayloadAction<ITask>) => {
@@ -82,7 +82,7 @@ export const {
   addTask,
   removeTask,
   updateTasks,
-  updateCurrentTaskRepeatsDone,
+  updatePomodorosToBeFilled,
   editTask,
 } = tasksSlice.actions;
 

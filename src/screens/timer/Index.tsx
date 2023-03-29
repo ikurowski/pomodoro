@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {Alert, Pressable, StyleSheet, Vibration, View} from 'react-native';
+import {Pressable, StyleSheet, Vibration, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {moderateScale, verticalScale} from 'react-native-size-matters';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
@@ -13,6 +13,7 @@ import Pause from '../../assets/svg/pause.svg';
 import InspirationalAnimation from './inspirationalAnimation/Index';
 import ChooseTask from './ChooseTask';
 import TimerButtons from './TimerButtons';
+import taskCompletedAlert from './taskCompletedAlert';
 
 //stores
 import {
@@ -24,12 +25,19 @@ import {
 
 //types
 import {BottomTabsNavigationProp} from '../../types/navigation';
-import {IntervalType, TasksRootState, TimerRootState} from '../../types/types';
+import {
+  IntervalType,
+  STORAGE_KEY,
+  TasksRootState,
+  TimerRootState,
+} from '../../types/types';
 
 //utils
 import millisecondsToTime from '../../utils/millisecondsToTime';
 import {generateSchedule} from '../../utils/generateSchedule';
-import {updateCurrentTaskRepeatsDone} from '../../features/tasksSlice';
+import {updatePomodorosToBeFilled} from '../../features/tasksSlice';
+import {storeAsyncData} from '../../stores/RNAsyncStorage';
+import useFetchAsyncData from '../../hooks/useFetchData';
 
 const IOS_SOUND = require('../../../ios/sounds/ios-sound.mp3');
 
@@ -58,9 +66,9 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     },
     [dispatch],
   );
-  const dispatchCurrentTaskRepeatsDone = useCallback(
+  const dispatchPomodorosToBeFilled = useCallback(
     (dispatchValue: number) => {
-      dispatch(updateCurrentTaskRepeatsDone(dispatchValue));
+      dispatch(updatePomodorosToBeFilled(dispatchValue));
     },
     [dispatch],
   );
@@ -87,9 +95,6 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
 
   const timerShown = millisecondsToTime(timer);
   const timerIdRef = useRef<NodeJS.Timer>();
-  const pomodoroBulletToBeFilled = schedule.filter(
-    bullet => bullet === 'pomodoroTimeInMS',
-  ).length;
   const alertSound = useMemo(
     () =>
       new Sound(IOS_SOUND, error => {
@@ -106,6 +111,8 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     dispatchIsPaused(isRunning);
   }, [dispatchIsRunning, dispatchIsPaused, isRunning, setReset]);
 
+  const [pomodoroBulletsToBeFilled, setPomodoroBulletsToBeFilled] = useState(0);
+
   const resetTimer = useCallback(() => {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
@@ -115,9 +122,6 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     dispatchIsRunning(false);
     dispatchIsPaused(false);
     setReset(true);
-    if (currentTask) {
-      dispatchCurrentTaskRepeatsDone(0);
-    }
   }, [
     timerSource,
     timerIdRef,
@@ -126,9 +130,8 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     setTimer,
     dispatchIsRunning,
     dispatchIsPaused,
-    currentTask,
-    dispatchCurrentTaskRepeatsDone,
   ]);
+  useFetchAsyncData();
 
   useEffect(() => {
     setTimerSource(
@@ -139,7 +142,12 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
             shortBreakTimeInMS: currentTask.shortBreakTimeInMS,
             longBreakTimeInMS: currentTask.longBreakTimeInMS,
           }
-        : {pomodoroTimeInMS, repeats, shortBreakTimeInMS, longBreakTimeInMS},
+        : {
+            pomodoroTimeInMS,
+            repeats,
+            shortBreakTimeInMS,
+            longBreakTimeInMS,
+          },
     );
     dispatchIsRunning(false);
     setReset(true);
@@ -149,48 +157,23 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     repeats,
     shortBreakTimeInMS,
     longBreakTimeInMS,
-    setTimerSource,
     dispatchIsRunning,
   ]);
 
   useEffect(() => {
-    dispatchSchedule(generateSchedule(timerSource.repeats, breaks)); // tutaj raczej będzie wrzucenie calej arejki z reduxa
+    dispatchSchedule(generateSchedule(timerSource.repeats, breaks));
   }, [timerSource.repeats, breaks, dispatchSchedule]);
 
   useEffect(() => {
     if (timer < 59000) {
       if (currentTask) {
         if (schedule.length === 0) {
-          dispatchCurrentTaskRepeatsDone(0);
-          Alert.alert(
-            //TODO
-            'Task completed',
-            'You have completed all the repeats of this task',
-            [
-              {
-                text: 'OK',
-                onPress: () => {
-                  navigation.navigate('Tasks');
-                },
-              },
-            ],
-          );
+          taskCompletedAlert(navigation);
           return;
         }
-        dispatchCurrentTaskRepeatsDone(
-          timerSource.repeats - pomodoroBulletToBeFilled,
-        );
       }
     }
-  }, [
-    timer,
-    pomodoroBulletToBeFilled,
-    currentTask,
-    dispatchCurrentTaskRepeatsDone,
-    timerSource.repeats,
-    schedule.length,
-    navigation,
-  ]);
+  }, [timer, schedule.length, navigation, currentTask]);
 
   useEffect(() => {
     if (timer < 59000) {
@@ -255,6 +238,17 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     };
   }, [isRunning]);
 
+  useEffect(() => {
+    setPomodoroBulletsToBeFilled(
+      schedule.filter(bullet => bullet === 'pomodoroTimeInMS').length,
+    );
+    dispatchPomodorosToBeFilled(pomodoroBulletsToBeFilled);
+  }, [pomodoroBulletsToBeFilled, dispatchPomodorosToBeFilled, schedule]);
+
+  useEffect(() => {
+    storeAsyncData(schedule, STORAGE_KEY.SCHEDULE);
+  }, [schedule]);
+
   return (
     <View style={styles.container}>
       <ChooseTask
@@ -284,11 +278,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
         </ClockFace>
         <ScheduleBullets
           numberOfBullets={timerSource.repeats}
-          bulletsToBeFilled={
-            currentTask
-              ? timerSource.repeats - currentTask.repeatsDone
-              : pomodoroBulletToBeFilled
-          }
+          bulletsToBeFilled={pomodoroBulletsToBeFilled}
           style={styles.scheduleBullets}
         />
         <TimerButtons

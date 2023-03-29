@@ -37,7 +37,7 @@ function TaskModal({
     shortBreakTimeInMS: 300_000,
     longBreakTimeInMS: 900_000,
     repeats: 4,
-    repeatsDone: 0,
+    pomodorosToBeFilled: 4,
     currentTask: false,
     id: uuidv4(),
   };
