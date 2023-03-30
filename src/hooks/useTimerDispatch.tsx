@@ -34,7 +34,7 @@ export const useTimerDispatch = () => {
   );
   const dispatchSchedule = useCallback(
     (dispatchValue: IntervalType[]) => {
-      dispatch(updateSchedule({schedule: dispatchValue}));
+      dispatch(updateSchedule(dispatchValue));
     },
     [dispatch],
   );
@@ -52,7 +52,7 @@ export const useTimerDispatch = () => {
   );
   const dispatchUpdateTimerType = useCallback(
     (dispatchValue: IntervalType) => {
-      dispatch(updateTimerType({type: dispatchValue}));
+      dispatch(updateTimerType(dispatchValue));
     },
     [dispatch],
   );

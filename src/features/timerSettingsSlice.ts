@@ -45,9 +45,8 @@ const timerSettingsSlice = createSlice({
 
       state.timers[type] = wheelPickerTime;
     },
-    updateTimerType: (state, action: PayloadAction<{type: IntervalType}>) => {
-      const {type} = action.payload;
-      state.currentTimerType = type;
+    updateTimerType: (state, action: PayloadAction<IntervalType>) => {
+      state.currentTimerType = action.payload;
     },
     updateSettings: (
       state,
@@ -59,17 +58,11 @@ const timerSettingsSlice = createSlice({
       const {property, value} = action.payload;
       state[property] = value;
     },
-    updateRepeats: (state, action: PayloadAction<{repeats: number}>) => {
-      //FIXME
-      const {repeats} = action.payload;
-      state.repeats = repeats;
+    updateRepeats: (state, action: PayloadAction<number>) => {
+      state.repeats = action.payload;
     },
-    updateSchedule: (
-      state,
-      action: PayloadAction<{schedule: IntervalType[]}>,
-    ) => {
-      const {schedule} = action.payload;
-      state.schedule = schedule;
+    updateSchedule: (state, action: PayloadAction<IntervalType[]>) => {
+      state.schedule = action.payload;
     },
     removeFirstSchedule: (state, action: PayloadAction<boolean>) => {
       if (action.payload) {

@@ -39,7 +39,7 @@ function Duration() {
   const longBreakUpdateFunction = createUpdateTimeFunction('longBreakTimeInMS');
 
   const repeatsUpdateFunction = (wheelPickerNumber: number) =>
-    dispatch(updateRepeats({repeats: wheelPickerNumber}));
+    dispatch(updateRepeats(wheelPickerNumber));
 
   return (
     <View style={styles.container}>

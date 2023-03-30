@@ -56,7 +56,7 @@ const useFetchAsyncData = () => {
           updateTimeDispatch('longBreakTimeInMS', longBreakTimeInMS);
         }
         if (repeats !== null) {
-          dispatch(updateRepeats({repeats: repeats}));
+          dispatch(updateRepeats(repeats));
         }
         if (sound !== null) {
           dispatch(updateSettings({property: 'sound', value: sound}));
@@ -71,7 +71,7 @@ const useFetchAsyncData = () => {
           dispatch(updateTasks(tasks));
         }
         if (schedule !== null) {
-          dispatch(updateSchedule({schedule: schedule}));
+          dispatch(updateSchedule(schedule));
         }
       } catch (e) {
         console.log(e);

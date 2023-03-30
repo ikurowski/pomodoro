@@ -84,7 +84,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     if (timerIdRef.current) {
       clearInterval(timerIdRef.current);
     }
-    dispatchSchedule(generateSchedule(timerSource.repeats)); // TODO reset schedule
+    dispatchSchedule(generateSchedule(timerSource.repeats)); // reset schedule
     if (currentTask) {
       dispatchUpdateCurrentTaskSchedule(generateSchedule(timerSource.repeats));
     }
@@ -173,7 +173,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
 
   useEffect(() => {
     if (schedule.length === 0) {
-      dispatchSchedule(generateSchedule(timerSource.repeats)); // TODO reset schedule
+      dispatchSchedule(generateSchedule(timerSource.repeats)); // reset schedule
       setScheduleElementCompleted(prev => !prev);
       if (currentTask) {
         dispatchUpdateCurrentTaskSchedule(
