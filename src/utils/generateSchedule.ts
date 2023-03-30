@@ -2,7 +2,7 @@ import {IntervalType} from '../types/types';
 
 export function generateSchedule(
   repeats: number,
-  turnOffBreaks: boolean,
+  turnOffBreaks: boolean = false,
 ): IntervalType[] {
   const intervals: IntervalType[] = [];
   const shortBreak = 'shortBreakTimeInMS';
