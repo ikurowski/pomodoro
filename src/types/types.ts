@@ -122,6 +122,7 @@ export interface ITask {
   repeats: number;
   pomodorosToBeFilled: number;
   currentTask: boolean;
+  taskSchedule: IntervalType[];
 }
 
 export interface TasksRootState {

@@ -60,6 +60,7 @@ const timerSettingsSlice = createSlice({
       state[property] = value;
     },
     updateRepeats: (state, action: PayloadAction<{repeats: number}>) => {
+      //FIXME
       const {repeats} = action.payload;
       state.repeats = repeats;
     },
@@ -70,8 +71,17 @@ const timerSettingsSlice = createSlice({
       const {schedule} = action.payload;
       state.schedule = schedule;
     },
-    removeFirstSchedule: state => {
-      state.schedule = state.schedule.slice(1);
+    removeFirstSchedule: (state, action: PayloadAction<boolean>) => {
+      if (action.payload) {
+        if (state.schedule[0] !== 'pomodoroTimeInMS') {
+          // if first item is not pomodoro then remove 3 items
+          state.schedule = state.schedule.slice(3);
+        } else {
+          state.schedule = state.schedule.slice(2);
+        }
+      } else {
+        state.schedule = state.schedule.slice(1);
+      }
     },
   },
 });

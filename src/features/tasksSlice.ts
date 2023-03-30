@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {ITask, ITasks} from '../types/types';
+import {IntervalType, ITask, ITasks} from '../types/types';
 
 const initialState: ITasks = {
   currentTask: null,
@@ -33,6 +33,14 @@ const tasksSlice = createSlice({
     updateTasks: (state, action: PayloadAction<ITasks>) => {
       state.currentTask = action.payload.currentTask;
       state.otherTasks = action.payload.otherTasks;
+    },
+    updateCurrentTaskSchedule: (
+      state,
+      action: PayloadAction<IntervalType[]>,
+    ) => {
+      if (state.currentTask) {
+        state.currentTask.taskSchedule = action.payload;
+      }
     },
     updatePomodorosToBeFilled: (state, action: PayloadAction<number>) => {
       if (state.currentTask) {
@@ -82,6 +90,7 @@ export const {
   addTask,
   removeTask,
   updateTasks,
+  updateCurrentTaskSchedule,
   updatePomodorosToBeFilled,
   editTask,
 } = tasksSlice.actions;

@@ -24,6 +24,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 //stores
 import {addTask, editTask} from '../../features/tasksSlice';
+import {generateSchedule} from '../../utils/generateSchedule';
 
 function TaskModal({
   title,
@@ -33,13 +34,17 @@ function TaskModal({
 }: TaskModalProps) {
   const defaultTask: ITask = {
     name: '',
-    pomodoroTimeInMS: 1_500_000,
-    shortBreakTimeInMS: 300_000,
-    longBreakTimeInMS: 900_000,
+    // pomodoroTimeInMS: 1_500_000, //FIXME DEBUG
+    // shortBreakTimeInMS: 300_000,
+    // longBreakTimeInMS: 900_000,
+    pomodoroTimeInMS: 60000,
+    shortBreakTimeInMS: 60000,
+    longBreakTimeInMS: 60000,
     repeats: 4,
     pomodorosToBeFilled: 4,
     currentTask: false,
     id: uuidv4(),
+    taskSchedule: [], // schedule is generated based on repeats
   };
   const [task, setTask] = useState<ITask>(defaultTask);
   const dispatch = useDispatch();
@@ -76,7 +81,7 @@ function TaskModal({
   };
 
   const onButtonPressHandler = () => {
-    if (task.name === '') {
+    if (task.name.trim().length === 0) {
       Alert.alert('Please enter a task name'); //TODO: custom alert
       return;
     }
@@ -84,6 +89,14 @@ function TaskModal({
     idOfTaskToEdit ? dispatch(editTask(task)) : dispatch(addTask(task));
     setTask(defaultTask);
   };
+
+  useEffect(() => {
+    setTask(prevTask => ({
+      ...prevTask,
+      taskSchedule: generateSchedule(prevTask.repeats),
+      pomodorosToBeFilled: prevTask.repeats,
+    }));
+  }, [task.repeats]);
 
   useEffect(() => {
     const allTasks = tasks.currentTask
