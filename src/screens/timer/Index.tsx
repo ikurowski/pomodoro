@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Pressable, StyleSheet, Vibration, View} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {moderateScale, verticalScale} from 'react-native-size-matters';
 import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import Sound from 'react-native-sound';
@@ -15,32 +15,16 @@ import ChooseTask from './ChooseTask';
 import TimerButtons from './TimerButtons';
 import taskCompletedAlert from './taskCompletedAlert';
 
-//stores
-import {
-  removeFirstSchedule,
-  updateSchedule,
-  updateSettings,
-  updateTimerType,
-} from '../../features/timerSettingsSlice';
-
 //types
 import {BottomTabsNavigationProp} from '../../types/navigation';
-import {
-  IntervalType,
-  STORAGE_KEY,
-  TasksRootState,
-  TimerRootState,
-} from '../../types/types';
+import {STORAGE_KEY, TasksRootState, TimerRootState} from '../../types/types';
 
 //utils
 import millisecondsToTime from '../../utils/millisecondsToTime';
 import {generateSchedule} from '../../utils/generateSchedule';
-import {
-  updateCurrentTaskSchedule,
-  updatePomodorosToBeFilled,
-} from '../../features/tasksSlice';
 import {storeAsyncData} from '../../stores/RNAsyncStorage';
 import useFetchAsyncData from '../../hooks/useFetchData';
+import useTimerDispatch from '../../hooks/useTimerDispatch';
 
 const IOS_SOUND = require('../../../ios/sounds/ios-sound.mp3');
 
@@ -56,43 +40,15 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     schedule,
   } = useSelector((state: TimerRootState) => state.timer);
   const {currentTask} = useSelector((state: TasksRootState) => state.tasks);
-  const dispatch = useDispatch();
-  const dispatchIsRunning = useCallback(
-    (dispatchValue: boolean) => {
-      dispatch(updateSettings({property: 'isRunning', value: dispatchValue}));
-    },
-    [dispatch],
-  );
-  const dispatchIsPaused = useCallback(
-    (dispatchValue: boolean) => {
-      dispatch(updateSettings({property: 'isPaused', value: dispatchValue}));
-    },
-    [dispatch],
-  );
-  const dispatchPomodorosToBeFilled = useCallback(
-    (dispatchValue: number) => {
-      dispatch(updatePomodorosToBeFilled(dispatchValue));
-    },
-    [dispatch],
-  );
-  const dispatchSchedule = useCallback(
-    (dispatchValue: IntervalType[]) => {
-      dispatch(updateSchedule({schedule: dispatchValue}));
-    },
-    [dispatch],
-  );
-  const dispatchRemoveFirstSchedule = useCallback(
-    (dispatchValue: boolean) => {
-      dispatch(removeFirstSchedule(dispatchValue));
-    },
-    [dispatch],
-  );
-  const dispatchUpdateCurrentTaskSchedule = useCallback(
-    (dispatchValue: IntervalType[]) => {
-      dispatch(updateCurrentTaskSchedule(dispatchValue));
-    },
-    [dispatch],
-  );
+  const {
+    dispatchIsRunning,
+    dispatchIsPaused,
+    dispatchPomodorosToBeFilled,
+    dispatchSchedule,
+    dispatchRemoveFirstSchedule,
+    dispatchUpdateCurrentTaskSchedule,
+    dispatchUpdateTimerType,
+  } = useTimerDispatch();
 
   const [timerSource, setTimerSource] = useState({
     // only responsible for the display
@@ -227,11 +183,13 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
     }
     const timerType = breaks ? 'pomodoroTimeInMS' : schedule[0];
     if (timerType === undefined) {
-      dispatch(updateTimerType({type: 'pomodoroTimeInMS'}));
+      dispatchUpdateTimerType('pomodoroTimeInMS');
+
       setTimer(timerSource.pomodoroTimeInMS);
       return;
     }
-    dispatch(updateTimerType({type: timerType}));
+
+    dispatchUpdateTimerType(timerType);
 
     switch (timerType) {
       case 'pomodoroTimeInMS':
@@ -246,7 +204,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   }, [
     timerSource,
     breaks,
-    dispatch,
+    dispatchUpdateTimerType,
     schedule,
     dispatchSchedule,
     currentTask,
