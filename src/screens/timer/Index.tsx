@@ -312,12 +312,12 @@ const styles = StyleSheet.create({
   },
   clockFaceContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
     flex: 4,
   },
-
   scheduleBullets: {
-    marginTop: verticalScale(12),
+    marginTop: verticalScale(22),
     marginBottom: verticalScale(32),
   },
 });

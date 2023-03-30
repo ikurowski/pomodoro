@@ -12,6 +12,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import {moderateScale} from 'react-native-size-matters';
 
 interface TabBarProps extends MaterialTopTabBarProps {
   isRunning: boolean;
@@ -34,9 +35,9 @@ const TabBar = ({
 
   useEffect(() => {
     if (isRunning || isPaused) {
-      offset.value = withSpring(100, {damping: 100});
+      offset.value = withSpring(200, {damping: 100});
     } else {
-      offset.value = withSpring(0, {damping: 100});
+      offset.value = withSpring(moderateScale(-10), {damping: 100});
     }
   }, [isRunning, isPaused, offset]);
 

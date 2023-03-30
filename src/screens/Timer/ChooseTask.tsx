@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
   },
   textContainerMoreStyles: {
     marginBottom: moderateScale(16),
-    paddingHorizontal: moderateScale(32),
-    paddingTop: moderateScale(12),
+    paddingHorizontal: moderateScale(52),
+    paddingVertical: moderateScale(14),
   },
 });
 

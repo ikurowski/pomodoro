@@ -13,6 +13,7 @@ import {withPause} from 'react-native-redash';
 import {StyleSheet} from 'react-native';
 import NunitoSemiBold from '../../../components/fonts/NunitoSemiBold';
 import TextContainer from '../../../components/TextContainer';
+import {verticalScale} from 'react-native-size-matters';
 
 function AnimatedText({
   item,
@@ -27,21 +28,22 @@ function AnimatedText({
   const isEven = index % 2 === 0;
   const alignment = isEven ? 'flex-start' : 'flex-end';
 
-  const positionY = useSharedValue(200);
+  const positionY = useSharedValue(0);
   const opacity = useSharedValue(1);
   const paused = useSharedValue(false);
+  const fadingEndPositionY = verticalScale(-175);
 
   useEffect(() => {
     positionY.value = withPause(
       withTiming(
-        0,
+        verticalScale(-165),
         {
           duration: 14000,
           easing: Easing.linear,
         },
         () => {
           opacity.value = withTiming(0, {duration: 1000});
-          positionY.value = withTiming(-10, {
+          positionY.value = withTiming(fadingEndPositionY, {
             duration: 1000,
             easing: Easing.linear,
           });
@@ -50,7 +52,7 @@ function AnimatedText({
 
       paused,
     );
-  }, [index, positionY, opacity, paused]);
+  }, [index, positionY, opacity, paused, fadingEndPositionY]);
 
   useEffect(() => {
     if (isMoving) {

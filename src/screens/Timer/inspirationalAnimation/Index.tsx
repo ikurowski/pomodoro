@@ -79,6 +79,7 @@ function InspirationalAnimation({
 const styles = StyleSheet.create({
   container: {
     flex: 1.6,
+    justifyContent: 'flex-end',
     width: '100%',
     paddingHorizontal: 50,
   },

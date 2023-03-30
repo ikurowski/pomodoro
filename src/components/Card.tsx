@@ -75,7 +75,7 @@ function Card(props: CardProps) {
     paddingBottom:
       progress.value === 0
         ? withTiming(0, {duration: 150, easing: Easing.linear})
-        : withTiming(10, {duration: 100, easing: Easing.linear}),
+        : withTiming(10, {duration: 150, easing: Easing.linear}),
   }));
 
   const onPress = () => {
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     paddingBottom: moderateScale(9), // one pixel less for compensation of one pixel added to animatedItemsStyle.height
     marginVertical: 4,
     backgroundColor: colorsSheet.lightestGrey,
-    borderRadius: 25,
+    borderRadius: moderateScale(25),
   },
   innerContainer: {
     paddingHorizontal: moderateScale(20),
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     marginRight: moderateScale(8),
   },
   selectedIndicatorStyle: {
-    borderRadius: 8,
+    borderRadius: moderateScale(8),
   },
   items: {
     overflow: 'hidden',

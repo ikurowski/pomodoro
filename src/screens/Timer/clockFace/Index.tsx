@@ -53,8 +53,8 @@ function ClockFace(props: ClockFaceProps) {
     <View>
       <Animated.View style={[animatedStyle]}>
         <Svg
-          width={scale(size)}
-          height={verticalScale(size)}
+          width={moderateScale(size)}
+          height={moderateScale(size)}
           viewBox="0 0 280 280"
           fill="none"
           {...props}>
@@ -323,7 +323,7 @@ function ClockFace(props: ClockFaceProps) {
   );
 }
 
-const radius = PixelRatio.roundToNearestPixel(moderateScale(108));
+const radius = PixelRatio.roundToNearestPixel(moderateScale(100));
 
 const styles = StyleSheet.create({
   pointerOfTheClockContainer: {
