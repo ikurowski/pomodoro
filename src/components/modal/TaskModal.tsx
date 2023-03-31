@@ -34,12 +34,9 @@ function TaskModal({
 }: TaskModalProps) {
   const defaultTask: ITask = {
     name: '',
-    // pomodoroTimeInMS: 1_500_000, //FIXME DEBUG
-    // shortBreakTimeInMS: 300_000,
-    // longBreakTimeInMS: 900_000,
-    pomodoroTimeInMS: 60000,
-    shortBreakTimeInMS: 60000,
-    longBreakTimeInMS: 60000,
+    pomodoroTimeInMS: 1_500_000,
+    shortBreakTimeInMS: 300_000,
+    longBreakTimeInMS: 900_000,
     repeats: 4,
     pomodorosToBeFilled: 4,
     currentTask: false,

@@ -1,9 +1,14 @@
 import React from 'react';
-
 import {Pressable, StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
+
+//components
 import MenuBurger from '../../assets/svg/menu-burger.svg';
+
+//styles
 import useTheme from '../../hooks/useTheme/useTheme';
+
+//types
 import {SettingsScreenNavigation} from '../../types/navigation';
 
 type SettingsButtonNavigationProp = SettingsScreenNavigation['navigation'];

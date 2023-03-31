@@ -1,7 +1,7 @@
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {updateSettings} from '../features/timerSettingsSlice';
-import {storeAsyncData} from '../stores/RNAsyncStorage';
+import {storeAsyncData} from '../storage/RNAsyncStorage';
 import {STORAGE_KEY, UpdateSettingsType} from '../types/types';
 
 export const useSoundSettings = (

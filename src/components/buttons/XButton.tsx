@@ -2,9 +2,14 @@ import React from 'react';
 import {Pressable, StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 
-import {TimerScreenNavigation} from '../../types/navigation';
-import useTheme from '../../hooks/useTheme/useTheme';
+//components
 import XIcon from '../../assets/svg/x-icon.svg';
+
+//styles
+import useTheme from '../../hooks/useTheme/useTheme';
+
+//types
+import {TimerScreenNavigation} from '../../types/navigation';
 
 type XButtonNavigationProp = TimerScreenNavigation['navigation'];
 

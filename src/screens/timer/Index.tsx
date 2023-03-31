@@ -22,7 +22,7 @@ import {STORAGE_KEY, TasksRootState, TimerRootState} from '../../types/types';
 //utils
 import millisecondsToTime from '../../utils/millisecondsToTime';
 import {generateSchedule} from '../../utils/generateSchedule';
-import {storeAsyncData} from '../../stores/RNAsyncStorage';
+import {storeAsyncData} from '../../storage/RNAsyncStorage';
 import useFetchAsyncData from '../../hooks/useFetchData';
 import useTimerDispatch from '../../hooks/useTimerDispatch';
 
@@ -51,7 +51,6 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   } = useTimerDispatch();
 
   const [timerSource, setTimerSource] = useState({
-    // only responsible for the display
     pomodoroTimeInMS,
     repeats,
     shortBreakTimeInMS,
@@ -132,7 +131,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   ]);
 
   useEffect(() => {
-    if (timer < 59000) {
+    if (timer < 0) {
       if (currentTask) {
         dispatchUpdateCurrentTaskSchedule(schedule);
         if (schedule.length === 0) {
@@ -150,7 +149,7 @@ function Timer({navigation}: {navigation: BottomTabsNavigationProp}) {
   ]);
 
   useEffect(() => {
-    if (timer < 59000) {
+    if (timer < 0) {
       dispatchIsRunning(false);
       dispatchRemoveFirstSchedule(breaks);
       setScheduleElementCompleted(prev => !prev);

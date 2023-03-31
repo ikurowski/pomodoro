@@ -1,8 +1,12 @@
 import React from 'react';
 import {Pressable, StyleSheet, ViewStyle} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
-import useTheme from '../../hooks/useTheme/useTheme';
+
+//components
 import NunitoSemiBold from '../fonts/NunitoSemiBold';
+
+//styles
+import useTheme from '../../hooks/useTheme/useTheme';
 
 function BasicButton({
   onPress,
@@ -38,8 +42,6 @@ function BasicButton({
   );
 }
 
-export default React.memo(BasicButton);
-
 const sharedStyles: ViewStyle = {
   borderRadius: 60,
   paddingVertical: 12,
@@ -60,3 +62,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default React.memo(BasicButton);

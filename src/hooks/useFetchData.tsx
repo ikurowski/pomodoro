@@ -7,7 +7,7 @@ import {
   updateSettings,
   updateTime,
 } from '../features/timerSettingsSlice';
-import {getMultipleAsyncData} from '../stores/RNAsyncStorage';
+import {getMultipleAsyncData} from '../storage/RNAsyncStorage';
 import {IntervalType, STORAGE_KEY} from '../types/types';
 
 const useFetchAsyncData = () => {

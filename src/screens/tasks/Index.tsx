@@ -13,7 +13,7 @@ import TasksList from './TasksList';
 import {ITask, STORAGE_KEY, TasksRootState} from '../../types/types';
 
 //store
-import {storeAsyncData} from '../../stores/RNAsyncStorage';
+import {storeAsyncData} from '../../storage/RNAsyncStorage';
 import {removeTask} from '../../features/tasksSlice';
 
 //styles

@@ -25,7 +25,7 @@ import {colors as colorsSheet} from '../styles/styles';
 import {CardProps} from '../types/types';
 
 //stores
-import {storeAsyncData} from '../stores/RNAsyncStorage';
+import {storeAsyncData} from '../storage/RNAsyncStorage';
 
 function Card(props: CardProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
