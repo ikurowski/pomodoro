@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderColor: colorsSheet.lightGrey,
+    borderColor: colorsSheet.lighterGrey,
   },
   chevronAndTimeContainer: {
     flexDirection: 'row',

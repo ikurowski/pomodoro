@@ -15,7 +15,7 @@ import {colors} from '../styles/styles';
 const NavIcons = ({
   label,
   isFocused,
-  color = colors.lightGrey,
+  color = colors.lighterGrey,
   focusColor = colors.white,
 }: NavIconsProps): ReactNode => {
   let iconColor: string;
