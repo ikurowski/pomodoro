@@ -12,27 +12,27 @@ Pomodoro is a React Native app that helps you track your focus time and manage y
 Few screenshots of the app:
 
 <div style="display: flex; flex-direction: row;">
-  <img src="assets/01TimerScreen.png" alt="timer screen" style="width: 33%;">
-  <img src="assets/02TimerScreen.png" alt="timer screen" style="width: 33%;">
-  <img src="assets/03TimerScreen.png" alt="timer screen" style="width: 33%;">
+  <img src="assets/01TimerScreen.png" alt="timer screen" style="width: 32%;">
+  <img src="assets/02TimerScreen.png" alt="timer screen" style="width: 32%;">
+  <img src="assets/03TimerScreen.png" alt="timer screen" style="width: 32%;">
 </div>
 
 <div style="display: flex; flex-direction: row;">
-  <img src="assets/04TimerScreen.png" alt="timer screen" style="width: 33%;">
-  <img src="assets/05BreakScreen.png" alt="timer screen" style="width: 33%;">
-  <img src="assets/06SettingsScreen.png" alt="timer screen" style="width: 33%;">
+  <img src="assets/04TimerScreen.png" alt="timer screen" style="width: 32%;">
+  <img src="assets/05BreakScreen.png" alt="timer screen" style="width: 32%;">
+  <img src="assets/06SettingsScreen.png" alt="timer screen" style="width: 32%;">
 </div>
 
 <div style="display: flex; flex-direction: row;">
-  <img src="assets/07SettingsScreen.png" alt="timer screen" style="width: 33%;">
-  <img src="assets/08TasksScreen.png" alt="timer screen" style="width: 33%;">
-  <img src="assets/09NewTaskScreen.png" alt="timer screen" style="width: 33%;">
+  <img src="assets/07SettingsScreen.png" alt="timer screen" style="width: 32%;">
+  <img src="assets/08TasksScreen.png" alt="timer screen" style="width: 32%;">
+  <img src="assets/09NewTaskScreen.png" alt="timer screen" style="width: 32%;">
 </div>
 
 <div style="display: flex; flex-direction: row;">
-  <img src="assets/10TasksScreen.png" alt="timer screen" style="width: 33%;">
-  <img src="assets/11EditTaskScreen.png" alt="timer screen" style="width: 33%;">
-  <img src="assets/12TimerScreen.png" alt="timer screen" style="width: 33%;">
+  <img src="assets/10TasksScreen.png" alt="timer screen" style="width: 32%;">
+  <img src="assets/11EditTaskScreen.png" alt="timer screen" style="width: 32%;">
+  <img src="assets/12TimerScreen.png" alt="timer screen" style="width: 32%;">
 </div>
 
 ## 🎥 Pomodoro App Demo
