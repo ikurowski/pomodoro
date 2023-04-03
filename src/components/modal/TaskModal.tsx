@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {BlurView} from 'expo-blur';
 import {StyleSheet, View, TextInput, Alert} from 'react-native';
 import Modal from 'react-native-modal';
@@ -77,6 +77,14 @@ function TaskModal({
     setModalVisible(false);
   };
 
+  const makeNewSchedule = () => {
+    setTask(prevTask => ({
+      ...prevTask,
+      taskSchedule: generateSchedule(prevTask.repeats),
+      pomodorosToBeFilled: prevTask.repeats,
+    }));
+  };
+
   const onButtonPressHandler = () => {
     if (task.name.trim().length === 0) {
       Alert.alert('Please enter a task name'); //TODO: custom alert
@@ -87,27 +95,36 @@ function TaskModal({
     setTask(defaultTask);
   };
 
-  useEffect(() => {
-    setTask(prevTask => ({
-      ...prevTask,
-      taskSchedule: generateSchedule(prevTask.repeats),
-      pomodorosToBeFilled: prevTask.repeats,
-    }));
-  }, [task.repeats]);
-
-  useEffect(() => {
+  const getAllTasks = useCallback(() => {
     const allTasks = tasks.currentTask
       ? [tasks.currentTask, ...tasks.otherTasks]
       : tasks.otherTasks;
-    if (idOfTaskToEdit) {
+    return allTasks;
+  }, [tasks]);
+
+  useEffect(() => {
+    const allTasks = getAllTasks();
+    if (!idOfTaskToEdit) {
+      makeNewSchedule();
+    } else {
       const taskToEdit = allTasks.find(
         singleTask => singleTask.id === idOfTaskToEdit,
       );
-      if (taskToEdit) {
-        setTask(taskToEdit);
+      if (taskToEdit && taskToEdit.repeats !== task.repeats) {
+        makeNewSchedule();
       }
     }
-  }, [idOfTaskToEdit, tasks]);
+  }, [idOfTaskToEdit, task.repeats, getAllTasks]);
+
+  useEffect(() => {
+    const allTasks = getAllTasks();
+    const taskToEdit = allTasks.find(
+      singleTask => singleTask.id === idOfTaskToEdit,
+    );
+    if (taskToEdit) {
+      setTask(taskToEdit);
+    }
+  }, [idOfTaskToEdit, tasks, getAllTasks]);
 
   return (
     <Modal
