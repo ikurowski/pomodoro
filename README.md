@@ -87,7 +87,7 @@ Pomodoro was built using the following technologies:
 - [React Navigation](https://reactnavigation.org/): A library for implementing navigation in React Native apps.
 - [Async Storage](https://react-native-async-storage.github.io/async-storage/): A key-value storage system for storing data in React Native apps.
 - [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/): A library that provides a way to create high-performance animations in React Native apps.
-- [React Native Sound](https://github.com/zmxv/react-native-sound): A library for :playing sound in React Native apps.
+- [React Native Sound](https://github.com/zmxv/react-native-sound): A library for playing sound in React Native apps.
 - [React Native Redash](https://wcandillon.gitbook.io/redash/): A set of utility functions for creating complex and performant animations in React Native apps.
 - [UUID](https://www.npmjs.com/package/uuid): A library for generating unique identifiers.
 - [ESLint](https://eslint.org/): A tool for identifying and reporting on patterns found in JavaScript code.
