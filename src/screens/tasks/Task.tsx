@@ -26,25 +26,26 @@ function Task({task, onXPress, onPress = () => {}}: TaskProps) {
 
   return (
     <Animated.View exiting={FadeOut} layout={Layout} style={styles.container}>
-      <View style={styles.taskNameContainer}>
-        <Pressable
-          onPress={() => {
-            onPress(task.id);
-          }}>
+      <Pressable
+        style={styles.pressableContainer}
+        onPress={() => {
+          onPress(task.id);
+        }}>
+        <View style={styles.taskNameContainer}>
           <NunitoMedium size={16}>{task.name}</NunitoMedium>
           <NunitoMedium size={12} color={colors.card}>
             {minutes} min
           </NunitoMedium>
-        </Pressable>
-      </View>
-      <View style={styles.timerFractionContainer}>
-        <NunitoMedium size={16}>
-          {task.repeats - task.pomodorosToBeFilled}/{task.repeats}
-        </NunitoMedium>
-        <NunitoMedium size={12} color={colors.card}>
-          {Number(minutes) * task.repeats} min
-        </NunitoMedium>
-      </View>
+        </View>
+        <View style={styles.timerFractionContainer}>
+          <NunitoMedium size={16}>
+            {task.repeats - task.pomodorosToBeFilled}/{task.repeats}
+          </NunitoMedium>
+          <NunitoMedium size={12} color={colors.card}>
+            {Number(minutes) * task.repeats} min
+          </NunitoMedium>
+        </View>
+      </Pressable>
       <Pressable
         onPress={() => {
           onXPress(task);
@@ -67,6 +68,12 @@ const styles = StyleSheet.create({
     marginVertical: moderateScale(4),
     paddingHorizontal: moderateScale(15),
     paddingVertical: moderateScale(9),
+  },
+  pressableContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1,
   },
   taskNameContainer: {
     flex: 3,

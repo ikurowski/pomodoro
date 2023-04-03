@@ -52,12 +52,12 @@ function Tasks() {
   return (
     <View style={styles.container}>
       <TaskModal
-        title="New Modal"
+        title="New Task"
         visible={isModalVisible}
         setModalVisible={setIsModalVisible}
       />
       <TaskModal
-        title="Edit Modal"
+        title="Edit Task"
         visible={isEditModalVisible}
         setModalVisible={setIsEditModalVisible}
         idOfTaskToEdit={idOfTaskToEdit}
