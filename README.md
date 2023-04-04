@@ -5,7 +5,7 @@
 
 ## 📝 Description
 
-Pomodoro is a React Native mobile application designed to help you track your focus time and manage your tasks. With a built-in task manager, you can easily create, edit, and delete tasks and track your progress using the Pomodoro technique. The Pomodoro technique involves working for a set amount of time, usually 25 minutes, followed by a short break, usually 5 minutes. This app allows you to customize the length of your focus and break sessions and store this data using AsyncStorage. The app also features animations and sound effects to enhance the user experience.
+Pomodoro is a React Native mobile application designed to help you track your focus time and manage your tasks. With a built-in task manager, you can easily create, edit, and delete tasks and track your progress using the Pomodoro technique. The Pomodoro technique involves working for a set amount of time, usually 25 minutes, followed by a short break, usually 5 minutes. This app allows you to customize the length of your focus and break sessions and store this data using AsyncStorage. The app also features animations and sound effects to enhance the user experience. Moreover, Pomodoro is fully scalable to different device sizes, including iPads.
 
 ## 📷 Screenshots
 
@@ -76,6 +76,7 @@ Pomodoro has the following features:
 - Ability to customize and save different focus and break session lengths ⚙️
 - Storing and retrieving data using AsyncStorage 📦
 - Animations 🎬
+- Fully scalable to larger and smaller devices 📱💻
 
 ## 🚀 Technologies Used
 
