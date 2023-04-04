@@ -76,7 +76,7 @@ Pomodoro has the following features:
 - Ability to customize and save different focus and break session lengths ⚙️
 - Storing and retrieving data using AsyncStorage 📦
 - Animations 🎬
-- Fully scalable to larger and smaller devices 📱💻
+- Fully scalable to larger and smaller devices 📱
 
 ## 🚀 Technologies Used
 
@@ -90,6 +90,7 @@ Pomodoro was built using the following technologies:
 - [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/): A library that provides a way to create high-performance animations in React Native apps.
 - [React Native Sound](https://github.com/zmxv/react-native-sound): A library for playing sound in React Native apps.
 - [React Native Redash](https://wcandillon.gitbook.io/redash/): A set of utility functions for creating complex and performant animations in React Native apps.
+- [React Native Size Matters](https://github.com/nirsky/react-native-size-matters): A library for creating responsive UI by scaling component sizes based on device screen size.
 - [UUID](https://www.npmjs.com/package/uuid): A library for generating unique identifiers.
 - [ESLint](https://eslint.org/): A tool for identifying and reporting on patterns found in JavaScript code.
 - [Prettier](https://prettier.io/): A code formatter that enforces a consistent style across a project.
