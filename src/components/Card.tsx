@@ -138,7 +138,7 @@ function Card(props: CardProps) {
               ...styles.selectedIndicatorStyle,
               backgroundColor: colors.primary,
             }}
-            itemHeight={moderateScale(35)}
+            itemHeight={Math.round(moderateScale(35))}
           />
         </View>
       </Animated.View>
