@@ -7,7 +7,7 @@ import {
   updateSettings,
   updateTime,
 } from '../features/timerSettingsSlice';
-import {getMultipleAsyncData} from '../storage/RNAsyncStorage';
+import {getAsyncData} from '../storage/RNAsyncStorage';
 import {IntervalType, STORAGE_KEY} from '../types/types';
 
 const useFetchAsyncData = () => {
@@ -16,17 +16,6 @@ const useFetchAsyncData = () => {
   useEffect(() => {
     (async () => {
       try {
-        const keys = [
-          STORAGE_KEY.FOCUS_TIME,
-          STORAGE_KEY.SHORT_BREAK_TIME,
-          STORAGE_KEY.LONG_BREAK_TIME,
-          STORAGE_KEY.SOUND,
-          STORAGE_KEY.VIBRATION,
-          STORAGE_KEY.REPEATS,
-          STORAGE_KEY.BREAKS,
-          STORAGE_KEY.TASKS,
-          STORAGE_KEY.SCHEDULE,
-        ];
         const [
           pomodoroTimeInMS,
           shortBreakTimeInMS,
@@ -37,7 +26,17 @@ const useFetchAsyncData = () => {
           breaks,
           tasks,
           schedule,
-        ] = await getMultipleAsyncData(keys);
+        ] = await Promise.all([
+          getAsyncData(STORAGE_KEY.FOCUS_TIME),
+          getAsyncData(STORAGE_KEY.SHORT_BREAK_TIME),
+          getAsyncData(STORAGE_KEY.LONG_BREAK_TIME),
+          getAsyncData(STORAGE_KEY.SOUND),
+          getAsyncData(STORAGE_KEY.VIBRATION),
+          getAsyncData(STORAGE_KEY.REPEATS),
+          getAsyncData(STORAGE_KEY.BREAKS),
+          getAsyncData(STORAGE_KEY.TASKS),
+          getAsyncData(STORAGE_KEY.SCHEDULE),
+        ]);
 
         const updateTimeDispatch = (
           type: IntervalType,

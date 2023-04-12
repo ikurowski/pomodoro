@@ -10,20 +10,20 @@ export const getAsyncData = async (key: STORAGE_KEY) => {
   }
 };
 
-export const getMultipleAsyncData = async (keys: STORAGE_KEY[]) => {
-  try {
-    const values = await AsyncStorage.multiGet(keys);
+// export const getMultipleAsyncData = async (keys: STORAGE_KEY[]) => {
+//   try {
+//     const values = await AsyncStorage.multiGet(keys);
 
-    const parsedValues = values.map(([, value]) => {
-      return value !== null ? JSON.parse(value) : null;
-    });
+//     const parsedValues = values.map(([, value]) => {
+//       return value !== null ? JSON.parse(value) : null;
+//     });
 
-    return parsedValues;
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
-};
+//     return parsedValues;
+//   } catch (e) {
+//     console.error(e);
+//     return [];
+//   }
+// };
 
 export const storeAsyncData = async (value: any, key: STORAGE_KEY) => {
   try {
